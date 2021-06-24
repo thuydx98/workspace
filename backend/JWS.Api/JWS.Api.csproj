@@ -8,4 +8,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\JWS.Infrastructure\JWS.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
