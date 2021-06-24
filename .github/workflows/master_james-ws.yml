@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_58c488bca91b406fbacfd1eb3a2341d6 }}/thuydx9598/james-ws:${{ github.sha }}
+        tags: thuydx9598/james-ws:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -48,4 +48,4 @@ jobs:
         app-name: 'james-ws'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_a370f4ee0cd645929288efd1ed4ab414 }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_58c488bca91b406fbacfd1eb3a2341d6 }}/thuydx9598/james-ws:${{ github.sha }}'
+        images: 'thuydx9598/james-ws:${{ github.sha }}'
