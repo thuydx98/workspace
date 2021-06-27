@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { authCodeFlowConfig } from './sso.config';
+import { authCodeFlowConfig } from './common/consts/sso.const';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +8,6 @@ import { authCodeFlowConfig } from './sso.config';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'james-workspace';
-
   constructor(private oauthService: OAuthService) {
     this.configureSSO();
   }
@@ -19,12 +17,7 @@ export class AppComponent {
     this.oauthService.loadDiscoveryDocumentAndLogin();
   }
 
-  logout() {
-    this.oauthService.revokeTokenAndLogout();
-  }
-
   get token() {
-    let claims: any = this.oauthService.getIdentityClaims();
-    return claims ? JSON.stringify(claims) : null;
+    return this.oauthService.getIdToken();
   }
 }

@@ -1,33 +1,41 @@
+import { environment } from './../environments/environment';
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { en_US } from 'ng-zorro-antd/i18n';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { AppComponent } from './app.component';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { LayoutModule } from './components/layout/layout.module';
+import { MainComponent } from './components/main/main.component';
+import { AppRoutes } from './app.routing';
+
+registerLocaleData(en);
 
 @NgModule({
-  declarations: [
-    AppComponent, 
-    HomeComponent
-  ],
+  declarations: [AppComponent, MainComponent],
   imports: [
-    BrowserModule, 
-    AppRoutingModule,
+    BrowserModule,
+    FormsModule,
+    BrowserAnimationsModule,
     HttpClientModule,
+    RouterModule.forRoot(AppRoutes /*, { useHash: false }*/),
     OAuthModule.forRoot({
       resourceServer: {
-          allowedUrls: [
-            'http://localhost:5000/api', 
-            'https://james-ws.azurewebsites.net/api',
-            'https://id.azurewebsites.net/api'
-          ],
-          sendAccessToken: true
-      }
-  })
+        allowedUrls: [environment.userApiUrl, environment.workspaceApiUrl],
+        sendAccessToken: true,
+      },
+    }),
+    LayoutModule,
   ],
-  providers: [],
+  providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
