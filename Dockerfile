@@ -13,10 +13,14 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["backend/JWS.Api/JWS.Api.csproj", "JWS.Api/"]
-COPY ["backend/JWS.Infrastructure/JWS.Infrastructure.csproj", "JWS.Infrastructure/"]
-COPY ["backend/JWS.Service/JWS.Service.csproj", "JWS.Service/"]
-COPY ["backend/JWS.Data/JWS.Data.csproj", "JWS.Data/"]
+COPY ["backend/JJWS.Api/JWS.Api.csproj", "JWS.Api/"]
+COPY ["backend/JJWS.Mail/JWS.Mail.csproj", "JWS.Mail/"]
+COPY ["backend/JJWS.Common/JWS.Common.csproj", "JWS.Common/"]
+COPY ["backend/JJWS.Infrastructure/JWS.Infrastructure.csproj", "JWS.Infrastructure/"]
+COPY ["backend/JJWS.Service/JWS.Service.csproj", "JWS.Service/"]
+COPY ["backend/JJWS.Data/JWS.Data.csproj", "JWS.Data/"]
+COPY ["backend/JJWS.EntityFramework/JWS.EntityFramework.csproj", "JWS.EntityFramework/"]
+COPY ["backend/JJWS.Contracts/JWS.Contracts.csproj", "JWS.Contracts/"]
 
 RUN dotnet restore "JWS.Api/JWS.Api.csproj"
 COPY ./backend .

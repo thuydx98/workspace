@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JWS.Data\JWS.Data.csproj" />
+    <ProjectReference Include="..\JWS.Contracts\JWS.Contracts.csproj" />
   </ItemGroup>
 
 </Project>
