@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  workspaceApiUrl: location.host,
+  workspaceApiUrl: location.origin,
   userApiUrl: '',
   appVersion: 'v1.0.0',
 };
