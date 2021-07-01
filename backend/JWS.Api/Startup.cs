@@ -19,7 +19,6 @@ namespace JWS.Api
 			services.AddAuth();
 			services.AddHttpClient().AddServices();
 
-			services.AddHealthChecks();
 			services.AddResponseCaching();
 			services.AddControllers().AddJsonOptions(options =>
 			{
@@ -29,10 +28,12 @@ namespace JWS.Api
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
+			app.UseDefaultFiles();
+			app.UseStaticFiles();
+
 			app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 			app.UseRouting();
 			app.UseMiddlewares();
-			app.UseHealthChecks();
 
 			app.UseAuthentication().UseAuthorization();
 
