@@ -8,7 +8,7 @@ namespace JWS.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AssetHistories",
+                name: "Assets",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -24,7 +24,7 @@ namespace JWS.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AssetHistories", x => x.Id);
+                    table.PrimaryKey("PK_Assets", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -95,7 +95,7 @@ namespace JWS.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AssetHistories");
+                name: "Assets");
 
             migrationBuilder.DropTable(
                 name: "FundHistories");

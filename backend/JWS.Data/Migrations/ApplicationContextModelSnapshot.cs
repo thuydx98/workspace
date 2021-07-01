@@ -55,7 +55,7 @@ namespace JWS.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AssetHistories");
+                    b.ToTable("Assets");
                 });
 
             modelBuilder.Entity("JWS.Data.Entities.FundEntity", b =>
