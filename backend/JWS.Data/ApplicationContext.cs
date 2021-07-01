@@ -10,7 +10,7 @@ namespace JWS.Data
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
 
         #region Tables
-        public virtual DbSet<AssetHistoryEntity> AssetHistories { get; set; }
+        public virtual DbSet<AssetEntity> Assets { get; set; }
         public virtual DbSet<FundEntity> Funds { get; set; }
         public virtual DbSet<FundHistoryEntity> FundHistories { get; set; }
         public virtual DbSet<UserEntity> Users { get; set; }
@@ -20,11 +20,11 @@ namespace JWS.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<AssetHistoryEntity>(entity =>
+            builder.Entity<AssetEntity>(entity =>
             {
                 entity.HasKey(e => e.Id);
 
-                entity.Property(p => p.Type).HasConversion(new EnumToStringConverter<AssetHistoryType>());
+                entity.Property(p => p.Type).HasConversion(new EnumToStringConverter<AssetType>());
             });
 
             builder.Entity<FundEntity>(entity =>

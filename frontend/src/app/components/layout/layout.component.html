@@ -1,8 +1,10 @@
 <nz-layout class="layout">
   <nz-header>
-    <div class="logo"></div>
+    <div class="logo" [routerLink]="['/']">
+      <img src="https://ng.ant.design/assets/img/logo.svg" />
+    </div>
     <ul nz-menu nzMode="horizontal">
-      <li nz-menu-item nzSelected>
+      <li nz-menu-item nzMatchRouter="/assets" [routerLink]="['/assets']">
         <i nz-icon nzType="mail"></i>
         Tài sản cá nhân
       </li>

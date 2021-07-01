@@ -9,28 +9,28 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace JWS.Service.Assets.Queries.GetPagingListAssetHistory
+namespace JWS.Service.Assets.Queries.GetPagingListAsset
 {
-    public class GetPagingListAssetHistoryHandler : IRequestHandler<GetPagingListAssetHistoryRequest, ApiResult>
+    public class GetPagingListAssetHandler : IRequestHandler<GetPagingListAssetRequest, ApiResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        public GetPagingListAssetHistoryHandler(IUnitOfWork unitOfWork)
+        public GetPagingListAssetHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ApiResult> Handle(GetPagingListAssetHistoryRequest request, CancellationToken cancellationToken)
+        public async Task<ApiResult> Handle(GetPagingListAssetRequest request, CancellationToken cancellationToken)
         {
             if (!request.UserId.HasValue || request.UserId == Guid.Empty)
             {
                 return ApiResult.Failed(HttpCode.BadRequest);
             }
 
-            var assets = await _unitOfWork.GetRepository<AssetHistoryEntity>().GetPagingListAsync(
-                selector: n => new AssetHistoryViewModel
+            var assets = await _unitOfWork.GetRepository<AssetEntity>().GetPagingListAsync(
+                selector: n => new AssetViewModel
                 {
                     Id = n.Id,
-                    Type = n.Type,
+                    Type = n.Type.ToString(),
                     Amount = n.Amount,
                     At = n.At,
                     Note = n.Note,

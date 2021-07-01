@@ -1,14 +1,13 @@
-﻿using JWS.Data.Entities;
-using System;
+﻿using System;
 
 namespace JWS.Service.Assets.ViewModels
 {
-    public class AssetHistoryViewModel
+    public class AssetViewModel
     {
         public Guid Id { get; set; }
         public double Amount { get; set; }
         public DateTime At { get; set; }
         public string Note { get; set; }
-        public AssetHistoryType Type { get; set; }
+        public string Type { get; set; }
     }
 }

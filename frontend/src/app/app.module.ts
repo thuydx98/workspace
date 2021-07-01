@@ -3,13 +3,13 @@ import { environment } from './../environments/environment';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { OAuthModule } from 'angular-oauth2-oidc';
@@ -23,13 +23,13 @@ registerLocaleData(en);
   declarations: [AppComponent, MainComponent],
   imports: [
     BrowserModule,
-    FormsModule,
+    // FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    RouterModule.forRoot(AppRoutes /*, { useHash: false }*/),
+    RouterModule.forRoot(AppRoutes),
     OAuthModule.forRoot({
       resourceServer: {
-        allowedUrls: [environment.userApiUrl, environment.workspaceApiUrl],
+        allowedUrls: [environment.workspaceApiUrl],
         sendAccessToken: true,
       },
     }),

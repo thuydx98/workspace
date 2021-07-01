@@ -1,0 +1,28 @@
+.asset {
+  background-color: #fff;
+
+  .content {
+    flex: 1;
+  }
+
+  .content p {
+    margin-bottom: 1em;
+  }
+
+  .content-link a {
+    margin-right: 16px;
+  }
+
+  .content-link a img {
+    margin-right: 8px;
+  }
+
+  nz-statistic {
+    margin-right: 32px;
+  }
+
+  .home-content {
+    padding: 16px 24px;
+    text-align: center;
+  }
+}

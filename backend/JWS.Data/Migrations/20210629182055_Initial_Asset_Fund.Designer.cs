@@ -19,7 +19,7 @@ namespace JWS.Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("JWS.Data.Entities.AssetHistoryEntity", b =>
+            modelBuilder.Entity("JWS.Data.Entities.AssetEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
