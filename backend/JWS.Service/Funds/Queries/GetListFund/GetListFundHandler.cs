@@ -31,6 +31,9 @@ namespace JWS.Service.Funds.Queries.GetListFund
                 {
                     Id = n.Id,
                     Name = n.Name,
+                    Total = 
+                        n.FundHistories.Sum(n => n.Amount) - 
+                        n.FundHistories.Where(n => n.Type == FundHistoryType.WITHDRAW).Sum(n => n.Amount)
                 },
                 predicate: n => !n.IsDeleted,
                 orderBy: n => n.OrderByDescending(o => o.CreatedAt),

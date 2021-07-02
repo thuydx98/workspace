@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FundHistoryType } from 'src/app/common/enums/fund-history-type.enum';
 import { PagingListModel } from 'src/app/models/app/paging-list.model';
 import { AssetModel } from 'src/app/models/asset/asset.model';
+import { FundModel } from 'src/app/models/asset/fund.model';
 import { AssetService } from 'src/app/services/asset/asset.service';
+import { FundHistoryService } from 'src/app/services/asset/fund-history.service';
+import { FundService } from 'src/app/services/asset/fund.service';
 
 @Component({
   selector: 'app-asset',
@@ -9,10 +13,25 @@ import { AssetService } from 'src/app/services/asset/asset.service';
   styleUrls: ['./asset.component.scss'],
 })
 export class AssetComponent implements OnInit {
+  public FundHistoryType = FundHistoryType;
   public addIncomeModalVisible = false;
   public assetHistories: PagingListModel<AssetModel>;
+  public funds: FundModel[];
 
-  constructor(private assetService: AssetService) {}
+  constructor(
+    private assetService: AssetService,
+    private fundService: FundService,
+    private fundHistoryService: FundHistoryService
+  ) {}
+
+  getPercent(totalMoney: number): number {
+    const total =  this.funds.map(i => i.total).reduce((a, b) => a + b, 0);
+    if(total === 0) {
+      return 0;
+    }
+
+    return totalMoney / total * 100;
+  }
 
   ngOnInit(): void {
     this.assetService
@@ -20,6 +39,10 @@ export class AssetComponent implements OnInit {
       .subscribe((res: PagingListModel<AssetModel>) => {
         this.assetHistories = res;
       });
+
+    this.fundService.getList().subscribe((res: FundModel[]) => {
+      this.funds = res;
+    });
   }
 
   updateAssetHistories(asset: AssetModel) {
@@ -38,5 +61,18 @@ export class AssetComponent implements OnInit {
       .subscribe((res: PagingListModel<AssetModel>) => {
         this.assetHistories = res;
       });
+  }
+
+  onCreateFund(): void {
+    let name = prompt("Fund name:");
+    if (name) {
+      this.fundService.add(name).subscribe((res: FundModel) => {
+        this.funds.push(res);
+      })
+    }
+  }
+
+  onCreateFunHistory(): void {
+
   }
 }

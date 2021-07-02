@@ -1,14 +1,10 @@
 <div class="asset">
   <nz-page-header>
-    <!--title-->
     <nz-page-header-title>Quản lý tài sản cá nhân</nz-page-header-title>
-
-    <!--subtitle-->
     <nz-page-header-subtitle
       >Bao gồm thu chi, đầu tư, kinh doanh...</nz-page-header-subtitle
     >
 
-    <!--extra-->
     <nz-page-header-extra>
       <button nz-button>Chi tiền</button>
       <button nz-button nzDanger>Rút tiền</button>
@@ -39,7 +35,6 @@
       </nz-dropdown-menu>
     </nz-page-header-extra>
 
-    <!--content-->
     <nz-page-header-content>
       <nz-row nzType="flex">
         <nz-statistic
@@ -61,28 +56,45 @@
     </nz-page-header-content>
   </nz-page-header>
 
-  <div nz-row nzJustify="space-between" class="home-content">
-    <div nz-col nzSpan="4">
-      <h1 nz-typography nzType="success">15%</h1>
-      <h2 nz-typography>Đầu tư</h2>
-      <h4 nz-typography nzType="danger">10,000,000 đ</h4>
-    </div>
-    <div nz-col nzSpan="4">
-      <h1 nz-typography nzType="success">15%</h1>
-      <h2 nz-typography>Đầu tư</h2>
-      <h4 nz-typography nzType="danger">10,000,000 đ</h4>
-    </div>
-    <div nz-col nzSpan="4">
-      <h1 nz-typography nzType="success">15%</h1>
-      <h2 nz-typography>Đầu tư</h2>
-      <h4 nz-typography nzType="danger">10,000,000 đ</h4>
-    </div>
-    <div nz-col nzSpan="4">
-      <h1 nz-typography nzType="success">15%</h1>
-      <h2 nz-typography>Đầu tư</h2>
-      <h4 nz-typography nzType="danger">10,000,000 đ</h4>
-    </div>
-  </div>
+  <nz-page-header>
+    <nz-page-header-title>Danh sách quỹ cá nhân</nz-page-header-title>
+    <nz-page-header-extra>
+      <button
+        *ngIf="funds?.length > 0"
+        nz-button
+        nzType="primary"
+        (click)="onCreateFund()"
+      >
+        Thêm gói quỹ
+      </button>
+    </nz-page-header-extra>
+    <nz-page-header-content *ngIf="funds?.length > 0">
+      <div nz-row class="home-content">
+        <div *ngFor="let fund of funds" nz-col nzSpan="6">
+          <h1 nz-typography nzType="success">{{getPercent(fund.total)}}%</h1>
+          <h2 nz-typography>{{ fund.name }}</h2>
+          <h4 nz-typography nzType="danger">{{ fund.total }} đ</h4>
+        </div>
+      </div>
+    </nz-page-header-content>
+  </nz-page-header>
+
+  <nz-empty
+    *ngIf="funds?.length == 0"
+    nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+    [nzNotFoundContent]="contentTpl"
+    [nzNotFoundFooter]="footerTpl"
+  >
+    <ng-template #contentTpl>
+      <span> Not have any fund yet! </span>
+    </ng-template>
+    <ng-template #footerTpl>
+      <button nz-button nzType="primary" (click)="onCreateFund()">
+        Create Now
+      </button>
+    </ng-template>
+  </nz-empty>
+
   <div class="home-content">
     <nz-col nzSpan="24">
       <nz-table

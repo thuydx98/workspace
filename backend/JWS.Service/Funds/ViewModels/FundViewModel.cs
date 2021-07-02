@@ -6,5 +6,6 @@ namespace JWS.Service.Funds.ViewModels
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public double Total { get; set; }
     }
 }

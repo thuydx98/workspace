@@ -16,7 +16,7 @@ namespace JWS.Api.Funds
         public FundsController(IMediator mediator) : base(mediator) { }
 
         [HttpGet(ApiRoutes.Funds.GetList)]
-        public async Task<IActionResult> GetPagingListAsync()
+        public async Task<IActionResult> GetListAsync()
         {
             return await _mediator.Send(new GetListFundRequest(this.UserId));
         }

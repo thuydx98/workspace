@@ -22,6 +22,14 @@ namespace JWS.Contracts.ApiRoutes
 			public const string Add = ControllerUri;
 			public const string Update = ControllerUri + "/{fundId}";
 			public const string Delete = ControllerUri + "/{fundId}";
+
+			public static class Histories
+			{
+				private const string ControllerUri = Funds.ControllerUri + "/{fundId}/histories";
+
+				public const string GetList = ControllerUri;
+				public const string Add = ControllerUri;
+			}
 		}
 	}
 }
