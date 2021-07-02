@@ -26,7 +26,7 @@ registerLocaleData(en);
     // FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    RouterModule.forRoot(AppRoutes, { useHash: true }),
+    RouterModule.forRoot(AppRoutes, { useHash: false }),
     OAuthModule.forRoot({
       resourceServer: {
         allowedUrls: [environment.workspaceApiUrl],
