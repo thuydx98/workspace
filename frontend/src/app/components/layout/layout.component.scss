@@ -1,5 +1,6 @@
 .ant-layout-header {
   background-color: #fff;
+  z-index: 1;
 }
 
 .layout {
@@ -36,4 +37,9 @@ nz-content {
 
 nz-footer {
   text-align: center;
+}
+
+.logout {
+  float: right;
+  margin-right: 40px !important;
 }

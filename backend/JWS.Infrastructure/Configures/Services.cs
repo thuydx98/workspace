@@ -5,6 +5,7 @@ using JWS.Service.FundHistories.Queries.GetPagingListFundHistory;
 using JWS.Service.Funds.Commands.AddFund;
 using JWS.Service.Funds.Commands.DeleteFund;
 using JWS.Service.Funds.Commands.UpdateFund;
+using JWS.Service.Funds.Queries.GetFund;
 using JWS.Service.Funds.Queries.GetListFund;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,6 +22,7 @@ namespace JWS.Infrastructure.Configures
 
             #region Funds
             services.AddService<GetListFundRequest, GetListFundHandler>();
+            services.AddService<GetFundRequest, GetFundHandler>();
             services.AddService<AddFundRequest, AddFundHandler>();
             services.AddService<UpdateFundRequest, UpdateFundHandler>();
             services.AddService<DeleteFundRequest, DeleteFundHandler>();

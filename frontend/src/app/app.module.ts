@@ -9,7 +9,6 @@ import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { OAuthModule } from 'angular-oauth2-oidc';
@@ -23,7 +22,6 @@ registerLocaleData(en);
   declarations: [AppComponent, MainComponent],
   imports: [
     BrowserModule,
-    // FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forRoot(AppRoutes, { useHash: false }),

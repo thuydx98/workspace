@@ -7,6 +7,10 @@ const routes: Routes = [
       path: '',
       component: fromAsset.AssetComponent,
     },
+    {
+      path: 'funds/:id',
+      component: fromAsset.FundInfoComponent,
+    },
 ];
 
 

@@ -1,5 +1,6 @@
-.asset {
+.asset-page {
   background-color: #fff;
+  margin-top: 10px;
 
   .content {
     flex: 1;
@@ -22,8 +23,6 @@
   }
 
   .home-content {
-    margin-top: 20px;
     padding: 16px 24px;
-    text-align: center;
   }
 }

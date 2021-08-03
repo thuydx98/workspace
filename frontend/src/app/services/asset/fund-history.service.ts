@@ -4,10 +4,10 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import {
   AddFundHistoryModel,
-  FundModel,
+  FundHistoryModel,
 } from 'src/app/models/asset/fund.model';
 import { ApiRoutes } from 'src/app/common/consts/api-route.const';
-import { FundHistoryType } from 'src/app/common/enums/fund-history-type.enum';
+import { PagingListModel } from 'src/app/models/app/paging-list.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class FundHistoryService {
     fundId: string,
     page: number = 1,
     size: number = 10
-  ): Observable<FundModel[]> {
+  ): Observable<PagingListModel<FundHistoryModel>> {
     return this.http
       .get(
         ApiRoutes.WorkSpaceApi.FundHistories.replace('{fundId}', fundId) +
@@ -31,7 +31,7 @@ export class FundHistoryService {
   public add(
     fundId: string,
     fundHistory: AddFundHistoryModel
-  ): Observable<FundModel> {
+  ): Observable<FundHistoryModel> {
     return this.http
       .post(
         ApiRoutes.WorkSpaceApi.FundHistories.replace('{fundId}', fundId),

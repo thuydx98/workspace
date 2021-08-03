@@ -1,7 +1,4 @@
 {
-    "cSpell.words": [
-        "consts",
-        "oidc",
-        "twotone"
-    ]
+	"editor.tabSize": 4,
+	"cSpell.words": ["consts", "oidc", "twotone"]
 }

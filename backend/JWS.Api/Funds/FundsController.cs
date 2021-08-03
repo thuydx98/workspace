@@ -2,6 +2,7 @@
 using JWS.Service.Funds.Commands.AddFund;
 using JWS.Service.Funds.Commands.DeleteFund;
 using JWS.Service.Funds.Commands.UpdateFund;
+using JWS.Service.Funds.Queries.GetFund;
 using JWS.Service.Funds.Queries.GetListFund;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,18 @@ namespace JWS.Api.Funds
         public async Task<IActionResult> GetListAsync()
         {
             return await _mediator.Send(new GetListFundRequest(this.UserId));
+        }
+
+        [HttpGet(ApiRoutes.Funds.Get)]
+        public async Task<IActionResult> GetAsync(Guid fundId)
+        {
+            var request = new GetFundRequest
+            {
+                FundId = fundId,
+                UserId = this.UserId,
+            };
+
+            return await _mediator.Send(request);
         }
 
         [HttpPost(ApiRoutes.Funds.Add)]

@@ -1,59 +1,66 @@
 <nz-layout class="layout">
-  <nz-header>
-    <div class="logo" [routerLink]="['/']">
-      <img src="https://ng.ant.design/assets/img/logo.svg" />
-    </div>
-    <ul nz-menu nzMode="horizontal">
-      <li nz-menu-item nzMatchRouter="/assets" [routerLink]="['/assets']">
-        <i nz-icon nzType="mail"></i>
-        Tài sản cá nhân
-      </li>
-      <li nz-menu-item nzDisabled>
-        <i nz-icon nzType="appstore"></i>
-        Navigation Two
-      </li>
-      <li nz-submenu nzTitle="Navigation Three - Submenu" nzIcon="setting">
-        <ul>
-          <li nz-menu-group nzTitle="Item 1">
-            <ul>
-              <li nz-menu-item>Option 1</li>
-              <li nz-menu-item>Option 2</li>
-            </ul>
-          </li>
-          <li nz-menu-group nzTitle="Item 2">
-            <ul>
-              <li nz-menu-item>Option 3</li>
-              <li nz-menu-item>Option 4</li>
-              <li nz-submenu nzTitle="Sub Menu">
-                <ul>
-                  <li nz-menu-item nzDisabled>Option 5</li>
-                  <li nz-menu-item>Option 6</li>
-                </ul>
-              </li>
-              <li nz-submenu nzDisabled nzTitle="Disabled Sub Menu">
-                <ul>
-                  <li nz-menu-item>Option 5</li>
-                  <li nz-menu-item>Option 6</li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li nz-menu-item>
-        <a
-          href="https://ng.ant.design"
-          target="_blank"
-          rel="noopener noreferrer"
-          >Navigation Four - Link</a
-        >
-      </li>
-    </ul>
-  </nz-header>
-  <nz-content>
-    <div class="inner-content">
-      <router-outlet></router-outlet>
-    </div>
-  </nz-content>
-  <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
+	<nz-header>
+		<div class="logo" [routerLink]="['/']">
+			<img src="https://ng.ant.design/assets/img/logo.svg" />
+		</div>
+		<ul nz-menu nzMode="horizontal">
+			<li nz-menu-item nzMatchRouter="/assets" [routerLink]="['/assets']">
+				<i nz-icon nzType="mail"></i>
+				Tài sản cá nhân
+			</li>
+			<li nz-menu-item nzMatchRouter="/wiki" [routerLink]="['/wiki']">
+				<i nz-icon nzType="appstore"></i>
+				Wiki
+			</li>
+			<li nz-submenu nzTitle="Thiết kế cuộc đời" nzIcon="setting">
+				<ul>
+					<li nz-menu-group nzTitle="Life">
+						<ul>
+							<li nz-menu-item [routerLink]="['/life']">
+								Bánh xe cuộc đời
+							</li>
+							<li nz-menu-item [routerLink]="['/dream-board']">
+								Dream board
+							</li>
+						</ul>
+					</li>
+
+					<li nz-menu-group nzTitle="Social">
+						<ul>
+							<li nz-menu-item  [routerLink]="['/targets']">
+								Mục tiêu
+							</li>
+							<li nz-menu-item [routerLink]="['/network']">
+								Mạng lưới kết nối
+							</li>
+							<!-- <li
+								nz-submenu
+								nzTitle="Sub Menu"
+							>
+								<ul>
+									<li
+										nz-menu-item
+									>
+										Option
+										6
+									</li>
+								</ul>
+							</li> -->
+						</ul>
+					</li>
+				</ul>
+			</li>
+
+			<li nz-menu-item class="logout" (click)="logout()">
+				<i nz-icon nzType="logout"></i>
+				Logout
+			</li>
+		</ul>
+	</nz-header>
+	<nz-content>
+		<div class="inner-content">
+			<router-outlet></router-outlet>
+		</div>
+	</nz-content>
+	<nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
 </nz-layout>

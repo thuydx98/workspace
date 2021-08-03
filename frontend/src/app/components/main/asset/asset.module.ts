@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 const COMPONENTS: any[] = [
   fromAsset.AssetComponent,
   fromAsset.AddIncomeModalComponent,
+  fromAsset.FundInfoComponent,
 ];
 
 @NgModule({

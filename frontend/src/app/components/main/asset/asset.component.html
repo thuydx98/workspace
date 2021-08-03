@@ -1,156 +1,137 @@
-<div class="asset">
-  <nz-page-header>
-    <nz-page-header-title>Quản lý tài sản cá nhân</nz-page-header-title>
-    <nz-page-header-subtitle
-      >Bao gồm thu chi, đầu tư, kinh doanh...</nz-page-header-subtitle
-    >
+<nz-breadcrumb nz-page-header-breadcrumb>
+	<nz-breadcrumb-item>
+		<a [routerLink]="['/']" routerLinkActive="router-link-active">Home</a>
+	</nz-breadcrumb-item>
+	<nz-breadcrumb-item>Assets</nz-breadcrumb-item>
+</nz-breadcrumb>
 
-    <nz-page-header-extra>
-      <button nz-button>Chi tiền</button>
-      <button nz-button nzDanger>Rút tiền</button>
-      <button nz-button nzType="primary" (click)="addIncomeModalVisible = true">
-        Nạp tiền
-      </button>
-      <button
-        nz-button
-        nzNoAnimation
-        nz-dropdown
-        [nzDropdownMenu]="menu"
-        style="border: none; padding: 0"
-      >
-        <i
-          nz-icon
-          nzType="ellipsis"
-          nzTheme="outline"
-          style="font-size: 20px; vertical-align: top"
-        ></i>
-      </button>
-      <nz-dropdown-menu #menu="nzDropdownMenu">
-        <ul nz-menu>
-          <li nz-menu-item>
-            <i nz-icon nzType="download"></i>
-            Xuất báo cáo
-          </li>
-        </ul>
-      </nz-dropdown-menu>
-    </nz-page-header-extra>
+<div class="asset-page">
+	<nz-page-header nzTitle="Quản lý tài sản cá nhân" nzSubtitle="Bao gồm thu chi, đầu tư, kinh doanh...">
+		<nz-page-header-extra>
+			<button nz-button nzDanger>Chi tiền</button>
+			<button nz-button nzType="primary" (click)="addIncomeModalVisible = true">
+				Nạp tiền
+			</button>
+			<button nz-button nzNoAnimation nz-dropdown [nzDropdownMenu]="menu" style="border: none; padding: 0">
+				<i nz-icon nzType="ellipsis" nzTheme="outline" style="
+						font-size: 20px;
+						vertical-align: top;
+					"></i>
+			</button>
+			<nz-dropdown-menu #menu="nzDropdownMenu">
+				<ul nz-menu>
+					<li nz-menu-item>
+						<i nz-icon nzType="download"></i>
+						Xuất báo cáo
+					</li>
+				</ul>
+			</nz-dropdown-menu>
+		</nz-page-header-extra>
 
-    <nz-page-header-content>
-      <nz-row nzType="flex">
-        <nz-statistic
-          nzTitle="Thu nhập"
-          [nzValue]="1949101.0"
-          nzSuffix="đ"
-        ></nz-statistic>
-        <nz-statistic
-          nzTitle="Tổng tài sản"
-          [nzValue]="1949101"
-          nzSuffix="đ"
-        ></nz-statistic>
-        <nz-statistic
-          nzTitle="Số dư"
-          [nzValue]="1949101"
-          nzSuffix="đ"
-        ></nz-statistic>
-      </nz-row>
-    </nz-page-header-content>
-  </nz-page-header>
+		<nz-page-header-content>
+			<nz-row nzType="flex">
+				<nz-statistic nzTitle="Tổng thu nhập" [nzValue]="123456789.0" nzSuffix="đ"></nz-statistic>
+				<nz-statistic nzTitle="Chi tiêu" [nzValue]="1234567" nzSuffix="đ"></nz-statistic>
+				<nz-statistic nzTitle="Tổng vốn đầu tư" [nzValue]="12345678" nzSuffix="đ"></nz-statistic>
+				<nz-statistic nzTitle="Đã đầu tư" [nzValue]="1234567" nzSuffix="đ"></nz-statistic>
+				<nz-statistic nzTitle="Còn lại" [nzValue]="12345" nzSuffix="đ"></nz-statistic>
+			</nz-row>
+		</nz-page-header-content>
+	</nz-page-header>
 
-  <nz-page-header>
-    <nz-page-header-title>Danh sách quỹ cá nhân</nz-page-header-title>
-    <nz-page-header-extra>
-      <button
-        *ngIf="funds?.length > 0"
-        nz-button
-        nzType="primary"
-        (click)="onCreateFund()"
-      >
-        Thêm gói quỹ
-      </button>
-    </nz-page-header-extra>
-    <nz-page-header-content *ngIf="funds?.length > 0">
-      <div nz-row class="home-content">
-        <div *ngFor="let fund of funds" nz-col nzSpan="6">
-          <h1 nz-typography nzType="success">{{getPercent(fund.total)}}%</h1>
-          <h2 nz-typography>{{ fund.name }}</h2>
-          <h4 nz-typography nzType="danger">{{ fund.total }} đ</h4>
-        </div>
-      </div>
-    </nz-page-header-content>
-  </nz-page-header>
+	<nz-page-header>
+		<nz-page-header-title>Danh sách quỹ cá nhân</nz-page-header-title>
+		<nz-page-header-extra>
+			<button *ngIf="funds?.length > 0" nz-button nzType="primary" (click)="onCreateFund()">
+				Thêm gói quỹ
+			</button>
+		</nz-page-header-extra>
+		<nz-page-header-content *ngIf="funds?.length > 0">
+			<div nz-row [nzGutter]="24">
+				<div *ngFor="let fund of funds" nz-col [nzSpan]="6">
+					<nz-card style="width: 100%;margin-top: 16px"
+						[nzActions]="[actionSetting, actionIncome, actionSpend, actionDelete]">
+						<nz-skeleton [nzActive]="true" [nzLoading]="false" [nzAvatar]="{ size: 'large' }">
+							<nz-card-meta [nzAvatar]="avatarTemplate" nzTitle="{{ fund.name }}"
+								nzDescription="{{ fund.total }} đ | {{ getPercent(fund.total) }} %"></nz-card-meta>
+						</nz-skeleton>
+					</nz-card>
+					<ng-template #avatarTemplate>
+						<nz-avatar nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png">
+						</nz-avatar>
+					</ng-template>
+					<ng-template #actionSetting>
+						<i nz-icon nz-tooltip nzTooltipTitle="Xem chi tiết" nzType="setting"
+							(click)="redirectToFund(fund.id)"></i>
+					</ng-template>
+					<ng-template #actionIncome>
+						<i nz-icon nz-tooltip nzTooltipTitle="Nap tiền" nzType="plus"></i>
+					</ng-template>
+					<ng-template #actionSpend>
+						<i nz-icon nz-tooltip nzTooltipTitle="Rút tiền" nzType="minus"></i>
+					</ng-template>
+					<ng-template #actionDelete>
+						<i nz-icon nz-tooltip nzTooltipTitle="Xóa" nzType="delete"></i>
+					</ng-template>
+				</div>
+			</div>
+		</nz-page-header-content>
+	</nz-page-header>
 
-  <nz-empty
-    *ngIf="funds?.length == 0"
-    nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-    [nzNotFoundContent]="contentTpl"
-    [nzNotFoundFooter]="footerTpl"
-  >
-    <ng-template #contentTpl>
-      <span> Not have any fund yet! </span>
-    </ng-template>
-    <ng-template #footerTpl>
-      <button nz-button nzType="primary" (click)="onCreateFund()">
-        Create Now
-      </button>
-    </ng-template>
-  </nz-empty>
+	<nz-empty *ngIf="funds?.length == 0"
+		nzNotFoundImage="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+		[nzNotFoundContent]="contentTpl" [nzNotFoundFooter]="footerTpl">
+		<ng-template #contentTpl>
+			<span> Not have any fund yet! </span>
+		</ng-template>
+		<ng-template #footerTpl>
+			<button nz-button nzType="primary" (click)="onCreateFund()">
+				Create Now
+			</button>
+		</ng-template>
+	</nz-empty>
 
-  <div class="home-content">
-    <nz-col nzSpan="24">
-      <nz-table
-        #assetHistoryTable
-        nzOuterBordered
-        nzTitle="Lịch sử thu chi"
-        [nzFrontPagination]="false"
-        [nzData]="assetHistories?.items"
-        [nzTotal]="assetHistories?.total"
-        [nzPageSize]="assetHistories?.size"
-        [nzPageIndex]="assetHistories?.page"
-        (nzQueryParams)="onChangePage($event)"
-      >
-        <thead>
-          <tr>
-            <th></th>
-            <th>Số tiền</th>
-            <th>Thời gian</th>
-            <th>Ghi chú</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of assetHistoryTable.data">
-            <td>
-              <i
-                nz-icon
-                nzType="plus-circle"
-                nzTheme="twotone"
-                nzTwotoneColor="#52c41a"
-                *ngIf="data.type == 'INCOME'"
-              ></i>
-              <i
-                nz-icon
-                nzType="minus-circle"
-                nzTheme="twotone"
-                nzTwotoneColor="#eb2f96"
-                *ngIf="data.type == 'WITHDRAW'"
-              ></i>
-              <i
-                nz-icon
-                nzType="close-circle"
-                nzTheme="twotone"
-                *ngIf="data.type == 'SPEND'"
-              ></i>
-            </td>
-            <td>{{ data.amount }}</td>
-            <td>{{ data.at }}</td>
-            <td>{{ data.note }}</td>
-          </tr>
-        </tbody>
-      </nz-table>
-    </nz-col>
-  </div>
+	<div class="home-content">
+		<nz-page-header-title>Lịch sử thu chi</nz-page-header-title>
+		<nz-col nzSpan="24">
+			<nz-table #assetHistoryTable nzOuterBordered [nzFrontPagination]="false" [nzData]="assetHistories?.items"
+				[nzTotal]="assetHistories?.total" [nzPageSize]="assetHistories?.size"
+				[nzPageIndex]="assetHistories?.page" (nzQueryParams)="onChangePage($event)">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Số tiền</th>
+						<th>Thời gian</th>
+						<th>Ghi chú</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="
+							let data of assetHistoryTable.data
+						">
+						<td>
+							<i nz-icon nzType="plus-circle" nzTheme="twotone" nzTwotoneColor="#52c41a" *ngIf="
+									data.type ==
+									'INCOME'
+								"></i>
+							<i nz-icon nzType="minus-circle" nzTheme="twotone" nzTwotoneColor="#eb2f96" *ngIf="
+									data.type ==
+									'WITHDRAW'
+								"></i>
+							<i nz-icon nzType="close-circle" nzTheme="twotone" *ngIf="
+									data.type ==
+									'SPEND'
+								"></i>
+						</td>
+						<td>{{ data.amount }}</td>
+						<td>{{ data.at }}</td>
+						<td>{{ data.note }}</td>
+					</tr>
+				</tbody>
+			</nz-table>
+		</nz-col>
+	</div>
 </div>
 
-<app-add-income-modal
-  [isVisible]="addIncomeModalVisible"
-  (closeModal)="updateAssetHistories($event)"
-></app-add-income-modal>
+<app-add-income-modal [isVisible]="addIncomeModalVisible" (closeModal)="updateAssetHistories($event)">
+</app-add-income-modal>

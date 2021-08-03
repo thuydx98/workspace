@@ -18,6 +18,13 @@ export class FundService {
       );
   }
 
+  public get(fundId: string): Observable<FundModel> {
+    return this.http.get(ApiRoutes.WorkSpaceApi.Funds + '/' + fundId)
+      .pipe(
+        map((res: any) => res.result)
+      );
+  }
+
   public add(name: string): Observable<FundModel> {
     return this.http.post(ApiRoutes.WorkSpaceApi.Funds, {name})
       .pipe(

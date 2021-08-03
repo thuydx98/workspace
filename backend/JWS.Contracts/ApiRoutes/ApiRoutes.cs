@@ -19,6 +19,7 @@ namespace JWS.Contracts.ApiRoutes
 			private const string ControllerUri = Root + "/funds";
 
 			public const string GetList = ControllerUri;
+			public const string Get = ControllerUri + "/{fundId}";
 			public const string Add = ControllerUri;
 			public const string Update = ControllerUri + "/{fundId}";
 			public const string Delete = ControllerUri + "/{fundId}";

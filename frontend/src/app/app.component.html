@@ -1,1 +1,5 @@
 <router-outlet *ngIf="token"></router-outlet>
+
+<div *ngIf="!token">
+    <img class="main-loading" src="https://i.imgur.com/uov93Mt.gif" />
+</div>
