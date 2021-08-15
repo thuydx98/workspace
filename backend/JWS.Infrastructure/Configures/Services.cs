@@ -1,4 +1,5 @@
 ﻿using JWS.Service.Assets.Commands.AddAsset;
+using JWS.Service.Assets.Queries.GetOverview;
 using JWS.Service.Assets.Queries.GetPagingListAsset;
 using JWS.Service.FundHistories.Commands.AddFundHistory;
 using JWS.Service.FundHistories.Queries.GetPagingListFundHistory;
@@ -16,6 +17,7 @@ namespace JWS.Infrastructure.Configures
 		public static IServiceCollection AddServices(this IServiceCollection services)
 		{
             #region Assets
+            services.AddService<GetOverviewRequest, GetOverviewHandler>();
             services.AddService<GetPagingListAssetRequest, GetPagingListAssetHandler>();
             services.AddService<AddAssetRequest, AddAssetHandler>();
             #endregion

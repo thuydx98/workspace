@@ -3,6 +3,7 @@ export class FundModel {
     public name: string;
     public type?: string;
     public total?: number;
+    public invest?: number;
     public balance?: number;
 }
 

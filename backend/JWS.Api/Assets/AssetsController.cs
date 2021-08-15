@@ -1,5 +1,6 @@
 ﻿using JWS.Contracts.ApiRoutes;
 using JWS.Service.Assets.Commands.AddAsset;
+using JWS.Service.Assets.Queries.GetOverview;
 using JWS.Service.Assets.Queries.GetPagingListAsset;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,15 @@ namespace JWS.Api.Assets
     public class AssetsController : BaseController
     {
         public AssetsController(IMediator mediator) : base(mediator) { }
+
+        [HttpGet(ApiRoutes.Assets.Overview)]
+        public async Task<IActionResult> GetOverviewAsync()
+        {
+            return await _mediator.Send(new GetOverviewRequest
+            {
+                UserId = this.UserId,
+            });
+        }
 
         [HttpGet(ApiRoutes.Assets.GetPagingList)]
         public async Task<IActionResult> GetPagingListAsync([FromQuery] GetPagingListAssetRequest request)

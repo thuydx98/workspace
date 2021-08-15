@@ -16,10 +16,10 @@
 
 		<nz-page-header-content>
 			<nz-row nzType="flex">
-				<nz-statistic nzTitle="Tổng thu nhập" [nzValue]="StringHelper.formatMoney(1234567)" nzSuffix="đ"></nz-statistic>
-				<nz-statistic nzTitle="Chi tiêu" [nzValue]="StringHelper.formatMoney(1234567)" nzSuffix="đ"></nz-statistic>
-				<nz-statistic nzTitle="Đã đầu tư" [nzValue]="StringHelper.formatMoney(1234567)" nzSuffix="đ"></nz-statistic>
-				<nz-statistic nzTitle="Còn lại" [nzValue]="StringHelper.formatMoney(12345)" nzSuffix="đ"></nz-statistic>
+				<nz-statistic nzTitle="Tổng thu nhập" [nzValue]="formatMoney(overview?.income)" nzSuffix="đ"></nz-statistic>
+				<nz-statistic nzTitle="Chi tiêu" [nzValue]="formatMoney(overview?.spent)" nzSuffix="đ"></nz-statistic>
+				<nz-statistic nzTitle="Đã đầu tư" [nzValue]="formatMoney(overview?.invest)" nzSuffix="đ"></nz-statistic>
+				<nz-statistic nzTitle="Còn lại" [nzValue]="formatMoney(overview?.balance)" nzSuffix="đ"></nz-statistic>
 			</nz-row>
 		</nz-page-header-content>
 	</nz-page-header>
@@ -38,7 +38,7 @@
 						[nzActions]="[actionSetting, actionIncome, actionSpend, actionDelete]">
 						<nz-skeleton [nzActive]="true" [nzLoading]="false" [nzAvatar]="{ size: 'large' }">
 							<nz-card-meta [nzAvatar]="avatarTemplate" nzTitle="{{ fund.name }}"
-								nzDescription="{{ StringHelper.formatMoney(fund.total) }} đ | {{ getPercent(fund.total) }} %">
+								nzDescription="{{ formatMoney(fund.total) }} đ | {{ getPercent(fund.total) }}">
 							</nz-card-meta>
 						</nz-skeleton>
 					</nz-card>
@@ -99,8 +99,8 @@
 							<i nz-icon nzType="plus-circle" nzTheme="twotone" nzTwotoneColor="#52c41a" *ngIf="data.type =='INCOME'"></i>
 							<i nz-icon nzType="close-circle" nzTheme="twotone" *ngIf="data.type == 'SPEND'"></i>
 						</td>
-						<td>{{ StringHelper.formatMoney(data.amount) }}</td>
-						<td>{{ data.at }}</td>
+						<td>{{ formatMoney(data.amount) }}</td>
+						<td>{{ formatDateTime(data.at) }}</td>
 						<td>{{ data.note }}</td>
 					</tr>
 				</tbody>

@@ -10,6 +10,7 @@ namespace JWS.Contracts.ApiRoutes
 		{
 			private const string ControllerUri = Root + "/assets";
 
+			public const string Overview = ControllerUri + "/overview";
 			public const string GetPagingList = ControllerUri;
 			public const string Add = ControllerUri;
 		}

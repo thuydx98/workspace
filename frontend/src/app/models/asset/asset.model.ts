@@ -1,3 +1,10 @@
+export class AssetOverviewModel {
+    public income: number;
+    public spent: number;
+    public invest: number;
+    public balance: number;
+}
+
 export class AssetModel {
     public id: string;
     public amount: number;

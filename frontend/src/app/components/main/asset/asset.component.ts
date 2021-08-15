@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { PagingListModel } from 'src/app/models/app/paging-list.model';
-import { AssetModel } from 'src/app/models/asset/asset.model';
+import { AssetModel, AssetOverviewModel } from 'src/app/models/asset/asset.model';
 import { FundModel } from 'src/app/models/asset/fund.model';
 import { AssetService } from 'src/app/services/asset/asset.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -11,6 +11,7 @@ import { AddFundModalComponent } from './add-fund-modal/add-fund-modal.component
 import { ASSET_HISTORY_TYPE } from 'src/app/common/consts/assets/asset.const';
 import { AssetHistoryModalComponent } from './asset-history-modal/asset-history-modal.component';
 import { FundHistoryService } from 'src/app/services/asset/fund-history.service';
+import { MomentHelper } from 'src/app/common/helpers/moment.helper';
 
 @Component({
 	selector: 'app-asset',
@@ -18,11 +19,11 @@ import { FundHistoryService } from 'src/app/services/asset/fund-history.service'
 	styleUrls: ['./asset.component.scss'],
 })
 export class AssetComponent implements OnInit {
-	public ASSET_HISTORY_TYPE = ASSET_HISTORY_TYPE;
+	ASSET_HISTORY_TYPE = ASSET_HISTORY_TYPE;
 
-	public assetHistories: PagingListModel<AssetModel>;
-	public funds: FundModel[];
-	public StringHelper = StringHelper;
+	assetHistories: PagingListModel<AssetModel>;
+	funds: FundModel[];
+	overview: AssetOverviewModel;
 
 	constructor(
 		private assetService: AssetService,
@@ -33,23 +34,10 @@ export class AssetComponent implements OnInit {
 		private viewContainerRef: ViewContainerRef
 	) {}
 
-	getPercent(totalMoney: number): number {
-		const total = this.funds.map((i) => i.total).reduce((a, b) => a + b, 0);
-		if (total === 0) {
-			return 0;
-		}
-
-		return (totalMoney / total) * 100;
-	}
-
 	ngOnInit(): void {
-		this.assetService.getPagingList().subscribe((res: PagingListModel<AssetModel>) => {
-			this.assetHistories = res;
-		});
-
-		this.fundService.getList().subscribe((res: FundModel[]) => {
-			this.funds = res;
-		});
+		this.getOverview();
+		this.getPagingAssets();
+		this.getFunds();
 	}
 
 	onAddHistory(type: string, fund?: FundModel) {
@@ -73,7 +61,7 @@ export class AssetComponent implements OnInit {
 			nzTitle: title,
 			nzContent: AssetHistoryModalComponent,
 			nzViewContainerRef: this.viewContainerRef,
-			nzComponentParams: { fund, type, balance: 0 },
+			nzComponentParams: { fund, type, balance: this.overview?.balance || 0 },
 			nzFooter: [
 				{
 					label: 'Cancel',
@@ -87,33 +75,21 @@ export class AssetComponent implements OnInit {
 						new Promise(() => {
 							if (type === ASSET_HISTORY_TYPE.ASSET_INCOME || type === ASSET_HISTORY_TYPE.ASSET_SPEND) {
 								this.assetService.addAsset({ ...values.form.value, type }).subscribe(() => {
-									this.assetService.getPagingList().subscribe((res: PagingListModel<AssetModel>) => {
-										this.assetHistories = res;
-									});
+									this.getOverview();
+									this.getPagingAssets();
 									modal.destroy();
 								});
 							}
 							if (type === ASSET_HISTORY_TYPE.FUND_RECHARGE || type === ASSET_HISTORY_TYPE.FUND_WITHDRAW) {
 								this.fundHistoryService.add(fund.id, { ...values.form.value, type }).subscribe(() => {
-									this.assetService.getPagingList().subscribe((res: PagingListModel<AssetModel>) => {
-										this.assetHistories = res;
-									});
-									this.fundService.getList().subscribe((res: FundModel[]) => {
-										this.funds = res;
-									});
+									this.getOverview();
+									this.getFunds();
 									modal.destroy();
 								});
 							}
 						}),
 				},
 			],
-		});
-	}
-
-	onChangePage(data: any) {
-		const { pageIndex } = data;
-		this.assetService.getPagingList(pageIndex).subscribe((res: PagingListModel<AssetModel>) => {
-			this.assetHistories = res;
 		});
 	}
 
@@ -134,9 +110,7 @@ export class AssetComponent implements OnInit {
 					onClick: (values) =>
 						new Promise(() =>
 							this.fundService.add(values.form.value).subscribe(() => {
-								this.fundService.getList().subscribe((res: FundModel[]) => {
-									this.funds = res;
-								});
+								this.getFunds();
 								modal.destroy();
 							})
 						),
@@ -172,6 +146,42 @@ export class AssetComponent implements OnInit {
 						modal.destroy();
 					});
 				}),
+		});
+	}
+
+	onChangePage = (data: any) => data.pageIndex && this.getPagingAssets(data.pageIndex);
+
+	formatDateTime = (dateInput: any): string =>  MomentHelper.formatDateTime(dateInput);
+
+	formatMoney = (moneyInput: number): string =>  StringHelper.formatMoney(moneyInput);
+
+	getPercent = (totalMoney: number): string => {
+		const total = this.funds.map((i) => i.total).reduce((a, b) => a + b, 0);
+		if (total === 0) {
+			return '0 %';
+		}
+
+		const percent = (totalMoney / total) * 100;
+
+		return +percent.toFixed(2) + '%';
+	};
+
+
+	private getOverview(): void {
+		this.assetService.getOverview().subscribe((res: AssetOverviewModel) => {
+			this.overview = res;
+		});
+	}
+
+	private getPagingAssets(page: number = 1): void {
+		this.assetService.getPagingList(page).subscribe((res: PagingListModel<AssetModel>) => {
+			this.assetHistories = res;
+		});
+	}
+
+	private getFunds(): void {
+		this.fundService.getList().subscribe((res: FundModel[]) => {
+			this.funds = res;
 		});
 	}
 }

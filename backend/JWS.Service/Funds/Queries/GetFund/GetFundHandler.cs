@@ -24,9 +24,12 @@ namespace JWS.Service.Funds.Queries.GetFund
                 {
                     Id = n.Id,
                     Name = n.Name,
-                    Total = 
-                        n.FundHistories.Sum(n => n.Amount) - 
-                        n.FundHistories.Where(n => n.Type == FundHistoryType.WITHDRAW).Sum(n => n.Amount)
+                    Type = n.Type.HasValue ? n.Type.ToString() : null,
+                    Total =
+                        n.FundHistories.Where(n => n.Type == FundHistoryType.RECHARGE).Sum(n => n.Amount) -
+                        n.FundHistories.Where(n => n.Type == FundHistoryType.WITHDRAW).Sum(n => n.Amount),
+                    Invest = 0,
+
                 },
                 predicate: n => !n.IsDeleted && n.Id == request.FundId && n.UserId == request.UserId,
                 orderBy: n => n.OrderByDescending(o => o.CreatedAt),

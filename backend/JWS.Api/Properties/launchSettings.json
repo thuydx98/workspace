@@ -3,7 +3,7 @@
     "JWS.Api": {
       "commandName": "Project",
       "environmentVariables": {
-        "NEED_MIGRATE": "true",
+        "NEED_MIGRATE": "false",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DATABASE_CONNECTION": "Host=james-vm.eastasia.cloudapp.azure.com;port=5432;Database=workspace_dev;Username=postgres;Password=J@m3sD@0",
         "JWT_ISSUER": "https://id.azurewebsites.net"
