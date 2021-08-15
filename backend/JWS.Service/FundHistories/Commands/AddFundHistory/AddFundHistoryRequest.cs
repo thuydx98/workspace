@@ -12,5 +12,6 @@ namespace JWS.Service.FundHistories.Commands.AddFundHistory
         public FundHistoryType Type { get; set; }
         public double Amount { get; set; }
         public DateTime At { get; set; }
+        public string Note { get; set; }
     }
 }

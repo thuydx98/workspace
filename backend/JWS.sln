@@ -13,17 +13,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWS.Infrastructure", "JWS.I
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{23D26BB1-B394-4066-AE26-9BA1DE12A00E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWS.Common", "JWS.Common\JWS.Common.csproj", "{6A8511E3-069C-4DCD-9122-BD0409C26595}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWS.Common", "JWS.Common\JWS.Common.csproj", "{6A8511E3-069C-4DCD-9122-BD0409C26595}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWS.Mail", "JWS.Mail\JWS.Mail.csproj", "{7F825ACB-6B92-4575-BE05-FD2B0C389B74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWS.Mail", "JWS.Mail\JWS.Mail.csproj", "{7F825ACB-6B92-4575-BE05-FD2B0C389B74}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{2E610145-E0C5-4ECE-8A90-A39F36503A37}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{D22A478A-F259-4919-A842-A70CFAACE983}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWS.Contracts", "JWS.Contracts\JWS.Contracts.csproj", "{30D0E71B-798F-43E1-966C-6783682ECEE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWS.Contracts", "JWS.Contracts\JWS.Contracts.csproj", "{30D0E71B-798F-43E1-966C-6783682ECEE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWS.EntityFramework", "JWS.EntityFramework\JWS.EntityFramework.csproj", "{C493BFFC-7A07-40DF-AB20-BA8EE4DEEF7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWS.EntityFramework", "JWS.EntityFramework\JWS.EntityFramework.csproj", "{C493BFFC-7A07-40DF-AB20-BA8EE4DEEF7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

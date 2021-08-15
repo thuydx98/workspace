@@ -43,6 +43,7 @@ namespace JWS.Service.FundHistories.Commands.AddFundHistory
                     Id = Guid.NewGuid(),
                     Type = request.Type,
                     Amount = request.Amount,
+                    Note = request.Note,
                     At = request.At,
                     FundId = fund.Id,
                 };

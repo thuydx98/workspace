@@ -20,6 +20,6 @@ namespace JWS.Data.Entities
 
     public enum AssetType
     {
-        INCOME, SPEND, WITHDRAW
+        INCOME, SPEND
     }
 }

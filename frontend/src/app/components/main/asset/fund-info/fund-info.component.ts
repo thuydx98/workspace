@@ -8,6 +8,7 @@ import { FundHistoryModel, FundModel } from 'src/app/models/asset/fund.model';
 import { FundHistoryService } from 'src/app/services/asset/fund-history.service';
 import { PagingListModel } from 'src/app/models/app/paging-list.model';
 import { WsRoutes } from 'src/app/common/consts/route.const';
+import * as StringHelper from 'src/app/common/helpers/string.helper';
 
 @Component({
 	selector: 'app-fund-info',
@@ -18,13 +19,14 @@ export class FundInfoComponent implements OnInit {
 	private fundId: string;
 	public fund: FundModel;
 	public pagingHistories: PagingListModel<FundHistoryModel>;
+	public StringHelper = StringHelper;
 
 	constructor(
 		private route: ActivatedRoute,
 		private routerService: RouterService,
 		private fundService: FundService,
 		private funHistoryService: FundHistoryService
-	) { }
+	) {}
 
 	ngOnInit(): void {
 		this.route.params.subscribe((params) => {
@@ -41,12 +43,14 @@ export class FundInfoComponent implements OnInit {
 		zip(
 			this.fundService.get(this.fundId),
 			this.funHistoryService.getPagingList(this.fundId)
-		).pipe(
-			map(([fund, pagingHistories]) => {
-				this.fund = fund;
-				this.pagingHistories = pagingHistories;
-			})
-		).subscribe();
+		)
+			.pipe(
+				map(([fund, pagingHistories]) => {
+					this.fund = fund;
+					this.pagingHistories = pagingHistories;
+				})
+			)
+			.subscribe();
 	}
 
 	public onBack(): void {

@@ -9,6 +9,7 @@ namespace JWS.Data.Entities
         public Guid FundId { get; set; }
         public FundHistoryType Type { get; set; }
         public double Amount { get; set; }
+        public string Note { get; set; }
         public DateTime At { get; set; }
 
         public DateTime? CreatedAt { get; set; }

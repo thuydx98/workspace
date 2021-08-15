@@ -35,7 +35,7 @@ namespace JWS.Service.Assets.Commands.AddAsset
                 At = request.At,
                 UserId = request.UserId.Value,
                 Amount = request.Amount,
-                Type = AssetType.INCOME,
+                Type = request.Type,
                 Note = request.Note,
             };
 

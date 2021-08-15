@@ -45,6 +45,7 @@ namespace JWS.Service.Funds.Commands.AddFund
                 {
                     Id = fund.Id,
                     Name = fund.Name,
+                    Type = fund.Type?.ToString(),
                 });
             }
             catch (Exception ex)

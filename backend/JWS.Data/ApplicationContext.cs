@@ -30,6 +30,8 @@ namespace JWS.Data
             builder.Entity<FundEntity>(entity =>
             {
                 entity.HasKey(e => e.Id);
+
+                entity.Property(p => p.Type).HasConversion(new EnumToStringConverter<FundType>());
             });
 
             builder.Entity<FundHistoryEntity>(entity =>

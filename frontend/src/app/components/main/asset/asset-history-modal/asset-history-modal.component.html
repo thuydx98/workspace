@@ -1,0 +1,28 @@
+<form nz-form [formGroup]="form">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="5" nzRequired>Số lượng</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzErrorTip="Please input amount">
+      <nz-input-number [nzMin]="0" [nzMax]="maxAmount" [nzStep]="500000" nz-input formControlName="amount"
+        [nzFormatter]="formatterVND" [nzParser]="parserVND" style="width: 100%;"></nz-input-number>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="5" nzRequired>Thời gian</nz-form-label>
+    <nz-form-control [nzSpan]="19" nzErrorTip="Please input time">
+      <nz-date-picker nzShowTime [nzShowTime]="{ nzFormat: 'HH:mm' }" nzFormat="yyyy-MM-dd HH:mm" formControlName="at">
+      </nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="5">Note</nz-form-label>
+    <nz-form-control [nzSpan]="19">
+      <nz-input-group>
+        <textarea nz-input [nzAutosize]="{ minRows: 2 }" formControlName="note"></textarea>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <p *ngIf="withdrawableBalance >=0" class="text-right">Số dư có thể rút: {{StringHelper.formatMoney(withdrawableBalance)}}
+    đ</p>
+  <p *ngIf="fund" class="text-right">Quỹ đã đầu tư: {{StringHelper.formatMoney(fund.total - fund.balance)}} đ</p>
+  <p *ngIf="fund" class="text-right">Quỹ còn lại: {{StringHelper.formatMoney(fund.balance)}} đ</p>
+</form>

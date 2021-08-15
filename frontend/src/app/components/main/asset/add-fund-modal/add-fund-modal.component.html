@@ -1,0 +1,26 @@
+<div nz-row>
+    <div nz-col nzSpan="6">
+        <img nz-image width="100px" height="100px" nzSrc="https://i.ibb.co/d57jqyQ/gold.png" alt="" />
+    </div>
+    <div nz-col nzSpan="18">
+        <form nz-form [formGroup]="form">
+            <nz-form-item>
+                <nz-form-label [nzSpan]="6">Loại gói</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                    <nz-select name="select-validate" formControlName="type" nzAllowClear>
+                        <nz-option nzValue="STOCK" nzLabel="Stock"></nz-option>
+                        <nz-option nzValue="SAVING" nzLabel="Saving"></nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSpan]="6" nzRequired>Tên gói</nz-form-label>
+                <nz-form-control [nzSpan]="18" nzErrorTip="Vui lòng nhập tên gói">
+                    <nz-input-group>
+                        <input nz-input formControlName="name" />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </div>
+</div>
