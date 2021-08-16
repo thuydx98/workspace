@@ -28,6 +28,11 @@ namespace JWS.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseDefaultFiles(new DefaultFilesOptions
+            {
+                DefaultFileNames = new string[] { "index.html" }
+            });
+
             app.UseStaticFiles();
 
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

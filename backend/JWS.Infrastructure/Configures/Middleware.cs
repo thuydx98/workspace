@@ -20,11 +20,6 @@ namespace JWS.Infrastructure.Configures
                 }
             });
 
-            builder.UseDefaultFiles(new DefaultFilesOptions
-            {
-                DefaultFileNames = new string[] { "index.html" }
-            });
-
             return builder;
         }
     }
