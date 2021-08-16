@@ -10,34 +10,33 @@ namespace JWS.Api
 {
     public class Startup
     {
-		public void ConfigureServices(IServiceCollection services)
-		{
-			services.AddUnitOfWork();   // Keep when migrate database
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddUnitOfWork();   // Keep when migrate database
 
-			services.AddMediator();
-			services.AddAutoMapper();
-			services.AddAuth();
-			services.AddHttpClient().AddServices();
+            services.AddMediator();
+            services.AddAutoMapper();
+            services.AddAuth();
+            services.AddHttpClient().AddServices();
 
-			services.AddResponseCaching();
-			services.AddControllers().AddJsonOptions(options =>
-			{
-				options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-			});
-		}
+            services.AddResponseCaching();
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
+        }
 
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-		{
-			app.UseDefaultFiles();
-			app.UseStaticFiles();
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            app.UseStaticFiles();
 
-			app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-			app.UseRouting();
-			app.UseMiddlewares();
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseRouting();
+            app.UseMiddlewares();
 
-			app.UseAuthentication().UseAuthorization();
+            app.UseAuthentication().UseAuthorization();
 
-			app.UseEndpoints(endpoints => endpoints.MapControllers().RequireAuthorization(Policies.API_SCOPE));
-		}
-	}
+            app.UseEndpoints(endpoints => endpoints.MapControllers().RequireAuthorization(Policies.API_SCOPE));
+        }
+    }
 }
