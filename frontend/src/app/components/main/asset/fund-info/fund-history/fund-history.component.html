@@ -1,0 +1,25 @@
+<nz-col nzSpan="24">
+    <nz-table #fundHistoryTable nzOuterBordered [nzFrontPagination]="false" [nzData]="pagingHistories?.items"
+        [nzTotal]="pagingHistories?.total" [nzPageSize]="pagingHistories?.size" [nzPageIndex]="pagingHistories?.page"
+        (nzQueryParams)="onChangePage($event)">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Số tiền</th>
+                <th>Thời gian</th>
+                <th>Ghi chú</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of fundHistoryTable.data">
+                <td>
+                    <span *ngIf="data.type =='RECHARGE'" nz-typography nzType="success"><b color>Nạp</b></span>
+                    <span *ngIf="data.type == 'WITHDRAW'" nz-typography nzType="danger"><b color>Rút</b></span>
+                </td>
+                <td>{{ formatMoney(data.amount) }}</td>
+                <td>{{ formatDateTime(data.at) }}</td>
+                <td>{{ data.note }}</td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-col>

@@ -25,7 +25,7 @@ namespace JWS.Service.FundHistories.Queries.GetPagingListFundHistory
         {
             var funds = await _unitOfWork.GetRepository<FundHistoryEntity>().GetPagingListAsync(
                 selector: n => _mapper.Map<FundHistoryViewModel>(n),
-                predicate: n => n.Id == request.FundId && n.Fund.UserId == request.UserId,
+                predicate: n => n.FundId == request.FundId && n.Fund.UserId == request.UserId,
                 orderBy: n => n.OrderByDescending(o => o.At),
                 page: request.Page,
                 size: request.Size,

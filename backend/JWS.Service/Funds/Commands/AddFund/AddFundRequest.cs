@@ -13,6 +13,6 @@ namespace JWS.Service.Funds.Commands.AddFund
         [Required]
         public string Name { get; set; }
 
-        public FundType Type { get; set; }
+        public FundType? Type { get; set; }
     }
 }

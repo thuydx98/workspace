@@ -1,0 +1,70 @@
+<form nz-form [formGroup]="form">
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Tên gói</nz-form-label>
+        <nz-form-control [nzSpan]="18" nzErrorTip="Vui lòng nhập loại đầu tư">
+            <nz-input-group>
+                <input nz-input formControlName="name" />
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6">Trạng thái</nz-form-label>
+        <nz-form-control [nzSpan]="9">
+            <nz-select name="select-validate" formControlName="type">
+                <nz-option nzValue="STOCK" nzLabel="Theo dõi"></nz-option>
+                <nz-option nzValue="SAVING" nzLabel="Đang đầu tư"></nz-option>
+                <nz-option nzValue="SAVING" nzLabel="Đx chốt"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6">Tăng trưởng</nz-form-label>
+        <nz-form-control [nzSpan]="9">
+            <nz-select name="select-validate" formControlName="type" nzAllowClear>
+                <nz-option nzValue="STOCK" nzLabel="Đều"></nz-option>
+                <nz-option nzValue="SAVING" nzLabel="Biến động"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6">Lợi nhuận (%)</nz-form-label>
+        <nz-form-control [nzSpan]="9">
+            <nz-input-number formControlName="revenuePercent" [nzMin]="0" [nzStep]="1">
+            </nz-input-number>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6">Tăng trưởng theo</nz-form-label>
+        <nz-form-control [nzSpan]="9">
+            <nz-select name="select-validate" formControlName="type" nzAllowClear>
+                <nz-option nzValue="STOCK" nzLabel="Tháng"></nz-option>
+                <nz-option nzValue="SAVING" nzLabel="Năm"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="6">Ghi chú</nz-form-label>
+        <nz-form-control [nzSpan]="18">
+            <nz-input-group>
+                <textarea nz-input [nzAutosize]="{ minRows: 2 }" formControlName="note"></textarea>
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngFor="let item of criteria; let i = index">
+        <nz-form-control [nzXs]="24" [nzSm]="20" [nzOffset]="i === 0 ? 0 : 4"
+            nzErrorTip="Please input passenger's name or delete this field.">
+            <input class="passenger-input" nz-input placeholder="placeholder" [attr.id]="item.id"
+                [formControlName]="item.controlInstance" />
+            <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button"></i>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+            <button nz-button nzType="dashed" class="add-button">
+                <i nz-icon nzType="plus"></i>
+                Add field
+            </button>
+        </nz-form-control>
+    </nz-form-item>
+</form>

@@ -1,0 +1,38 @@
+<nz-row class="mt-4 mb-3">
+    <nz-col nzSpan="8">
+        <nz-checkbox-group [(ngModel)]="statusOptions" (ngModelChange)="getInvestments()"></nz-checkbox-group>
+    </nz-col>
+    <div nz-col nzSpan="2">
+        <span class="ml-4">Tiêu chí</span>
+    </div>
+    <div nz-col nzSpan="6">
+        <nz-slider [nzMin]="totalCriteriaRange[0]" [nzMax]="totalCriteriaRange[1]" [(ngModel)]="minCriteria"
+            [nzTooltipVisible]="'always'" (nzOnAfterChange)="getInvestments()"></nz-slider>
+    </div>
+    <div nz-col nzSpan="6"></div>
+    <div nz-col nzSpan="2">
+        <button nz-button nzType="primary" class="float-right" (click)="onAddInvestment()">Thêm</button>
+    </div>
+</nz-row>
+
+<nz-col nzSpan="24">
+    <nz-col nzSpan="24">
+        <nz-table #investmentTable nzOuterBordered [nzFrontPagination]="false" [nzData]="investments?.items"
+            [nzTotal]="investments?.total" [nzPageSize]="investments?.size" [nzPageIndex]="investments?.page"
+            (nzQueryParams)="onChangePage($event)">
+            <tbody>
+                <tr *ngFor="let data of investmentTable.data">
+                    <td>
+                        <span *ngIf="data.status =='RECHARGE'" nz-typography nzType="success"><b color>Nạp</b></span>
+                        <span *ngIf="data.status == 'WITHDRAW'" nz-typography nzType="danger"><b color>Rút</b></span>
+                    </td>
+                    <td>{{ data.name }}</td>
+                    <td>{{ formatMoney(data.amount) }}</td>
+                    <td>{{ formatDateTime(data.at) }}</td>
+                    <td>{{ data.criteria?.length || 0 }}</td>
+                    <td>{{ data.note }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-col>
+</nz-col>

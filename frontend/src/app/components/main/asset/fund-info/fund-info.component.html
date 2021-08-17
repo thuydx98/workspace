@@ -8,7 +8,11 @@
 	<nz-breadcrumb-item>Fund information</nz-breadcrumb-item>
 </nz-breadcrumb>
 
-<nz-page-header class="fund-page" [nzTitle]="fund?.name" nzSubtitle="" (nzBack)="onBack()" nzBackIcon>
+<nz-page-header class="fund-page" [nzTitle]="fund?.name" (nzBack)="onBack()" nzBackIcon>
+	<nz-page-header-tags *ngIf="fund?.type">
+		<nz-tag [nzColor]="'blue'">{{fund.type}}</nz-tag>
+	</nz-page-header-tags>
+
 	<nz-page-header-extra>
 		<button nz-button nzType="danger">Rút</button>
 		<button nz-button nzType="primary">Nạp</button>
@@ -16,14 +20,23 @@
 
 	<nz-page-header-content>
 		<nz-row nzType="flex">
-			<nz-statistic nzTitle="Số vốn đầu tư" [nzValue]="33345" nzSuffix="đ"></nz-statistic>
-			<nz-statistic nzTitle="Số dư có thể rút" [nzValue]="568" nzSuffix="đ" style="margin: 0 32px"></nz-statistic>
+			<nz-statistic nzTitle="Tổng tài sản" [nzValue]="formatMoney(fund?.total)" nzSuffix="đ"></nz-statistic>
+			<nz-statistic nzTitle="Vốn đầu tư" [nzValue]="formatMoney(fund?.total)" nzSuffix="đ" style="margin: 0 32px">
+			</nz-statistic>
+			<nz-statistic nzTitle="Đang đầu tư" [nzValue]="formatMoney(fund?.invest)" nzSuffix="đ"
+				style="margin: 0 32px"></nz-statistic>
+			<nz-statistic nzTitle="Tiền nhàn rỗi" [nzValue]="formatMoney(fund?.balance)" nzSuffix="đ"
+				style="margin: 0 32px"></nz-statistic>
 		</nz-row>
 
-		<nz-tabset nzCentered>
+		<nz-tabset nzCentered class="mt-4">
 			<nz-tab nzTitle="Tổng quan">Biểu đồ tăng trưởng, nạp rút</nz-tab>
-			<nz-tab nzTitle="Chi tiết đầu tư">Danh sách các cổ phiếu đầu tư</nz-tab>
-			<nz-tab nzTitle="Lịch sử nạp rút">Content of Tab Pane 3</nz-tab>
-		  </nz-tabset>
+			<nz-tab nzTitle="Chi tiết đầu tư">
+				<app-fund-invest></app-fund-invest>
+			</nz-tab>
+			<nz-tab nzTitle="Lịch sử nạp rút">
+				<app-fund-history></app-fund-history>
+			</nz-tab>
+		</nz-tabset>
 	</nz-page-header-content>
 </nz-page-header>

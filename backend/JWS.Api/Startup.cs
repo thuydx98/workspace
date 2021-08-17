@@ -20,6 +20,7 @@ namespace JWS.Api
             services.AddHttpClient().AddServices();
 
             services.AddResponseCaching();
+            services.AddHttpContextAccessor();
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -28,11 +29,7 @@ namespace JWS.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseDefaultFiles(new DefaultFilesOptions
-            {
-                DefaultFileNames = new string[] { "index.html" }
-            });
-
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

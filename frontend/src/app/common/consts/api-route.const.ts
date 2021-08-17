@@ -7,5 +7,6 @@ export const ApiRoutes = {
         Assets: wsApiUrl + 'assets',
         Funds: wsApiUrl + 'funds',
         FundHistories: wsApiUrl + 'funds/{fundId}/histories',
+        FundInvestments: wsApiUrl + 'funds/{fundId}/investments',
     }
 };

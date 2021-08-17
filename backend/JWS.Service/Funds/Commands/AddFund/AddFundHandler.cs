@@ -36,6 +36,7 @@ namespace JWS.Service.Funds.Commands.AddFund
                     Id = Guid.NewGuid(),
                     UserId = request.UserId.Value,
                     Name = request.Name,
+                    Type = request.Type,
                 };
 
                 await _unitOfWork.GetRepository<FundEntity>().InsertAsync(fund);

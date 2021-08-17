@@ -1,12 +1,8 @@
-import { map } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { zip } from 'rxjs';
 import { RouterService } from 'src/app/services/router.service';
 import { FundService } from 'src/app/services/asset/fund.service';
-import { FundHistoryModel, FundModel } from 'src/app/models/asset/fund.model';
-import { FundHistoryService } from 'src/app/services/asset/fund-history.service';
-import { PagingListModel } from 'src/app/models/app/paging-list.model';
+import { FundModel } from 'src/app/models/asset/fund.model';
 import { WsRoutes } from 'src/app/common/consts/route.const';
 import * as StringHelper from 'src/app/common/helpers/string.helper';
 
@@ -18,15 +14,8 @@ import * as StringHelper from 'src/app/common/helpers/string.helper';
 export class FundInfoComponent implements OnInit {
 	private fundId: string;
 	public fund: FundModel;
-	public pagingHistories: PagingListModel<FundHistoryModel>;
-	public StringHelper = StringHelper;
 
-	constructor(
-		private route: ActivatedRoute,
-		private routerService: RouterService,
-		private fundService: FundService,
-		private funHistoryService: FundHistoryService
-	) {}
+	constructor(private route: ActivatedRoute, private routerService: RouterService, private fundService: FundService) {}
 
 	ngOnInit(): void {
 		this.route.params.subscribe((params) => {
@@ -40,20 +29,14 @@ export class FundInfoComponent implements OnInit {
 	}
 
 	private initData() {
-		zip(
-			this.fundService.get(this.fundId),
-			this.funHistoryService.getPagingList(this.fundId)
-		)
-			.pipe(
-				map(([fund, pagingHistories]) => {
-					this.fund = fund;
-					this.pagingHistories = pagingHistories;
-				})
-			)
-			.subscribe();
+		this.fundService.get(this.fundId).subscribe((fund: FundModel) => {
+			this.fund = fund;
+		});
 	}
 
 	public onBack(): void {
 		this.routerService.navigate(WsRoutes.Assets);
 	}
+
+	formatMoney = (moneyInput: number): string => StringHelper.formatMoney(moneyInput);
 }
