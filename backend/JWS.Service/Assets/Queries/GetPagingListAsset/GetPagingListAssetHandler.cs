@@ -35,6 +35,7 @@ namespace JWS.Service.Assets.Queries.GetPagingListAsset
                     At = n.At,
                     Note = n.Note,
                 },
+                predicate: n => n.UserId == request.UserId,
                 orderBy: n => n.OrderByDescending(o => o.At),
                 page: request.Page,
                 size: request.Size,
