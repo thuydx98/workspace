@@ -149,7 +149,7 @@ export class AssetComponent implements OnInit {
 		});
 	}
 
-	onChangePage = (data: any) => data.pageIndex && this.getPagingAssets(data.pageIndex);
+	onChangePage = (data: any) => data.pageIndex && data.pageIndex !== this.assetHistories?.page && this.getPagingAssets(data.pageIndex);
 
 	formatDateTime = (dateInput: any): string =>  MomentHelper.formatDateTime(dateInput);
 

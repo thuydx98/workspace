@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using JWS.Data.Entities;
 using JWS.Service.FundHistories.ViewModels;
+using JWS.Service.FundInvestments.ViewModels;
 
 namespace JWS.Infrastructure.Mapper
 {
@@ -8,9 +9,8 @@ namespace JWS.Infrastructure.Mapper
 	{
 		public MappingProfile()
 		{
-			CreateMap<FundHistoryEntity, FundHistoryViewModel>();//.ForMember(
-				//dest => dest.Type,
-				//opt => opt.MapFrom(src => src.Type.ToString()));
+			CreateMap<FundHistoryEntity, FundHistoryViewModel>();
+			CreateMap<FundInvestmentEntity, FundInvestmentViewModel>();
 		}
 	}
 }

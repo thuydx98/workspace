@@ -23,7 +23,7 @@ export class FundHistoryComponent implements OnInit {
 			this.getHistories();
 		});
 	}
-	onChangePage = (data: any) => data.pageIndex && this.getHistories(data.pageIndex);
+	onChangePage = (data: any) => data.pageIndex && data.pageIndex !== this.pagingHistories?.page && this.getHistories(data.pageIndex);
 
 	private getHistories(page: number = 1) {
 		this.funHistoryService.getPagingList(this.fundId, page).subscribe((res: PagingListModel<FundHistoryModel>) => {

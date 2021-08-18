@@ -26,8 +26,8 @@ namespace JWS.Service.Funds.Queries.GetFund
                     Name = n.Name,
                     Type = n.Type.HasValue ? n.Type.ToString() : null,
                     Total =
-                        n.FundHistories.Where(n => n.Type == FundHistoryType.RECHARGE).Sum(n => n.Amount) -
-                        n.FundHistories.Where(n => n.Type == FundHistoryType.WITHDRAW).Sum(n => n.Amount),
+                        n.Histories.Where(n => n.Type == FundHistoryType.RECHARGE).Sum(n => n.Amount) -
+                        n.Histories.Where(n => n.Type == FundHistoryType.WITHDRAW).Sum(n => n.Amount),
                     Invest = 0,
 
                 },

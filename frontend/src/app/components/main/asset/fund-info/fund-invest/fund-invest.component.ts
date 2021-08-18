@@ -7,6 +7,7 @@ import * as StringHelper from 'src/app/common/helpers/string.helper';
 import { MomentHelper } from 'src/app/common/helpers/moment.helper';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { AddFundInvestModalComponent } from './add-fund-invest-modal/add-fund-invest-modal.component';
+import { InvestStatusList } from 'src/app/common/consts/assets/asset.const';
 
 @Component({
 	selector: 'app-fund-invest',
@@ -19,11 +20,7 @@ export class FundInvestComponent implements OnInit {
 
 	totalCriteriaRange = [0, 0];
 	minCriteria: number = 0;
-	statusOptions = [
-		{ label: 'ĐANG ĐẦU TƯ', value: 'INVESTING', checked: true },
-		{ label: 'ĐÃ CHỐT', value: 'FINISH' },
-		{ label: 'THEO DÕI', value: 'FOLLOWING' },
-	];
+	statusOptions = InvestStatusList;
 
 	constructor(private route: ActivatedRoute, private modal: NzModalService, private fundInvestService: FundInvestService) {}
 
@@ -34,7 +31,7 @@ export class FundInvestComponent implements OnInit {
 		});
 	}
 
-	onChangePage = (data: any) => data.pageIndex && this.getInvestments(data.pageIndex);
+	onChangePage = (data: any) => data.pageIndex && data.pageIndex !== this.investments?.page && this.getInvestments(data.pageIndex);
 
 	getInvestments(page: number = 1) {
 		const statuses = this.statusOptions.filter((item) => item.checked).map((item) => item.value);

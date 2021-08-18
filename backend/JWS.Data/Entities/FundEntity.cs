@@ -8,7 +8,8 @@ namespace JWS.Data.Entities
     {
         public FundEntity()
         {
-            FundHistories = new HashSet<FundHistoryEntity>();
+            Histories = new HashSet<FundHistoryEntity>();
+            Investments = new HashSet<FundInvestmentEntity>();
         }
 
         public Guid Id { get; set; }
@@ -22,7 +23,8 @@ namespace JWS.Data.Entities
         public DateTime? UpdatedAt { get; set; }
         public string UpdatedBy { get; set; }
 
-        public virtual ICollection<FundHistoryEntity> FundHistories { get; set; }
+        public virtual ICollection<FundHistoryEntity> Histories { get; set; }
+        public virtual ICollection<FundInvestmentEntity> Investments { get; set; }
     }
 
     public enum FundType

@@ -34,7 +34,7 @@ export class FundInvestModel {
     public amount: number;
     public criteria: string[];
     public note: string;
-    public at: Date;
+    public investedAt: Date;
 }
 
 export class AddFundInvestModel {

@@ -13,6 +13,7 @@ namespace JWS.Data
         public virtual DbSet<AssetEntity> Assets { get; set; }
         public virtual DbSet<FundEntity> Funds { get; set; }
         public virtual DbSet<FundHistoryEntity> FundHistories { get; set; }
+        public virtual DbSet<FundInvestmentEntity> FundInvestments { get; set; }
         public virtual DbSet<UserEntity> Users { get; set; }
         #endregion
 
@@ -39,7 +40,17 @@ namespace JWS.Data
                 entity.HasKey(e => e.Id);
 
                 entity.HasOne(e => e.Fund)
-                      .WithMany(e => e.FundHistories)
+                      .WithMany(e => e.Histories)
+                      .HasForeignKey(e => e.FundId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<FundInvestmentEntity>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.HasOne(e => e.Fund)
+                      .WithMany(e => e.Investments)
                       .HasForeignKey(e => e.FundId)
                       .OnDelete(DeleteBehavior.Cascade);
             });

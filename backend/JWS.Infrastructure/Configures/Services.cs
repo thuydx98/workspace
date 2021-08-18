@@ -3,6 +3,8 @@ using JWS.Service.Assets.Queries.GetOverview;
 using JWS.Service.Assets.Queries.GetPagingListAsset;
 using JWS.Service.FundHistories.Commands.AddFundHistory;
 using JWS.Service.FundHistories.Queries.GetPagingListFundHistory;
+using JWS.Service.FundInvestments.Commands.AddFundInvestment;
+using JWS.Service.FundInvestments.Queries.GetPagingListFundInvestment;
 using JWS.Service.Funds.Commands.AddFund;
 using JWS.Service.Funds.Commands.DeleteFund;
 using JWS.Service.Funds.Commands.UpdateFund;
@@ -30,10 +32,14 @@ namespace JWS.Infrastructure.Configures
             services.AddService<DeleteFundRequest, DeleteFundHandler>();
             #endregion
 
-
             #region Fund Histories
             services.AddService<GetPagingListFundHistoryRequest, GetPagingListFundHistoryHandler>();
             services.AddService<AddFundHistoryRequest, AddFundHistoryHandler>();
+            #endregion
+
+            #region Fund Investments
+            services.AddService<GetPagingListFundInvestmentRequest, GetPagingListFundInvestmentHandler>();
+            services.AddService<AddFundInvestmentRequest, AddFundInvestmentHandler>();
             #endregion
 
             return services;

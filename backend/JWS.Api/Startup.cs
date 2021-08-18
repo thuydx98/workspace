@@ -1,4 +1,5 @@
 using JWS.Common.Constants.Identity;
+using JWS.Common.Converters;
 using JWS.Infrastructure.Configures;
 using JWS.Infrastructure.Mapper;
 using Microsoft.AspNetCore.Builder;
@@ -24,6 +25,7 @@ namespace JWS.Api
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.JsonSerializerOptions.Converters.Add(new JsonDateTimeStringConverter());
             });
         }
 
