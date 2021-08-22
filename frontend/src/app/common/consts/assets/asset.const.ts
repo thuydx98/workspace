@@ -11,13 +11,13 @@ export const InvestUpdateType = {
 };
 
 export const InvestStatus = {
+	FOLLOWING: 'FOLLOWING',
 	INVESTING: 'INVESTING',
 	COMPLETED: 'COMPLETED',
-	FOLLOWING: 'FOLLOWING',
 };
 
 export const InvestStatusList = [
+	{ label: 'THEO DÕI', value: InvestStatus.FOLLOWING },
 	{ label: 'ĐANG ĐẦU TƯ', value: InvestStatus.INVESTING, checked: true },
 	{ label: 'ĐÃ CHỐT', value: InvestStatus.COMPLETED },
-	{ label: 'THEO DÕI', value: InvestStatus.FOLLOWING },
 ];

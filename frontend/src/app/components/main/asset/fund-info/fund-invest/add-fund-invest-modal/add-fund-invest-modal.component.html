@@ -1,100 +1,168 @@
-<form nz-form [formGroup]="form">
-    <nz-form-item>
-        <nz-form-label [nzSpan]="6" nzRequired>Tên gói</nz-form-label>
-        <nz-form-control [nzSpan]="18" nzErrorTip="Vui lòng nhập loại đầu tư">
-            <nz-input-group>
-                <input nz-input formControlName="name" />
-            </nz-input-group>
-        </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-        <nz-form-label [nzSpan]="6" nzRequired>Trạng thái</nz-form-label>
-        <nz-form-control [nzSpan]="9">
-            <nz-select name="select-validate" formControlName="status">
-                <nz-option *ngFor="let item of statusOptions" [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
-            </nz-select>
-        </nz-form-control>
-    </nz-form-item>
+<form nz-form [formGroup]="form" class="add-fund-invest-modal">
+    <div nz-row>
+        <nz-form-item nz-col nzSpan="6">
+            <nz-form-label nzRequired>Tên gói</nz-form-label>
+            <nz-form-control nzErrorTip="Vui lòng nhập loại đầu tư">
+                <nz-input-group>
+                    <input nz-input formControlName="name" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-col nzSpan="6">
+            <nz-form-label nzRequired>Trạng thái</nz-form-label>
+            <nz-form-control>
+                <nz-select name="select-validate" formControlName="status">
+                    <nz-option *ngFor="let item of statusOptions" [nzValue]="item.value" [nzLabel]="item.label">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-col nzSpan="6">
+            <nz-form-label nzRequired>Tăng trưởng</nz-form-label>
+            <nz-form-control>
+                <nz-select name="select-validate" formControlName="updateType">
+                    <nz-option [nzValue]="InvestUpdateType.AUTO" nzLabel="Tự động"></nz-option>
+                    <nz-option [nzValue]="InvestUpdateType.MANUAL" nzLabel="Thủ công"></nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-col nzSpan="6">
+            <nz-form-label nzRequired>Theo dõi</nz-form-label>
+            <nz-form-control nzErrorTip="Please input time">
+                <nz-date-picker nzShowTime [nzShowTime]="{ nzFormat: 'HH:mm' }" nzFormat="yyyy-MM-dd HH:mm"
+                    formControlName="followedAt">
+                </nz-date-picker>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
 
-    <nz-form-item>
-        <nz-form-label [nzSpan]="6" nzRequired>Thời gian</nz-form-label>
-        <nz-form-control [nzSpan]="18" nzErrorTip="Please input time">
-            <nz-date-picker nzShowTime [nzShowTime]="{ nzFormat: 'HH:mm' }" nzFormat="yyyy-MM-dd HH:mm"
-                formControlName="at">
-            </nz-date-picker>
-        </nz-form-control>
-    </nz-form-item>
+    <div *ngIf="form.value.updateType === InvestUpdateType.MANUAL">
+        <div nz-row>
+            <nz-form-item nz-col nzSpan="6">
+                <nz-form-label nzRequired>Khối lượng</nz-form-label>
+                <nz-form-control>
+                    <nz-input-number formControlName="amount" [nzMin]="0" [nzStep]="1">
+                    </nz-input-number>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item nz-col nzSpan="6">
+                <nz-form-label nzRequired><b>Giá mua</b></nz-form-label>
+                <nz-form-control>
+                    <nz-input-number formControlName="capitalPrice" [nzMin]="0" [nzStep]="1000">
+                    </nz-input-number>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item nz-col nzSpan="6">
+                <nz-form-label nzRequired>Giá t.trường</nz-form-label>
+                <nz-form-control>
+                    <nz-input-number formControlName="marketPrice" [nzMin]="0" [nzStep]="1000">
+                    </nz-input-number>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item nz-col nzSpan="6" *ngIf="form.value.status !== InvestStatus.FOLLOWING">
+                <nz-form-label nzRequired>Mua lúc</nz-form-label>
+                <nz-form-control nzErrorTip="Please input time">
+                    <nz-date-picker nzShowTime [nzShowTime]="{ nzFormat: 'HH:mm' }" nzFormat="yyyy-MM-dd HH:mm"
+                        formControlName="investedAt">
+                    </nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+        <div nz-row>
+            <nz-form-item nz-col nzSpan="6">
+                <nz-form-label nzRequired>Chốt lãi (%)</nz-form-label>
+                <nz-form-control>
+                    <nz-input-number formControlName="takeProfitPercent" [nzMin]="0" [nzStep]="1">
+                    </nz-input-number>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item nz-col nzSpan="6">
+                <nz-form-label nzRequired>Stop loss (%)</nz-form-label>
+                <nz-form-control>
+                    <nz-input-number formControlName="stopLossPercent" [nzMin]="0" [nzStep]="1">
+                    </nz-input-number>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item nz-col nzSpan="6">
+                <nz-form-label nzRequired>Trailing stop (%)</nz-form-label>
+                <nz-form-control>
+                    <nz-input-number formControlName="trailingStopLossPercent" [nzMin]="0" [nzStep]="1">
+                    </nz-input-number>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
 
-    <nz-form-item>
-        <nz-form-label [nzSpan]="6" nzRequired>Tăng trưởng</nz-form-label>
-        <nz-form-control [nzSpan]="9">
-            <nz-select name="select-validate" formControlName="updateType">
-                <nz-option [nzValue]="InvestUpdateType.AUTO" nzLabel="Tự động"></nz-option>
-                <nz-option [nzValue]="InvestUpdateType.MANUAL" nzLabel="Thủ công"></nz-option>
-            </nz-select>
-        </nz-form-control>
-    </nz-form-item>
-
-    <ng-container *ngIf="form.value.updateType === InvestUpdateType.MANUAL">
-        <nz-form-item>
-            <nz-form-label [nzSpan]="6" nzRequired>Giá vốn</nz-form-label>
-            <nz-form-control [nzSpan]="12">
-                <nz-input-number formControlName="capitalPrice" [nzMin]="0" [nzStep]="1000">
+    <div nz-row>
+        <nz-form-item nz-col nzSpan="6">
+            <nz-form-label nzRequired>Phí mua (%)</nz-form-label>
+            <nz-form-control>
+                <nz-input-number formControlName="buyFeePercent" [nzMin]="0" [nzStep]="0.01">
                 </nz-input-number>
             </nz-form-control>
         </nz-form-item>
-        <nz-form-item>
-            <nz-form-label [nzSpan]="6" nzRequired>Số lượng</nz-form-label>
-            <nz-form-control [nzSpan]="12">
-                <nz-input-number formControlName="amount" [nzMin]="0" [nzStep]="1">
+        <nz-form-item nz-col nzSpan="6">
+            <nz-form-label nzRequired>Phí bán (%)</nz-form-label>
+            <nz-form-control>
+                <nz-input-number formControlName="sellFeePercent" [nzMin]="0" [nzStep]="0.01">
                 </nz-input-number>
             </nz-form-control>
         </nz-form-item>
-        <nz-form-item>
-            <nz-form-label [nzSpan]="6" nzRequired>Phí mua (%)</nz-form-label>
-            <nz-form-control [nzSpan]="12">
-                <nz-input-number formControlName="buyFeePercent" [nzMin]="0" [nzStep]="1">
+        <nz-form-item nz-col nzSpan="6" *ngIf="form.value.status === InvestStatus.COMPLETED">
+            <nz-form-label nzRequired><b>Giá bán</b></nz-form-label>
+            <nz-form-control>
+                <nz-input-number formControlName="sellPrice" [nzMin]="0" [nzStep]="1000">
                 </nz-input-number>
             </nz-form-control>
         </nz-form-item>
-        <nz-form-item>
-            <nz-form-label [nzSpan]="6" nzRequired>Phí bán (%)</nz-form-label>
-            <nz-form-control [nzSpan]="12">
-                <nz-input-number formControlName="sellFeePercent" [nzMin]="0" [nzStep]="1">
-                </nz-input-number>
+        <nz-form-item nz-col nzSpan="6" *ngIf="form.value.status === InvestStatus.COMPLETED">
+            <nz-form-label nzRequired><b>Bán lúc</b></nz-form-label>
+            <nz-form-control nzErrorTip="Please input time">
+                <nz-date-picker nzShowTime [nzShowTime]="{ nzFormat: 'HH:mm' }" nzFormat="yyyy-MM-dd HH:mm"
+                    formControlName="completedAt">
+                </nz-date-picker>
             </nz-form-control>
         </nz-form-item>
-    </ng-container>
+    </div>
 
-
-    <ng-container *ngIf="form.value.updateType === InvestUpdateType.AUTO">
-        <nz-form-item>
-            <nz-form-label [nzSpan]="6">Lợi nhuận (%)</nz-form-label>
-            <nz-form-control [nzSpan]="9">
+    <div nz-row *ngIf="form.value.updateType === InvestUpdateType.AUTO">
+        <nz-form-item nz-col nzSpan="6">
+            <nz-form-label nzRequired>Lãi suất (%)</nz-form-label>
+            <nz-form-control>
                 <nz-input-number formControlName="revenuePercent" [nzMin]="0" [nzStep]="1">
                 </nz-input-number>
             </nz-form-control>
         </nz-form-item>
-        <nz-form-item>
-            <nz-form-label [nzSpan]="6">Tăng trưởng theo</nz-form-label>
-            <nz-form-control [nzSpan]="9">
+        <nz-form-item nz-col nzSpan="6">
+            <nz-form-label nzRequired>Tăng trưởng</nz-form-label>
+            <nz-form-control>
                 <nz-select name="select-validate" formControlName="revenueCycle">
                     <nz-option nzValue="MONTHLY" nzLabel="Tháng"></nz-option>
                     <nz-option nzValue="YEARLY" nzLabel="Năm"></nz-option>
                 </nz-select>
             </nz-form-control>
         </nz-form-item>
-    </ng-container>
+        <nz-form-item nz-col nzSpan="6" *ngIf="form.value.status === InvestStatus.COMPLETED">
+            <nz-form-label nzRequired><b>Giá chốt</b></nz-form-label>
+            <nz-form-control>
+                <nz-input-number formControlName="sellPrice" [nzMin]="0" [nzStep]="1000">
+                </nz-input-number>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
 
-    <nz-form-item>
-        <nz-form-label [nzSpan]="6">Ghi chú</nz-form-label>
-        <nz-form-control [nzSpan]="18">
-            <nz-input-group>
-                <textarea nz-input [nzAutosize]="{ minRows: 2 }" formControlName="note"></textarea>
-            </nz-input-group>
-        </nz-form-control>
-    </nz-form-item>
+    <div nz-row>
+        <nz-form-item nz-col nzSpan="24">
+            <nz-form-label>Ghi chú</nz-form-label>
+            <nz-form-control>
+                <nz-input-group>
+                    <textarea nz-input [nzAutosize]="{ minRows: 5 }" formControlName="note"></textarea>
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+    </div>
 
+    <nz-divider nzText="Tiêu chí" nzDashed></nz-divider>
     <nz-form-item *ngFor="let item of criteria; let i = index">
         <nz-form-control [nzXs]="24" [nzSm]="20" [nzOffset]="i === 0 ? 0 : 4"
             nzErrorTip="Please input passenger's name or delete this field.">
@@ -103,11 +171,12 @@
             <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button"></i>
         </nz-form-control>
     </nz-form-item>
+
     <nz-form-item>
-        <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
-            <button nz-button nzType="dashed" class="add-button">
+        <nz-form-control>
+            <button nz-button nzType="dashed" class="w-25 mx-auto d-block">
                 <i nz-icon nzType="plus"></i>
-                Add field
+                Thêm tiêu chí
             </button>
         </nz-form-control>
     </nz-form-item>

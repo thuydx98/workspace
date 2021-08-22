@@ -12,10 +12,10 @@ namespace JWS.Service.FundInvestments.ViewModels
         public string UpdateType { get; set; }
         public string Note { get; set; }
 
-        public double? CapitalPrice { get; set; }
-        public int? Amount { get; set; }
-        public double? BuyFeePercent { get; set; }
-        public double? SellFeePercent { get; set; }
+        public double CapitalPrice { get; set; }
+        public int Amount { get; set; }
+        public double BuyFeePercent { get; set; }
+        public double SellFeePercent { get; set; }
 
         public double? RevenuePercent { get; set; }
         public string RevenueCycle { get; set; }
@@ -23,5 +23,16 @@ namespace JWS.Service.FundInvestments.ViewModels
         public DateTime? FollowedAt { get; set; }
         public DateTime? InvestedAt { get; set; }
         public DateTime? CompletedAt { get; set; }
+
+        public double? TakeProfitPercent { get; set; }
+        public double? StopLossPercent { get; set; }
+        public double? TrailingStopLossPercent { get; set; }
+
+        public double MarketPrice { get; set; }
+        public double SellPrice { get; set; }
+
+        public double FinalProfit { get; set; }
+        public double TotalCapital { get; set; }
+        public double FinalProfitPercent { get; set; }
     }
 }

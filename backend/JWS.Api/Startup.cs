@@ -25,7 +25,7 @@ namespace JWS.Api
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                options.JsonSerializerOptions.Converters.Add(new JsonDateTimeStringConverter());
+                options.JsonSerializerOptions.Converters.Add(new JsonStringDateTimeConverter());
             });
         }
 

@@ -3,15 +3,17 @@ using System;
 using JWS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace JWS.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210822165031_UpdateInvestment")]
+    partial class UpdateInvestment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -160,9 +162,6 @@ namespace JWS.Data.Migrations
                     b.Property<double>("FinalProfit")
                         .HasColumnType("double precision");
 
-                    b.Property<double>("FinalProfitPercent")
-                        .HasColumnType("double precision");
-
                     b.Property<DateTime?>("FollowedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -200,9 +199,6 @@ namespace JWS.Data.Migrations
                         .HasColumnType("double precision");
 
                     b.Property<double?>("TakeProfitPercent")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("TotalCapital")
                         .HasColumnType("double precision");
 
                     b.Property<double?>("TrailingStopLossPercent")

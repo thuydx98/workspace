@@ -1,5 +1,5 @@
 ﻿using JWS.Contracts.ApiRoutes;
-using JWS.Service.FundInvestments.Commands.AddFundInvestment;
+using JWS.Service.FundInvestments.Commands.AddEditFundInvestment;
 using JWS.Service.FundInvestments.Queries.GetPagingListFundInvestment;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -23,10 +23,21 @@ namespace JWS.Api.Funds
         }
 
         [HttpPost(ApiRoutes.Funds.Investments.Add)]
-        public async Task<IActionResult> AddAsync([FromRoute] Guid fundId, [FromBody] AddFundInvestmentRequest request)
+        public async Task<IActionResult> AddAsync([FromRoute] Guid fundId, [FromBody] AddEditFundInvestmentRequest request)
         {
             request.UserId = UserId;
             request.FundId = fundId;
+            request.InvestmentId = null;
+
+            return await _mediator.Send(request);
+        }
+
+        [HttpPut(ApiRoutes.Funds.Investments.Edit)]
+        public async Task<IActionResult> EditAsync([FromRoute] Guid fundId, [FromRoute] Guid investmentId, [FromBody] AddEditFundInvestmentRequest request)
+        {
+            request.UserId = UserId;
+            request.FundId = fundId;
+            request.InvestmentId = investmentId;
 
             return await _mediator.Send(request);
         }

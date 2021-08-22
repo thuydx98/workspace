@@ -7,7 +7,7 @@ import * as StringHelper from 'src/app/common/helpers/string.helper';
 import { MomentHelper } from 'src/app/common/helpers/moment.helper';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { AddFundInvestModalComponent } from './add-fund-invest-modal/add-fund-invest-modal.component';
-import { InvestStatusList } from 'src/app/common/consts/assets/asset.const';
+import { InvestStatusList, InvestStatus } from 'src/app/common/consts/assets/asset.const';
 
 @Component({
 	selector: 'app-fund-invest',
@@ -21,6 +21,7 @@ export class FundInvestComponent implements OnInit {
 	totalCriteriaRange = [0, 0];
 	minCriteria: number = 0;
 	statusOptions = InvestStatusList;
+	InvestStatus = InvestStatus;
 
 	constructor(private route: ActivatedRoute, private modal: NzModalService, private fundInvestService: FundInvestService) {}
 
@@ -40,11 +41,13 @@ export class FundInvestComponent implements OnInit {
 		});
 	}
 
-	onAddInvestment(): void {
+	onAddEditInvestment(investment: FundInvestModel = null): void {
 		const modal = this.modal.create({
-			nzTitle: 'Tạo mới quỹ cá nhân',
+			nzTitle: 'Thêm lịch sử đầu tư',
+			nzWidth: 1400,
+			nzStyle: { top: '20px' },
 			nzContent: AddFundInvestModalComponent,
-			// nzViewContainerRef: this.viewContainerRef,
+			nzComponentParams: { investment },
 			nzFooter: [
 				{
 					label: 'Cancel',
@@ -55,12 +58,19 @@ export class FundInvestComponent implements OnInit {
 					type: 'primary',
 					disabled: (values) => values.form.invalid,
 					onClick: (values) =>
-						new Promise(() =>
-							this.fundInvestService.add(this.fundId, values.form.value).subscribe(() => {
-								this.getInvestments();
-								modal.destroy();
-							})
-						),
+						new Promise(() => {
+							if (investment) {
+								this.fundInvestService.update(this.fundId, investment.id, values.form.value).subscribe(() => {
+									this.getInvestments();
+									modal.destroy();
+								});
+							} else {
+								this.fundInvestService.add(this.fundId, values.form.value).subscribe(() => {
+									this.getInvestments();
+									modal.destroy();
+								});
+							}
+						}),
 				},
 			],
 		});

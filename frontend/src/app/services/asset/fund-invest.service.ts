@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { FundInvestModel, AddFundInvestModel } from 'src/app/models/asset/fund.model';
 import { ApiRoutes } from 'src/app/common/consts/api-route.const';
 import { PagingListModel } from 'src/app/models/app/paging-list.model';
+import { InvestStatus } from 'src/app/common/consts/assets/asset.const';
 
 @Injectable({
 	providedIn: 'root',
@@ -21,13 +22,17 @@ export class FundInvestService {
 	): Observable<PagingListModel<FundInvestModel>> {
 		return this.http
 			.get(
-				ApiRoutes.WorkSpaceApi.FundInvestments.replace('{fundId}', fundId) +
+				ApiRoutes.WorkSpaceApi.FundInvestments(fundId) +
 					`?page=${page}&size=${size}&minCriteria=${minCriteria}&statuses=${statuses.join(',')}`
 			)
 			.pipe(map((res: any) => res.result));
 	}
 
-	public add(fundId: string, FundInvest: AddFundInvestModel): Observable<FundInvestModel> {
-		return this.http.post(ApiRoutes.WorkSpaceApi.FundInvestments.replace('{fundId}', fundId), FundInvest).pipe(map((res: any) => res.result));
+	public add(fundId: string, fundInvest: AddFundInvestModel): Observable<FundInvestModel> {
+		return this.http.post(ApiRoutes.WorkSpaceApi.FundInvestments(fundId), fundInvest).pipe(map((res: any) => res.result));
+	}
+
+	public update(fundId: string, investmentId: string, fundInvest: AddFundInvestModel): Observable<FundInvestModel> {
+		return this.http.put(ApiRoutes.WorkSpaceApi.FundInvestments(fundId) + '/' + investmentId, fundInvest).pipe(map((res: any) => res.result));
 	}
 }
