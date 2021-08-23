@@ -25,14 +25,19 @@ namespace JWS.Service.Funds.Queries.GetFund
                     Id = n.Id,
                     Name = n.Name,
                     Type = n.Type.HasValue ? n.Type.ToString() : null,
-                    Total =
+                    Capital =
                         n.Histories.Where(n => n.Type == FundHistoryType.RECHARGE).Sum(n => n.Amount) -
                         n.Histories.Where(n => n.Type == FundHistoryType.WITHDRAW).Sum(n => n.Amount),
-                    Invest = 0,
-
+                    Reality =
+                        n.Histories.Where(n => n.Type == FundHistoryType.RECHARGE).Sum(n => n.Amount) -
+                        n.Histories.Where(n => n.Type == FundHistoryType.WITHDRAW).Sum(n => n.Amount) +
+                        n.Investments.Where(n => n.Status == FundInvestmentStatus.COMPLETED).Sum(n => n.FinalProfit),
+                    Invest = 
+                        n.Investments.Where(n => n.Status == FundInvestmentStatus.INVESTING).Sum(n => n.TotalCapital),
+                    RealityInvest =
+                        n.Investments.Where(n => n.Status == FundInvestmentStatus.INVESTING).Sum(n => n.TotalCapital + n.FinalProfit),
                 },
                 predicate: n => !n.IsDeleted && n.Id == request.FundId && n.UserId == request.UserId,
-                orderBy: n => n.OrderByDescending(o => o.CreatedAt),
                 cancellationToken: cancellationToken);
 
             return ApiResult.Succeeded(fund);

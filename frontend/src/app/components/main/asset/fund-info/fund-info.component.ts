@@ -13,9 +13,8 @@ import * as StringHelper from 'src/app/common/helpers/string.helper';
 })
 export class FundInfoComponent implements OnInit {
 	private fundId: string;
-	public fund: FundModel;
 
-	constructor(private route: ActivatedRoute, private routerService: RouterService, private fundService: FundService) {}
+	constructor(private route: ActivatedRoute, private routerService: RouterService, public fundService: FundService) {}
 
 	ngOnInit(): void {
 		this.route.params.subscribe((params) => {
@@ -29,9 +28,7 @@ export class FundInfoComponent implements OnInit {
 	}
 
 	private initData() {
-		this.fundService.get(this.fundId).subscribe((fund: FundModel) => {
-			this.fund = fund;
-		});
+		this.fundService.get(this.fundId).subscribe(() => {});
 	}
 
 	public onBack(): void {

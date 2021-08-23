@@ -8,9 +8,10 @@
 	<nz-breadcrumb-item>Fund information</nz-breadcrumb-item>
 </nz-breadcrumb>
 
-<nz-page-header class="fund-page" [nzTitle]="fund?.name" (nzBack)="onBack()" nzBackIcon>
-	<nz-page-header-tags *ngIf="fund?.type">
-		<nz-tag [nzColor]="'blue'">{{fund.type}}</nz-tag>
+<nz-page-header class="fund-page" [nzTitle]="fundService.fund?.name" (nzBack)="onBack()"
+	nzBackIcon>
+	<nz-page-header-tags *ngIf="fundService.fund?.type">
+		<nz-tag [nzColor]="'blue'">{{fundService.fund.type}}</nz-tag>
 	</nz-page-header-tags>
 
 	<nz-page-header-extra>
@@ -20,12 +21,32 @@
 
 	<nz-page-header-content>
 		<nz-row nzType="flex">
-			<nz-statistic nzTitle="Tổng tài sản" [nzValue]="formatMoney(fund?.total)" nzSuffix="đ"></nz-statistic>
-			<nz-statistic nzTitle="Vốn đầu tư" [nzValue]="formatMoney(fund?.total)" nzSuffix="đ" style="margin: 0 32px">
+			<nz-statistic nzTitle="Tổng vốn" [nzValue]="formatMoney(fundService.fund?.capital)" nzSuffix="đ">
 			</nz-statistic>
-			<nz-statistic nzTitle="Đang đầu tư" [nzValue]="formatMoney(fund?.invest)" nzSuffix="đ"
-				style="margin: 0 32px"></nz-statistic>
-			<nz-statistic nzTitle="Tiền nhàn rỗi" [nzValue]="formatMoney(fund?.balance)" nzSuffix="đ"
+
+			<nz-statistic [nzTitle]="reality" [nzValue]="formatMoney(fundService.fund?.reality)" nzSuffix="đ"
+				style="margin: 0 32px">
+			</nz-statistic>
+			<ng-template #reality>
+				Tổng tài sản
+				<span *ngIf="(fundService.fund?.reality / fundService.fund?.capital * 100 - 100) as value" nz-typography
+					[nzType]="value < 0 ? 'danger' : 'success'">
+					{{ value.toFixed(2)}} %
+				</span>
+			</ng-template>
+
+			<nz-statistic [nzTitle]="invest" [nzValue]="formatMoney(fundService.fund?.invest)" nzSuffix="đ"
+				style="margin: 0 32px">
+			</nz-statistic>
+			<ng-template #invest>
+				Đang đầu tư
+				<span *ngIf="(fundService.fund?.realityInvest / fundService.fund?.invest * 100 - 100) as value"
+					nz-typography [nzType]="value < 0 ? 'danger' : 'success'">
+					{{ value.toFixed(2)}} %
+				</span>
+			</ng-template>
+
+			<nz-statistic nzTitle="Tiền nhàn rỗi" [nzValue]="formatMoney(fundService.fund?.balance)" nzSuffix="đ"
 				style="margin: 0 32px"></nz-statistic>
 		</nz-row>
 

@@ -124,10 +124,10 @@ export class AssetComponent implements OnInit {
 	}
 
 	onDeleteFund(fund: FundModel) {
-		if (fund.total > 0) {
+		if (fund.capital > 0) {
 			this.modal.error({
 				nzTitle: 'Cannot delete this fund',
-				nzContent: 'Total money must be equal to 0. Current is ' + StringHelper.formatMoney(fund.total) + 'đ',
+				nzContent: 'Total money must be equal to 0. Current is ' + StringHelper.formatMoney(fund.capital) + 'đ',
 			});
 
 			return;
@@ -156,7 +156,7 @@ export class AssetComponent implements OnInit {
 	formatMoney = (moneyInput: number): string =>  StringHelper.formatMoney(moneyInput);
 
 	getPercent = (totalMoney: number): string => {
-		const total = this.funds.map((i) => i.total).reduce((a, b) => a + b, 0);
+		const total = this.funds.map((i) => i.capital).reduce((a, b) => a + b, 0);
 		if (total === 0) {
 			return '0 %';
 		}

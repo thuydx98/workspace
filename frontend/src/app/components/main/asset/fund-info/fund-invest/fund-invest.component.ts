@@ -8,6 +8,7 @@ import { MomentHelper } from 'src/app/common/helpers/moment.helper';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { AddFundInvestModalComponent } from './add-fund-invest-modal/add-fund-invest-modal.component';
 import { InvestStatusList, InvestStatus } from 'src/app/common/consts/assets/asset.const';
+import { FundService } from 'src/app/services/asset/fund.service';
 
 @Component({
 	selector: 'app-fund-invest',
@@ -23,7 +24,11 @@ export class FundInvestComponent implements OnInit {
 	statusOptions = InvestStatusList;
 	InvestStatus = InvestStatus;
 
-	constructor(private route: ActivatedRoute, private modal: NzModalService, private fundInvestService: FundInvestService) {}
+	constructor(
+		private route: ActivatedRoute, 
+		private modal: NzModalService, 
+		private fundService: FundService,
+		private fundInvestService: FundInvestService) {}
 
 	ngOnInit(): void {
 		this.route.params.subscribe((params) => {
@@ -62,11 +67,13 @@ export class FundInvestComponent implements OnInit {
 							if (investment) {
 								this.fundInvestService.update(this.fundId, investment.id, values.form.value).subscribe(() => {
 									this.getInvestments();
+									this.fundService.get(this.fundId).subscribe();
 									modal.destroy();
 								});
 							} else {
 								this.fundInvestService.add(this.fundId, values.form.value).subscribe(() => {
 									this.getInvestments();
+									this.fundService.get(this.fundId).subscribe();
 									modal.destroy();
 								});
 							}

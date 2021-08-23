@@ -38,7 +38,7 @@
 						[nzActions]="[actionSetting, actionIncome, actionSpend, actionDelete]">
 						<nz-skeleton [nzActive]="true" [nzLoading]="false" [nzAvatar]="{ size: 'large' }">
 							<nz-card-meta [nzAvatar]="avatarTemplate" nzTitle="{{ fund.name }}"
-								nzDescription="{{ formatMoney(fund.total) }} đ | {{ getPercent(fund.total) }}">
+								nzDescription="{{ formatMoney(fund.capital) }} đ | {{ getPercent(fund.capital) }}">
 							</nz-card-meta>
 						</nz-skeleton>
 					</nz-card>

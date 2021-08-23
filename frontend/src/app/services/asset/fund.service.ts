@@ -9,14 +9,20 @@ import { ApiRoutes } from 'src/app/common/consts/api-route.const';
 	providedIn: 'root',
 })
 export class FundService {
+	public fund: FundModel;
+
 	constructor(private http: HttpClient) {}
 
 	public getList(): Observable<FundModel[]> {
 		return this.http.get(ApiRoutes.WorkSpaceApi.Funds).pipe(map((res: any) => res.result));
 	}
 
-	public get(fundId: string): Observable<FundModel> {
-		return this.http.get(ApiRoutes.WorkSpaceApi.Funds + '/' + fundId).pipe(map((res: any) => res.result));
+	public get(fundId: string): Observable<void> {
+		return this.http.get(ApiRoutes.WorkSpaceApi.Funds + '/' + fundId).pipe(
+			map((res: any) => {
+				this.fund = res.result;
+			})
+		);
 	}
 
 	public add(fund: AddFundModel): Observable<FundModel> {

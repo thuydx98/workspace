@@ -95,6 +95,7 @@ namespace JWS.Service.FundInvestments.Commands.AddEditFundInvestment
                         investment.SellFeePercent / 100 * investment.SellPrice * investment.Amount;
 
                     investment.FinalProfit = investment.SellPrice * investment.Amount - investment.TotalCapital;
+                    investment.FinalProfitPercent = investment.FinalProfit / investment.TotalCapital * 100;
                 }
 
                 if (request.Status == FundInvestmentStatus.INVESTING)
@@ -105,9 +106,8 @@ namespace JWS.Service.FundInvestments.Commands.AddEditFundInvestment
                         investment.SellFeePercent / 100 * investment.MarketPrice * investment.Amount;
 
                     investment.FinalProfit = investment.MarketPrice * investment.Amount - investment.TotalCapital;
+                    investment.FinalProfitPercent = investment.FinalProfit / investment.TotalCapital * 100;
                 }
-
-                investment.FinalProfitPercent = investment.FinalProfit / investment.TotalCapital * 100;
 
                 if (request.InvestmentId.HasValue)
                 {

@@ -2,9 +2,11 @@ export class FundModel {
 	public id: string;
 	public name: string;
 	public type?: string;
-	public total?: number;
-	public invest?: number;
-	public balance?: number;
+	public capital: number;
+	public reality: number;
+	public invest: number;
+	public realityInvest: number;
+	public balance: number;
 }
 
 export class AddFundModel {
