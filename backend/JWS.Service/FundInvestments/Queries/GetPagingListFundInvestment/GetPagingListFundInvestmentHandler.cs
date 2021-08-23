@@ -31,7 +31,7 @@ namespace JWS.Service.FundInvestments.Queries.GetPagingListFundInvestment
             var funds = await _unitOfWork.GetRepository<FundInvestmentEntity>().GetPagingListAsync(
                 selector: n => _mapper.Map<FundInvestmentViewModel>(n),
                 predicate: predicate,
-                orderBy: n => n.OrderByDescending(o => o.CreatedAt),
+                orderBy: n => n.OrderBy(o => o.InvestedAt),
                 page: request.Page,
                 size: request.Size,
                 cancellationToken: cancellationToken);
