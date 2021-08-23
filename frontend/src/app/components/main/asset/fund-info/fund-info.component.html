@@ -21,10 +21,10 @@
 
 	<nz-page-header-content>
 		<nz-row nzType="flex">
-			<nz-statistic nzTitle="Tổng vốn" [nzValue]="formatMoney(fundService.fund?.capital)" nzSuffix="đ">
+			<nz-statistic nzTitle="Tổng vốn" [nzValue]="formatMoney(fundService.fund?.capital.toFixed(0))" nzSuffix="đ">
 			</nz-statistic>
 
-			<nz-statistic [nzTitle]="reality" [nzValue]="formatMoney(fundService.fund?.reality)" nzSuffix="đ"
+			<nz-statistic [nzTitle]="reality" [nzValue]="formatMoney(fundService.fund?.reality.toFixed(0))" nzSuffix="đ"
 				style="margin: 0 32px">
 			</nz-statistic>
 			<ng-template #reality>
@@ -35,7 +35,7 @@
 				</span>
 			</ng-template>
 
-			<nz-statistic [nzTitle]="invest" [nzValue]="formatMoney(fundService.fund?.invest)" nzSuffix="đ"
+			<nz-statistic [nzTitle]="invest" [nzValue]="formatMoney(fundService.fund?.invest.toFixed(0))" nzSuffix="đ"
 				style="margin: 0 32px">
 			</nz-statistic>
 			<ng-template #invest>
@@ -46,7 +46,7 @@
 				</span>
 			</ng-template>
 
-			<nz-statistic nzTitle="Tiền nhàn rỗi" [nzValue]="formatMoney(fundService.fund?.balance)" nzSuffix="đ"
+			<nz-statistic nzTitle="Tiền nhàn rỗi" [nzValue]="formatMoney(fundService.fund?.balance.toFixed(0))" nzSuffix="đ"
 				style="margin: 0 32px"></nz-statistic>
 		</nz-row>
 

@@ -35,5 +35,5 @@ export class FundInfoComponent implements OnInit {
 		this.routerService.navigate(WsRoutes.Assets);
 	}
 
-	formatMoney = (moneyInput: number): string => StringHelper.formatMoney(moneyInput);
+	formatMoney = (moneyInput: number | string): string => StringHelper.formatMoney(moneyInput);
 }
