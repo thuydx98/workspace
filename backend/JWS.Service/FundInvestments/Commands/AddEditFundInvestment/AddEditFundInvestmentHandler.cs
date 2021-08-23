@@ -91,22 +91,28 @@ namespace JWS.Service.FundInvestments.Commands.AddEditFundInvestment
 
                     investment.TotalCapital =
                         investment.CapitalPrice * investment.Amount +
-                        investment.BuyFeePercent / 100 * investment.CapitalPrice * investment.Amount +
+                        investment.BuyFeePercent / 100 * investment.CapitalPrice * investment.Amount;
+
+                    var totalSellFeeAndCapital =
+                        investment.TotalCapital +
                         investment.SellFeePercent / 100 * investment.SellPrice * investment.Amount;
 
-                    investment.FinalProfit = investment.SellPrice * investment.Amount - investment.TotalCapital;
-                    investment.FinalProfitPercent = investment.FinalProfit / investment.TotalCapital * 100;
+                    investment.FinalProfit = investment.SellPrice * investment.Amount - totalSellFeeAndCapital;
+                    investment.FinalProfitPercent = investment.FinalProfit / totalSellFeeAndCapital * 100;
                 }
 
                 if (request.Status == FundInvestmentStatus.INVESTING)
                 {
                     investment.TotalCapital =
                         investment.CapitalPrice * investment.Amount +
-                        investment.BuyFeePercent / 100 * investment.CapitalPrice * investment.Amount +
+                        investment.BuyFeePercent / 100 * investment.CapitalPrice * investment.Amount;
+
+                    var totalSellFeeAndCapital =
+                        investment.TotalCapital +
                         investment.SellFeePercent / 100 * investment.MarketPrice * investment.Amount;
 
-                    investment.FinalProfit = investment.MarketPrice * investment.Amount - investment.TotalCapital;
-                    investment.FinalProfitPercent = investment.FinalProfit / investment.TotalCapital * 100;
+                    investment.FinalProfit = investment.MarketPrice * investment.Amount - totalSellFeeAndCapital;
+                    investment.FinalProfitPercent = investment.FinalProfit / totalSellFeeAndCapital * 100;
                 }
 
                 if (request.InvestmentId.HasValue)
