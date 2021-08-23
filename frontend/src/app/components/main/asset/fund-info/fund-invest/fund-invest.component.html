@@ -62,21 +62,23 @@
                     <td class="text-center">
                         <span nz-typography *ngIf="data.status !== InvestStatus.COMPLETED"
                             [nzType]="data.finalProfitPercent > 0 ? 'success' : data.finalProfitPercent == 0 ? 'warning' : 'danger'">
-                            <b>{{ data.finalProfitPercent.toFixed(3) }}% </b><br />
-                            {{ formatMoney(data.finalProfit) }}
+                            <b>{{ data.finalProfitPercent.toFixed(2) }}% </b><br />
+                            {{ formatMoney(data.finalProfit.toFixed(0)) }}
                         </span>
                         <span *ngIf="data.status === InvestStatus.COMPLETED">-</span>
                     </td>
 
-                    <td class="text-center">
+                    <td class="text-center" nz-typography
+                        [nzType]="data.stopLossPercent >= data.finalProfitPercent ? 'danger' : 'secondary'">
                         -{{ data.stopLossPercent }}% <br />
                         <b>{{ formatMoney(+(data.capitalPrice * (1 - data.stopLossPercent / 100)).toFixed(0)) }}</b>
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" nz-typography
+                        [nzType]="data.finalProfitPercent >= data.takeProfitPercent ? 'success' : 'secondary'">
                         +{{ data.takeProfitPercent }}% <br />
                         <b>{{ formatMoney(+(data.capitalPrice * (1 + data.takeProfitPercent / 100)).toFixed(0)) }}</b>
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" nz-typography nzType="secondary">
                         -{{ data.trailingStopLossPercent }}% <br />
                         <b>
                             {{ formatMoney(+(data.marketPrice * (1 - data.trailingStopLossPercent / 100)).toFixed(0)) }}
@@ -90,8 +92,8 @@
                     <td class="text-center">
                         <span *ngIf="data.status === InvestStatus.COMPLETED" nz-typography
                             [nzType]="data.finalProfitPercent > 0 ? 'success' : data.finalProfitPercent == 0 ? 'warning' : 'danger'">
-                            <b>{{ data.finalProfitPercent.toFixed(3) }}% </b><br />
-                            {{ formatMoney(data.finalProfit) }}
+                            <b>{{ data.finalProfitPercent.toFixed(2) }}% </b><br />
+                            {{ formatMoney(data.finalProfit.toFixed(0)) }}
                         </span>
                         <span *ngIf="data.status !== InvestStatus.COMPLETED">-</span>
                     </td>

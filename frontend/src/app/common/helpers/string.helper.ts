@@ -1,4 +1,4 @@
-export const formatMoney = (input: number): string => {
+export const formatMoney = (input: number | string): string => {
 	if (!input) {
 		return '0';
 	}

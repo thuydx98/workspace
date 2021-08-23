@@ -78,5 +78,5 @@ export class FundInvestComponent implements OnInit {
 
 	formatDateTime = (dateInput: any): string => MomentHelper.formatDateTime(dateInput);
 
-	formatMoney = (moneyInput: number): string => StringHelper.formatMoney(moneyInput);
+	formatMoney = (moneyInput: number | string): string => StringHelper.formatMoney(moneyInput);
 }
