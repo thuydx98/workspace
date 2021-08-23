@@ -69,7 +69,7 @@
                     </td>
 
                     <td class="text-center" nz-typography
-                        [nzType]="data.stopLossPercent >= data.finalProfitPercent ? 'danger' : 'secondary'">
+                        [nzType]="data.finalProfitPercent <= -data.stopLossPercent ? 'danger' : 'secondary'">
                         -{{ data.stopLossPercent }}% <br />
                         <b>{{ formatMoney(+(data.capitalPrice * (1 - data.stopLossPercent / 100)).toFixed(0)) }}</b>
                     </td>
