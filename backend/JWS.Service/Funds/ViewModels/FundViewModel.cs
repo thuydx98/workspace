@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JWS.Service.FundCriteria.ViewModels;
+using System;
 
 namespace JWS.Service.Funds.ViewModels
 {
@@ -15,5 +16,7 @@ namespace JWS.Service.Funds.ViewModels
         public double RealityInvest { get; set; }
 
         public double Balance => this.Reality - this.Invest;
+
+        public FundCriteriaViewModel[] Criteries { get; set; }
     }
 }

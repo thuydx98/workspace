@@ -10,6 +10,7 @@ namespace JWS.Data.Entities
         {
             Histories = new HashSet<FundHistoryEntity>();
             Investments = new HashSet<FundInvestmentEntity>();
+            Criterias = new HashSet<FundCriteriaEntity>();
         }
 
         public Guid Id { get; set; }
@@ -25,6 +26,7 @@ namespace JWS.Data.Entities
 
         public virtual ICollection<FundHistoryEntity> Histories { get; set; }
         public virtual ICollection<FundInvestmentEntity> Investments { get; set; }
+        public virtual ICollection<FundCriteriaEntity> Criterias { get; set; }
     }
 
     public enum FundType

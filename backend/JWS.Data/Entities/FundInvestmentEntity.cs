@@ -1,10 +1,16 @@
 ﻿using JWS.Contracts.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace JWS.Data.Entities
 {
     public partial class FundInvestmentEntity : IBaseEntity<Guid>, ICreatedEntity, IUpdatedEntity
     {
+        public FundInvestmentEntity()
+        {
+            InvestmentCriteries = new HashSet<FundInvestmentFundCriteriaEntity>();
+        }
+
         public Guid Id { get; set; }
         public Guid FundId { get; set; }
         public string Name { get; set; }
@@ -41,6 +47,8 @@ namespace JWS.Data.Entities
         public string UpdatedBy { get; set; }
 
         public virtual FundEntity Fund { get; set; }
+
+        public virtual ICollection<FundInvestmentFundCriteriaEntity> InvestmentCriteries { get; set; }
     }
 
     public enum FundInvestmentStatus

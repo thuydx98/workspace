@@ -11,9 +11,11 @@ namespace JWS.Data
 
         #region Tables
         public virtual DbSet<AssetEntity> Assets { get; set; }
+        public virtual DbSet<FundCriteriaEntity> FundCriterias { get; set; }
         public virtual DbSet<FundEntity> Funds { get; set; }
         public virtual DbSet<FundHistoryEntity> FundHistories { get; set; }
         public virtual DbSet<FundInvestmentEntity> FundInvestments { get; set; }
+        public virtual DbSet<FundInvestmentFundCriteriaEntity> FundInvestmentsFundCriterias { get; set; }
         public virtual DbSet<UserEntity> Users { get; set; }
         #endregion
 
@@ -28,6 +30,16 @@ namespace JWS.Data
                 entity.Property(p => p.Type).HasConversion(new EnumToStringConverter<AssetType>());
             });
 
+            builder.Entity<FundCriteriaEntity>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.HasOne(e => e.Fund)
+                      .WithMany(e => e.Criterias)
+                      .HasForeignKey(e => e.FundId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
             builder.Entity<FundEntity>(entity =>
             {
                 entity.HasKey(e => e.Id);
@@ -39,6 +51,8 @@ namespace JWS.Data
             {
                 entity.HasKey(e => e.Id);
 
+                entity.Property(p => p.Type).HasConversion(new EnumToStringConverter<FundHistoryType>());
+
                 entity.HasOne(e => e.Fund)
                       .WithMany(e => e.Histories)
                       .HasForeignKey(e => e.FundId)
@@ -49,9 +63,32 @@ namespace JWS.Data
             {
                 entity.HasKey(e => e.Id);
 
+                entity.Property(p => p.Status).HasConversion(new EnumToStringConverter<FundInvestmentStatus>());
+
+                entity.Property(p => p.UpdateType).HasConversion(new EnumToStringConverter<FundInvestmentUpdateType>());
+
+                entity.Property(p => p.RevenueCycle).HasConversion(new EnumToStringConverter<FundInvestmentRevenueCycle>());
+
                 entity.HasOne(e => e.Fund)
                       .WithMany(e => e.Investments)
                       .HasForeignKey(e => e.FundId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<FundInvestmentFundCriteriaEntity>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.HasIndex(e => new { e.CriteriaId, e.InvestmentId });
+
+                entity.HasOne(e => e.Criteria)
+                      .WithMany(e => e.InvestmentCriteries)
+                      .HasForeignKey(e => e.CriteriaId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(e => e.Investment)
+                      .WithMany(e => e.InvestmentCriteries)
+                      .HasForeignKey(e => e.InvestmentId)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 

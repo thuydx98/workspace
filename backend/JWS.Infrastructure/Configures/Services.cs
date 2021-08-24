@@ -1,6 +1,8 @@
 ﻿using JWS.Service.Assets.Commands.AddAsset;
 using JWS.Service.Assets.Queries.GetOverview;
 using JWS.Service.Assets.Queries.GetPagingListAsset;
+using JWS.Service.FundCriteria.Commands.AddEditFundCriteria;
+using JWS.Service.FundCriteria.Commands.DeleteFundCriteria;
 using JWS.Service.FundHistories.Commands.AddFundHistory;
 using JWS.Service.FundHistories.Queries.GetPagingListFundHistory;
 using JWS.Service.FundInvestments.Commands.AddEditFundInvestment;
@@ -15,9 +17,9 @@ using Microsoft.Extensions.DependencyInjection;
 namespace JWS.Infrastructure.Configures
 {
     public static class Services
-	{
-		public static IServiceCollection AddServices(this IServiceCollection services)
-		{
+    {
+        public static IServiceCollection AddServices(this IServiceCollection services)
+        {
             #region Assets
             services.AddService<GetOverviewRequest, GetOverviewHandler>();
             services.AddService<GetPagingListAssetRequest, GetPagingListAssetHandler>();
@@ -42,7 +44,12 @@ namespace JWS.Infrastructure.Configures
             services.AddService<AddEditFundInvestmentRequest, AddEditFundInvestmentHandler>();
             #endregion
 
+            #region Fund Criteries
+            services.AddService<AddEditFundCriteriaRequest, AddEditFundCriteriaHandler>();
+            services.AddService<DeleteFundCriteriaRequest, DeleteFundCriteriaHandler>();
+            #endregion
+
             return services;
-		}
-	}
+        }
+    }
 }

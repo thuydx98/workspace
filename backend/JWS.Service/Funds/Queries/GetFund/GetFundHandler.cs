@@ -1,6 +1,8 @@
-﻿using JWS.Common.ApiResponse;
+﻿using AutoMapper;
+using JWS.Common.ApiResponse;
 using JWS.Contracts.EntityFramework;
 using JWS.Data.Entities;
+using JWS.Service.FundCriteria.ViewModels;
 using JWS.Service.Funds.ViewModels;
 using MediatR;
 using System.Linq;
@@ -12,9 +14,12 @@ namespace JWS.Service.Funds.Queries.GetFund
     public class GetFundHandler : IRequestHandler<GetFundRequest, ApiResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        public GetFundHandler(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+
+        public GetFundHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<ApiResult> Handle(GetFundRequest request, CancellationToken cancellationToken)
@@ -36,6 +41,8 @@ namespace JWS.Service.Funds.Queries.GetFund
                         n.Investments.Where(n => n.Status == FundInvestmentStatus.INVESTING).Sum(n => n.TotalCapital),
                     RealityInvest =
                         n.Investments.Where(n => n.Status == FundInvestmentStatus.INVESTING).Sum(n => n.TotalCapital + n.FinalProfit),
+
+                    Criteries = n.Criterias.Select(s => _mapper.Map<FundCriteriaViewModel>(s)).ToArray(),
                 },
                 predicate: n => !n.IsDeleted && n.Id == request.FundId && n.UserId == request.UserId,
                 cancellationToken: cancellationToken);
