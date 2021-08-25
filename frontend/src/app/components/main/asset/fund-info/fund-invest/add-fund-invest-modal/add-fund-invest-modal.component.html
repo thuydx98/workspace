@@ -163,21 +163,18 @@
     </div>
 
     <nz-divider nzText="Tiêu chí" nzDashed></nz-divider>
-    <nz-form-item *ngFor="let item of criteria; let i = index">
-        <nz-form-control [nzXs]="24" [nzSm]="20" [nzOffset]="i === 0 ? 0 : 4"
-            nzErrorTip="Please input passenger's name or delete this field.">
-            <input class="passenger-input" nz-input placeholder="placeholder" [attr.id]="item.id"
-                [formControlName]="item.controlInstance" />
-            <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button"></i>
-        </nz-form-control>
-    </nz-form-item>
 
-    <nz-form-item>
-        <nz-form-control>
-            <button nz-button nzType="dashed" class="w-25 mx-auto d-block">
-                <i nz-icon nzType="plus"></i>
-                Thêm tiêu chí
-            </button>
-        </nz-form-control>
-    </nz-form-item>
+    <nz-row>
+        <nz-col nzSpan="6" *ngFor="let item of criterias" class="mb-3">
+            <label nz-checkbox [(ngModel)]="item.checked" (ngModelChange)="onSelectCriteria()"
+                [ngModelOptions]="{standalone: true}">
+                {{item.name}}
+            </label>
+        </nz-col>
+    </nz-row>
+
+    <button nz-button nzType="dashed" class="w-25 mt-4 mx-auto d-block" (click)="onAddEditCriteria()">
+        <i nz-icon nzType="plus"></i>
+        Thêm tiêu chí
+    </button>
 </form>

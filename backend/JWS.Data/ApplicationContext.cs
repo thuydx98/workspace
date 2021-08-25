@@ -82,12 +82,12 @@ namespace JWS.Data
                 entity.HasIndex(e => new { e.CriteriaId, e.InvestmentId });
 
                 entity.HasOne(e => e.Criteria)
-                      .WithMany(e => e.InvestmentCriteries)
+                      .WithMany(e => e.InvestmentCriterias)
                       .HasForeignKey(e => e.CriteriaId)
                       .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.Investment)
-                      .WithMany(e => e.InvestmentCriteries)
+                      .WithMany(e => e.InvestmentCriterias)
                       .HasForeignKey(e => e.InvestmentId)
                       .OnDelete(DeleteBehavior.Cascade);
             });

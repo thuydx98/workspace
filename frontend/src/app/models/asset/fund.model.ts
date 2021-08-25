@@ -1,3 +1,4 @@
+import { FundCriteriaModel } from './criteria.model';
 export class FundModel {
 	public id: string;
 	public name: string;
@@ -7,6 +8,7 @@ export class FundModel {
 	public invest: number;
 	public realityInvest: number;
 	public balance: number;
+	public criterias: FundCriteriaModel[] = [];
 }
 
 export class AddFundModel {
@@ -59,6 +61,8 @@ export class FundInvestModel {
 	public stopLossPercent: number;
 	public takeProfitPercent: number;
 	public trailingStopLossPercent: number;
+
+	public criterias: string[] = [];
 }
 
 export class AddFundInvestModel {}

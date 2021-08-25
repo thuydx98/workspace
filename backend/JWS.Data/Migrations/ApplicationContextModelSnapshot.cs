@@ -350,13 +350,13 @@ namespace JWS.Data.Migrations
             modelBuilder.Entity("JWS.Data.Entities.FundInvestmentFundCriteriaEntity", b =>
                 {
                     b.HasOne("JWS.Data.Entities.FundCriteriaEntity", "Criteria")
-                        .WithMany("InvestmentCriteries")
+                        .WithMany("InvestmentCriterias")
                         .HasForeignKey("CriteriaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("JWS.Data.Entities.FundInvestmentEntity", "Investment")
-                        .WithMany("InvestmentCriteries")
+                        .WithMany("InvestmentCriterias")
                         .HasForeignKey("InvestmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -368,7 +368,7 @@ namespace JWS.Data.Migrations
 
             modelBuilder.Entity("JWS.Data.Entities.FundCriteriaEntity", b =>
                 {
-                    b.Navigation("InvestmentCriteries");
+                    b.Navigation("InvestmentCriterias");
                 });
 
             modelBuilder.Entity("JWS.Data.Entities.FundEntity", b =>
@@ -382,7 +382,7 @@ namespace JWS.Data.Migrations
 
             modelBuilder.Entity("JWS.Data.Entities.FundInvestmentEntity", b =>
                 {
-                    b.Navigation("InvestmentCriteries");
+                    b.Navigation("InvestmentCriterias");
                 });
 #pragma warning restore 612, 618
         }

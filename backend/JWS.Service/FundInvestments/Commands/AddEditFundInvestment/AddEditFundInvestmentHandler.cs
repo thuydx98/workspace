@@ -5,8 +5,10 @@ using JWS.Contracts.EntityFramework;
 using JWS.Data.Entities;
 using JWS.Service.FundInvestments.ViewModels;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,6 +37,8 @@ namespace JWS.Service.FundInvestments.Commands.AddEditFundInvestment
                 {
                     investment = await _unitOfWork.GetRepository<FundInvestmentEntity>().SingleOrDefaultAsync(
                         predicate: n => n.Id == request.InvestmentId && n.FundId == request.FundId && n.Fund.UserId == request.UserId,
+                        include: n => n.Include(i => i.InvestmentCriterias),
+                        asNoTracking: false,
                         cancellationToken: cancellationToken);
 
                     if (investment == null)
@@ -114,6 +118,17 @@ namespace JWS.Service.FundInvestments.Commands.AddEditFundInvestment
                     investment.FinalProfit = investment.MarketPrice * investment.Amount - totalSellFeeAndCapital;
                     investment.FinalProfitPercent = investment.FinalProfit / totalSellFeeAndCapital * 100;
                 }
+
+                if (request.InvestmentId.HasValue)
+                {
+                    _unitOfWork.GetRepository<FundInvestmentFundCriteriaEntity>().Delete(investment.InvestmentCriterias);
+                }
+
+                investment.InvestmentCriterias = request.Criterias.Select(criteriaId => new FundInvestmentFundCriteriaEntity
+                {
+                    CriteriaId = criteriaId
+                })
+                .ToList();
 
                 if (request.InvestmentId.HasValue)
                 {

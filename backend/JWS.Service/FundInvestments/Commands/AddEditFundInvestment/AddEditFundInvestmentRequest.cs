@@ -21,6 +21,7 @@ namespace JWS.Service.FundInvestments.Commands.AddEditFundInvestment
         public FundInvestmentUpdateType UpdateType { get; set; }
         public DateTime? FollowedAt { get; set; }
         public string Note { get; set; }
+        public Guid[] Criterias { get; set; } = Array.Empty<Guid>();
 
         public double? CapitalPrice { get; set; }
         public DateTime? InvestedAt { get; set; }

@@ -6,6 +6,7 @@ import { NgZorroModule } from '../../commons/ng-zorro.module';
 import { AssetRoutingModule } from './asset.routing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {FormsModule } from '@angular/forms';
+import { CommonComponentModule } from '../../commons/common.component.module';
 
 const COMPONENTS: any[] = [
   fromAsset.AssetComponent,
@@ -25,6 +26,7 @@ const COMPONENTS: any[] = [
     ReactiveFormsModule,
     AssetRoutingModule,
     NgZorroModule,
+    CommonComponentModule,
   ],
 })
 export class AssetModule {}

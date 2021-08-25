@@ -1,5 +1,4 @@
-﻿using JWS.Data.Entities;
-using System;
+﻿using System;
 
 namespace JWS.Service.FundInvestments.ViewModels
 {
@@ -11,6 +10,7 @@ namespace JWS.Service.FundInvestments.ViewModels
         public string Status { get; set; }
         public string UpdateType { get; set; }
         public string Note { get; set; }
+        public Guid[] Criterias { get; set; }
 
         public double CapitalPrice { get; set; }
         public int Amount { get; set; }

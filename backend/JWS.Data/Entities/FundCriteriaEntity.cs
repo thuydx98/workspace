@@ -8,7 +8,7 @@ namespace JWS.Data.Entities
     {
         public FundCriteriaEntity()
         {
-            InvestmentCriteries = new HashSet<FundInvestmentFundCriteriaEntity>();
+            InvestmentCriterias = new HashSet<FundInvestmentFundCriteriaEntity>();
         }
 
         public Guid Id { get; set; }
@@ -24,6 +24,6 @@ namespace JWS.Data.Entities
 
         public virtual FundEntity Fund { get; set; }
 
-        public virtual ICollection<FundInvestmentFundCriteriaEntity> InvestmentCriteries { get; set; }
+        public virtual ICollection<FundInvestmentFundCriteriaEntity> InvestmentCriterias { get; set; }
     }
 }

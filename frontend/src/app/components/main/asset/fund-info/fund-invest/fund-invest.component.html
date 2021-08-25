@@ -27,8 +27,8 @@
                     <th>Thời gian</th>
                     <th>Khối lượng</th>
                     <th nz-typography nzType="danger">Giá mua</th>
-                    <th nz-typography nzType="danger">Giá t.trường</th>
-                    <th class="text-center">Lãi/lỗ tạm tính</th>
+                    <th *ngIf="!isCompletedOnly" nz-typography nzType="danger">Giá t.trường</th>
+                    <th *ngIf="!isCompletedOnly" class="text-center">Lãi/lỗ tạm tính</th>
                     <th class="text-center">Cắt lỗ</th>
                     <th class="text-center">Chốt lãi</th>
                     <th class="text-center">Chốt lãi từ đỉnh</th>
@@ -53,13 +53,13 @@
                     </td>
                     <td>{{ formatMoney(data.amount) }}</td>
                     <td>{{ formatMoney(data.capitalPrice) }}</td>
-                    <td>
+                    <td *ngIf="!isCompletedOnly">
                         <span *ngIf="data.status !== InvestStatus.COMPLETED">
                             {{ formatMoney(data.marketPrice) }}
                         </span>
                         <span *ngIf="data.status === InvestStatus.COMPLETED">-</span>
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" *ngIf="!isCompletedOnly">
                         <span nz-typography *ngIf="data.status !== InvestStatus.COMPLETED"
                             [nzType]="data.finalProfitPercent > 0 ? 'success' : data.finalProfitPercent == 0 ? 'warning' : 'danger'">
                             <b>{{ data.finalProfitPercent.toFixed(2) }}% </b><br />

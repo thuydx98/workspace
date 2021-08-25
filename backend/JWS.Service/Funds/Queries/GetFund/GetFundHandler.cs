@@ -42,7 +42,7 @@ namespace JWS.Service.Funds.Queries.GetFund
                     RealityInvest =
                         n.Investments.Where(n => n.Status == FundInvestmentStatus.INVESTING).Sum(n => n.TotalCapital + n.FinalProfit),
 
-                    Criteries = n.Criterias.Select(s => _mapper.Map<FundCriteriaViewModel>(s)).ToArray(),
+                    Criterias = n.Criterias.OrderBy(o => o.Name).Select(s => _mapper.Map<FundCriteriaViewModel>(s)).ToArray(),
                 },
                 predicate: n => !n.IsDeleted && n.Id == request.FundId && n.UserId == request.UserId,
                 cancellationToken: cancellationToken);

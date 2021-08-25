@@ -5,6 +5,7 @@ using JWS.Contracts.EntityFramework;
 using JWS.Data.Entities;
 using JWS.Service.FundInvestments.ViewModels;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -32,6 +33,7 @@ namespace JWS.Service.FundInvestments.Queries.GetPagingListFundInvestment
                 selector: n => _mapper.Map<FundInvestmentViewModel>(n),
                 predicate: predicate,
                 orderBy: n => n.OrderBy(o => o.InvestedAt),
+                include: n => n.Include(i => i.InvestmentCriterias),
                 page: request.Page,
                 size: request.Size,
                 cancellationToken: cancellationToken);

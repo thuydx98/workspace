@@ -17,6 +17,6 @@ namespace JWS.Service.Funds.ViewModels
 
         public double Balance => this.Reality - this.Invest;
 
-        public FundCriteriaViewModel[] Criteries { get; set; }
+        public FundCriteriaViewModel[] Criterias { get; set; }
     }
 }

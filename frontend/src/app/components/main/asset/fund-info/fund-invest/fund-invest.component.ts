@@ -24,11 +24,15 @@ export class FundInvestComponent implements OnInit {
 	statusOptions = InvestStatusList;
 	InvestStatus = InvestStatus;
 
+	isCompletedOnly =
+		this.statusOptions.filter((i) => i.checked).length == 1 && this.statusOptions.filter((i) => i.checked)[0].value === InvestStatus.COMPLETED;
+
 	constructor(
-		private route: ActivatedRoute, 
-		private modal: NzModalService, 
+		private route: ActivatedRoute,
+		private modal: NzModalService,
 		private fundService: FundService,
-		private fundInvestService: FundInvestService) {}
+		private fundInvestService: FundInvestService
+	) {}
 
 	ngOnInit(): void {
 		this.route.params.subscribe((params) => {
@@ -52,7 +56,7 @@ export class FundInvestComponent implements OnInit {
 			nzWidth: 1400,
 			nzStyle: { top: '20px' },
 			nzContent: AddFundInvestModalComponent,
-			nzComponentParams: { investment },
+			nzComponentParams: { investment, fundId: this.fundId, criterias: this.fundService.fund?.criterias },
 			nzFooter: [
 				{
 					label: 'Cancel',

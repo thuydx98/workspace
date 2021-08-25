@@ -40,6 +40,7 @@ namespace JWS.Service.FundCriteria.Commands.AddEditFundCriteria
             criteria ??= new FundCriteriaEntity();
 
             criteria.Name = request.Name;
+            criteria.FundId = request.FundId;
 
             if (request.CriteriaId.HasValue)
             {
