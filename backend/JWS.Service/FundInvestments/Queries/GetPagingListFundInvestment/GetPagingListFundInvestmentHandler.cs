@@ -47,7 +47,7 @@ namespace JWS.Service.FundInvestments.Queries.GetPagingListFundInvestment
 
 			if (request.MinCriteria.HasValue)
 			{
-				filterQuery = filterQuery.AndAlso(p => true);
+				filterQuery = filterQuery.AndAlso(p => p.InvestmentCriterias.Count() >= request.MinCriteria);
 			}
 
 			if (request.Statuses.IsNotEmpty())

@@ -12,7 +12,7 @@ import * as StringHelper from 'src/app/common/helpers/string.helper';
 	styleUrls: ['./fund-info.component.scss'],
 })
 export class FundInfoComponent implements OnInit {
-	private fundId: string;
+	fundId: string;
 
 	constructor(private route: ActivatedRoute, private routerService: RouterService, public fundService: FundService) {}
 

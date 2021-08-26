@@ -8,9 +8,11 @@
 	<nz-breadcrumb-item>Fund information</nz-breadcrumb-item>
 </nz-breadcrumb>
 
-<nz-page-header class="fund-page" [nzTitle]="fundService.fund?.name" (nzBack)="onBack()"
-	nzBackIcon>
-	<nz-page-header-tags *ngIf="fundService.fund?.type">
+<nz-skeleton [nzActive]="true" *ngIf="!fundService.fund || fundService.fund.id !== fundId" class="mt-4"></nz-skeleton>
+
+<nz-page-header *ngIf="fundService.fund && fundService.fund.id === fundId" class="fund-page"
+	[nzTitle]="fundService.fund.name" (nzBack)="onBack()" nzBackIcon>
+	<nz-page-header-tags *ngIf="fundService.fund.type">
 		<nz-tag [nzColor]="'blue'">{{fundService.fund.type}}</nz-tag>
 	</nz-page-header-tags>
 
@@ -21,37 +23,47 @@
 
 	<nz-page-header-content>
 		<nz-row nzType="flex">
-			<nz-statistic nzTitle="Tổng vốn" [nzValue]="formatMoney(fundService.fund?.capital.toFixed(0))" nzSuffix="đ">
+			<nz-statistic nzTitle="Tổng vốn" [nzValue]="formatMoney(fundService.fund.capital.toFixed(0))" nzSuffix="đ">
 			</nz-statistic>
 
-			<nz-statistic [nzTitle]="reality" [nzValue]="formatMoney(fundService.fund?.reality.toFixed(0))" nzSuffix="đ"
+			<nz-statistic [nzTitle]="reality" [nzValue]="formatMoney(fundService.fund.reality.toFixed(0))" nzSuffix="đ"
 				style="margin: 0 32px">
 			</nz-statistic>
 			<ng-template #reality>
 				Tổng tài sản
-				<span *ngIf="(fundService.fund?.reality / fundService.fund?.capital * 100 - 100) as value" nz-typography
-					[nzType]="value < 0 ? 'danger' : 'success'">
+				<span *ngIf="(fundService.fund.reality / fundService.fund.capital * 100 - 100) as value" nz-typography
+					[nzType]="value < 0 ? 'danger' : 'success'" nz-tooltip
+					[nzTooltipTitle]="formatMoney((fundService.fund.reality - fundService.fund.capital).toFixed(0)) + ' đ'">
 					{{ value.toFixed(2)}} %
 				</span>
 			</ng-template>
 
-			<nz-statistic [nzTitle]="invest" [nzValue]="formatMoney(fundService.fund?.invest.toFixed(0))" nzSuffix="đ"
-				style="margin: 0 32px">
+			<nz-statistic nzTitle="Vốn đang đầu tư" [nzValue]="formatMoney(fundService.fund.invest.toFixed(0))"
+				nzSuffix="đ" style="margin: 0 32px">
 			</nz-statistic>
-			<ng-template #invest>
-				Đang đầu tư
-				<span *ngIf="(fundService.fund?.realityInvest / fundService.fund?.invest * 100 - 100) as value"
-					nz-typography [nzType]="value < 0 ? 'danger' : 'success'">
+
+			<nz-statistic [nzTitle]="realityInvest" [nzValue]="formatMoney(fundService.fund.realityInvest.toFixed(0))"
+				nzSuffix="đ" style="margin: 0 32px">
+			</nz-statistic>
+			<ng-template #realityInvest>
+				Lãi/lỗ tạm tính
+				<span *ngIf="(fundService.fund.realityInvest / fundService.fund.invest * 100 - 100) as value"
+					nz-typography [nzType]="value < 0 ? 'danger' : 'success'" nz-tooltip
+					[nzTooltipTitle]="formatMoney((fundService.fund.realityInvest - fundService.fund.invest).toFixed(0)) + ' đ'">
 					{{ value.toFixed(2)}} %
 				</span>
 			</ng-template>
 
-			<nz-statistic nzTitle="Tiền nhàn rỗi" [nzValue]="formatMoney(fundService.fund?.balance.toFixed(0))" nzSuffix="đ"
-				style="margin: 0 32px"></nz-statistic>
+			<nz-statistic nzTitle="Tiền nhàn rỗi" [nzValue]="formatMoney(fundService.fund.balance.toFixed(0))"
+				nzSuffix="đ" style="margin: 0 32px"></nz-statistic>
 		</nz-row>
 
 		<nz-tabset nzCentered class="mt-4">
-			<nz-tab nzTitle="Tổng quan">Biểu đồ tăng trưởng, nạp rút</nz-tab>
+			<nz-tab nzTitle="Tổng quan">
+				<ng-template nz-tab>
+					Biểu đồ tăng trưởng, nạp rút
+				</ng-template>
+			</nz-tab>
 			<nz-tab nzTitle="Chi tiết đầu tư">
 				<app-fund-invest></app-fund-invest>
 			</nz-tab>

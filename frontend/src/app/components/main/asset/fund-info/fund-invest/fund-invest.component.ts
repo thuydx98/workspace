@@ -1,3 +1,4 @@
+import { DateFormat } from './../../../../../common/consts/date-format.const';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FundInvestModel } from 'src/app/models/asset/fund.model';
@@ -16,16 +17,23 @@ import { FundService } from 'src/app/services/asset/fund.service';
 	styleUrls: ['./fund-invest.component.scss'],
 })
 export class FundInvestComponent implements OnInit {
+	loading: boolean;
 	fundId: string;
 	investments: PagingListModel<FundInvestModel>;
 
-	totalCriteriaRange = [0, 0];
+	totalCriteriaRange = [0, this.fundService.fund?.criterias.length];
 	minCriteria: number = 0;
 	statusOptions = InvestStatusList;
 	InvestStatus = InvestStatus;
 
-	isCompletedOnly =
-		this.statusOptions.filter((i) => i.checked).length == 1 && this.statusOptions.filter((i) => i.checked)[0].value === InvestStatus.COMPLETED;
+	get isCompletedOnly(): boolean {
+		const selectedOptions = this.statusOptions.filter((i) => i.checked);
+		return selectedOptions.length == 1 && selectedOptions[0].value === InvestStatus.COMPLETED;
+	}
+
+	get isSelectedCompleted(): boolean {
+		return this.statusOptions.findIndex((i) => i.checked && i.value === InvestStatus.COMPLETED) > -1;
+	}
 
 	constructor(
 		private route: ActivatedRoute,
@@ -44,15 +52,17 @@ export class FundInvestComponent implements OnInit {
 	onChangePage = (data: any) => data.pageIndex && data.pageIndex !== this.investments?.page && this.getInvestments(data.pageIndex);
 
 	getInvestments(page: number = 1) {
+		this.loading = true;
 		const statuses = this.statusOptions.filter((item) => item.checked).map((item) => item.value);
 		this.fundInvestService.getPagingList(this.fundId, page, 10, this.minCriteria, statuses).subscribe((res: PagingListModel<FundInvestModel>) => {
 			this.investments = res;
+			this.loading = false;
 		});
 	}
 
 	onAddEditInvestment(investment: FundInvestModel = null): void {
 		const modal = this.modal.create({
-			nzTitle: 'Thêm lịch sử đầu tư',
+			nzTitle: investment ? 'Sửa' : 'Thêm' + ' lịch sử đầu tư',
 			nzWidth: 1400,
 			nzStyle: { top: '20px' },
 			nzContent: AddFundInvestModalComponent,
@@ -87,7 +97,10 @@ export class FundInvestComponent implements OnInit {
 		});
 	}
 
-	formatDateTime = (dateInput: any): string => MomentHelper.formatDateTime(dateInput);
+	onDeleteInvestment(investment: FundInvestModel): void {
+	}
+
+	formatDateTime = (dateInput: any, format: string = DateFormat.DateTimeFormat): string => MomentHelper.formatDateTime(dateInput, format);
 
 	formatMoney = (moneyInput: number | string): string => StringHelper.formatMoney(moneyInput);
 }

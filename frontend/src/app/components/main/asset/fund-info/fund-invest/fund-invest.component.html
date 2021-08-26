@@ -2,14 +2,14 @@
     <nz-col nzSpan="8">
         <nz-checkbox-group [(ngModel)]="statusOptions" (ngModelChange)="getInvestments()"></nz-checkbox-group>
     </nz-col>
-    <div nz-col nzSpan="2">
-        <span class="ml-4">Tiêu chí</span>
+    <div nz-col nzSpan="3">
+        <span class="ml-4">Tiêu chí tối thiểu</span>
     </div>
     <div nz-col nzSpan="6">
         <nz-slider [nzMin]="totalCriteriaRange[0]" [nzMax]="totalCriteriaRange[1]" [(ngModel)]="minCriteria"
             (nzOnAfterChange)="getInvestments()"></nz-slider>
     </div>
-    <div nz-col nzSpan="6"></div>
+    <div nz-col nzSpan="5"></div>
     <div nz-col nzSpan="2">
         <button nz-button nzType="primary" class="float-right" (click)="onAddEditInvestment()">Thêm</button>
     </div>
@@ -17,14 +17,15 @@
 
 <nz-col nzSpan="24">
     <nz-col nzSpan="24">
-        <nz-table #investmentTable nzOuterBordered [nzFrontPagination]="false" [nzData]="investments?.items"
-            [nzTotal]="investments?.total" [nzPageSize]="investments?.size" [nzPageIndex]="investments?.page"
-            (nzQueryParams)="onChangePage($event)">
+        <nz-table #investmentTable nzOuterBordered [nzLoading]="loading" [nzFrontPagination]="false"
+            [nzData]="investments?.items" [nzTotal]="investments?.total" [nzPageSize]="investments?.size"
+            [nzPageIndex]="investments?.page" (nzQueryParams)="onChangePage($event)">
             <thead>
                 <tr>
                     <th></th>
                     <th>Mã</th>
                     <th>Thời gian</th>
+                    <th>Tiêu chí</th>
                     <th>Khối lượng</th>
                     <th nz-typography nzType="danger">Giá mua</th>
                     <th *ngIf="!isCompletedOnly" nz-typography nzType="danger">Giá t.trường</th>
@@ -32,8 +33,8 @@
                     <th class="text-center">Cắt lỗ</th>
                     <th class="text-center">Chốt lãi</th>
                     <th class="text-center">Chốt lãi từ đỉnh</th>
-                    <th nz-typography nzType="danger">Giá bán</th>
-                    <th class="text-center">Lời lỗ thực tế</th>
+                    <th *ngIf="isSelectedCompleted" nz-typography nzType="danger">Giá bán</th>
+                    <th *ngIf="isSelectedCompleted" class="text-center">Lời lỗ thực tế</th>
                     <th>Ghi chú</th>
                     <th></th>
                 </tr>
@@ -41,19 +42,22 @@
             <tbody>
                 <tr *ngFor="let data of investmentTable.data">
                     <td>
-                        <span *ngIf="data.status ==InvestStatus.FOLLOWING" nz-typography><b color>Theo dõi</b></span>
-                        <span *ngIf="data.status ==InvestStatus.INVESTING" nz-typography nzType="success"><b
+                        <span *ngIf="data.status == InvestStatus.FOLLOWING" nz-typography><b color>Theo dõi</b></span>
+                        <span *ngIf="data.status == InvestStatus.INVESTING" nz-typography nzType="success"><b
                                 color>Mua</b></span>
                         <span *ngIf="data.status == InvestStatus.COMPLETED" nz-typography nzType="danger"><b
                                 color>Bán</b></span>
                     </td>
                     <td>{{ data.name }}</td>
-                    <td class="text-center">
-                        {{ formatDateTime(data.completedAt || data.investedAt || data.followedAt) }}
+                    <td nz-tooltip
+                        [nzTooltipTitle]="formatDateTime(data.completedAt || data.investedAt || data.followedAt)"
+                        class="text-center">
+                        {{ formatDateTime(data.completedAt || data.investedAt || data.followedAt, 'MMM DD') }}
                     </td>
+                    <td>{{ data.criterias.length }}/{{ totalCriteriaRange[1] }}</td>
                     <td>{{ formatMoney(data.amount) }}</td>
                     <td>{{ formatMoney(data.capitalPrice) }}</td>
-                    <td *ngIf="!isCompletedOnly">
+                    <td *ngIf="!isCompletedOnly" [ngClass]="{'text-center': data.status === InvestStatus.COMPLETED}">
                         <span *ngIf="data.status !== InvestStatus.COMPLETED">
                             {{ formatMoney(data.marketPrice) }}
                         </span>
@@ -85,11 +89,11 @@
                         </b>
                     </td>
 
-                    <td class="text-center">
-                        {{ data.sellPrice ? formatMoney(data.sellPrice) : '-' }}
+                    <td *ngIf="isSelectedCompleted" class="text-center">
+                        {{ formatMoney(data.sellPrice)}}
                     </td>
 
-                    <td class="text-center">
+                    <td *ngIf="isSelectedCompleted" class="text-center">
                         <span *ngIf="data.status === InvestStatus.COMPLETED" nz-typography
                             [nzType]="data.finalProfitPercent > 0 ? 'success' : data.finalProfitPercent == 0 ? 'warning' : 'danger'">
                             <b>{{ data.finalProfitPercent.toFixed(2) }}% </b><br />
@@ -97,10 +101,18 @@
                         </span>
                         <span *ngIf="data.status !== InvestStatus.COMPLETED">-</span>
                     </td>
-                    <td nz-tooltip [nzTooltipTitle]="data.note">
-                        {{ data.note }}
+                    <td nz-tooltip [nzTooltipTitle]="noteTooltipTemplate">
+                        <span class="note-text">
+                            <div *ngFor="let item of data.note.split('\n')">{{item}}</div>
+                        </span>
+                        <ng-template #noteTooltipTemplate>
+                            <div *ngFor="let item of data.note.split('\n')">{{item}}</div>
+                        </ng-template>
                     </td>
-                    <td><a (click)="onAddEditInvestment(data)">Edit</a></td>
+                    <td>
+                        <a title="Edit" (click)="onAddEditInvestment(data)">Edit</a>
+                        <a *ngIf="data.status === InvestStatus.FOLLOWING" title="Delete" (click)="onDeleteInvestment(data)" class="ml-2">Delete</a>
+                    </td>
                 </tr>
             </tbody>
         </nz-table>
