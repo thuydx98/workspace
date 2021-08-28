@@ -6,6 +6,7 @@ using JWS.Service.FundCriteria.Commands.DeleteFundCriteria;
 using JWS.Service.FundHistories.Commands.AddFundHistory;
 using JWS.Service.FundHistories.Queries.GetPagingListFundHistory;
 using JWS.Service.FundInvestments.Commands.AddEditFundInvestment;
+using JWS.Service.FundInvestments.Commands.DeleteFundInvestment;
 using JWS.Service.FundInvestments.Jobs.SyncStockPrice;
 using JWS.Service.FundInvestments.Queries.GetPagingListFundInvestment;
 using JWS.Service.Funds.Commands.AddFund;
@@ -44,6 +45,7 @@ namespace JWS.Infrastructure.Configures
             services.AddHostedService<SyncStockPriceJob>();
             services.AddService<GetPagingListFundInvestmentRequest, GetPagingListFundInvestmentHandler>();
             services.AddService<AddEditFundInvestmentRequest, AddEditFundInvestmentHandler>();
+            services.AddService<DeleteFundInvestmentRequest, DeleteFundInvestmentHandler>();
             #endregion
 
             #region Fund Criteries

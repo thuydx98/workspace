@@ -1,5 +1,6 @@
 ﻿using JWS.Contracts.ApiRoutes;
 using JWS.Service.FundInvestments.Commands.AddEditFundInvestment;
+using JWS.Service.FundInvestments.Commands.DeleteFundInvestment;
 using JWS.Service.FundInvestments.Queries.GetPagingListFundInvestment;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +39,19 @@ namespace JWS.Api.Funds
             request.UserId = UserId;
             request.FundId = fundId;
             request.InvestmentId = investmentId;
+
+            return await _mediator.Send(request);
+        }
+
+        [HttpDelete(ApiRoutes.Funds.Investments.Delete)]
+        public async Task<IActionResult> DeleteAsync([FromRoute] Guid fundId, [FromRoute] Guid investmentId)
+        {
+            var request = new DeleteFundInvestmentRequest
+            {
+                UserId = UserId,
+                FundId = fundId,
+                InvestmentId = investmentId,
+            };
 
             return await _mediator.Send(request);
         }

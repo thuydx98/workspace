@@ -40,6 +40,7 @@ namespace JWS.Contracts.ApiRoutes
 				public const string GetPagingList = ControllerUri;
 				public const string Add = ControllerUri;
 				public const string Edit = ControllerUri + "/{investmentId}";
+				public const string Delete = ControllerUri + "/{investmentId}";
 			}
 
 			public static class Criterias
