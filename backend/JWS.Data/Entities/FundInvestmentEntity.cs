@@ -35,6 +35,7 @@ namespace JWS.Data.Entities
         public double? TrailingStopLossPercent { get; set; }
 
         public double MarketPrice { get; set; }
+        public double HighestPrice { get; set; }
         public double SellPrice { get; set; }
 
         public double TotalCapital { get; set; }

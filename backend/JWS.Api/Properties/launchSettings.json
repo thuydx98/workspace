@@ -1,13 +1,14 @@
 {
-  "profiles": {
-    "JWS.Api": {
-      "commandName": "Project",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "DATABASE_CONNECTION": "Host=james-vm.eastasia.cloudapp.azure.com;port=5432;Database=workspace_dev;Username=postgres;Password=J@m3sD@0",
-        "JWT_ISSUER": "https://id.azurewebsites.net"
-      },
-      "applicationUrl": "https://localhost:5001"
+    "profiles": {
+        "JWS.Api": {
+            "commandName": "Project",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "CRON_SYNC_STOCK_PRICE": "*/5 9-12,13-15 * * 1-5",
+                "DATABASE_CONNECTION": "Host=james-vm.eastasia.cloudapp.azure.com;port=5432;Database=workspace;Username=postgres;Password=J@m3sD@0",
+                "JWT_ISSUER": "https://id.azurewebsites.net"
+            },
+            "applicationUrl": "https://localhost:5001"
+        }
     }
-  }
 }
