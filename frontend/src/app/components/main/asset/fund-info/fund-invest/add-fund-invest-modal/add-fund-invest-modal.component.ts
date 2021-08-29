@@ -96,6 +96,13 @@ export class AddFundInvestModalComponent implements OnInit {
 		});
 	}
 
+	onDeleteCriteria(criteriaId: string): void {
+		this.fundCriteriaService.delete(this.fundId, criteriaId).subscribe(() => {
+			this.criterias = this.criterias.filter((item: FundCriteriaModel) => item.id !== criteriaId);
+			this.form.value.criterias = this.form.value.criterias.filter((item: string) => item !== criteriaId);
+		});
+	}
+
 	onSelectCriteria(): void {
 		this.form.value.criterias = this.criterias.filter((item) => item.checked).map((item) => item.id);
 	}

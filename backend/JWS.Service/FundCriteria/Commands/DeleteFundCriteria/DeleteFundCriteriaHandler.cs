@@ -20,7 +20,7 @@ namespace JWS.Service.FundCriteria.Commands.DeleteFundCriteria
         public async Task<ApiResult> Handle(DeleteFundCriteriaRequest request, CancellationToken cancellationToken)
         {
             var criteria = await _unitOfWork.GetRepository<FundCriteriaEntity>().SingleOrDefaultAsync(
-                predicate: n => !n.IsDeleted && n.Id == request.CriteriaId && n.FundId == request.FundId && n.Fund.UserId == request.UserId,
+                predicate: n => n.Id == request.CriteriaId && n.FundId == request.FundId && n.Fund.UserId == request.UserId,
                 asNoTracking: false,
                 cancellationToken: cancellationToken);
 

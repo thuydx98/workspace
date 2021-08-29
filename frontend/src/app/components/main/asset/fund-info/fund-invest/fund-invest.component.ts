@@ -97,10 +97,13 @@ export class FundInvestComponent implements OnInit {
 		});
 	}
 
-	onDeleteInvestment(investment: FundInvestModel): void {
+	onDeleteInvestment(investmentId: string): void {
+		this.fundInvestService.delete(this.fundId, investmentId).subscribe(() => this.getInvestments());
 	}
 
 	formatDateTime = (dateInput: any, format: string = DateFormat.DateTimeFormat): string => MomentHelper.formatDateTime(dateInput, format);
 
 	formatMoney = (moneyInput: number | string): string => StringHelper.formatMoney(moneyInput);
+
+	getTrailingStopPrice = (investment: FundInvestModel): number => investment.highestPrice * (1 - investment.trailingStopLossPercent / 100);
 }

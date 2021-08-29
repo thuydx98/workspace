@@ -50,10 +50,10 @@ export class AssetComponent implements OnInit {
 				title = 'Rút tiền từ thu nhập';
 				break;
 			case ASSET_HISTORY_TYPE.FUND_RECHARGE:
-				title = 'Nạp tiền vào quỹ ' + fund.name;
+				title = 'Nạp tiền từ tài khoản vào quỹ ' + fund.name;
 				break;
 			case ASSET_HISTORY_TYPE.FUND_WITHDRAW:
-				title = 'Rút tiền từ quỹ ' + fund.name;
+				title = 'Rút tiền từ quỹ ' + fund.name + ' về tài khoản';
 				break;
 		}
 
@@ -151,9 +151,9 @@ export class AssetComponent implements OnInit {
 
 	onChangePage = (data: any) => data.pageIndex && data.pageIndex !== this.assetHistories?.page && this.getPagingAssets(data.pageIndex);
 
-	formatDateTime = (dateInput: any): string =>  MomentHelper.formatDateTime(dateInput);
+	formatDateTime = (dateInput: any): string => MomentHelper.formatDateTime(dateInput);
 
-	formatMoney = (moneyInput: number): string =>  StringHelper.formatMoney(moneyInput);
+	formatMoney = (moneyInput: number): string => StringHelper.formatMoney(moneyInput);
 
 	getPercent = (totalMoney: number): string => {
 		const total = this.funds.map((i) => i.capital).reduce((a, b) => a + b, 0);
@@ -165,7 +165,6 @@ export class AssetComponent implements OnInit {
 
 		return +percent.toFixed(2) + '%';
 	};
-
 
 	private getOverview(): void {
 		this.assetService.getOverview().subscribe((res: AssetOverviewModel) => {

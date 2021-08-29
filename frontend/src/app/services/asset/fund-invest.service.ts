@@ -35,4 +35,8 @@ export class FundInvestService {
 	public update(fundId: string, investmentId: string, fundInvest: AddFundInvestModel): Observable<FundInvestModel> {
 		return this.http.put(ApiRoutes.WorkSpaceApi.FundInvestments(fundId) + '/' + investmentId, fundInvest).pipe(map((res: any) => res.result));
 	}
+
+	public delete(fundId: string, investmentId: string): Observable<void> {
+		return this.http.delete(ApiRoutes.WorkSpaceApi.FundInvestments(fundId) + '/' + investmentId).pipe(map((res: any) => res.result));
+	}
 }

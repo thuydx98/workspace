@@ -10,17 +10,19 @@ import { PagingListModel } from 'src/app/models/app/paging-list.model';
 	providedIn: 'root',
 })
 export class FundHistoryService {
+	public pagingHistories: PagingListModel<FundHistoryModel>;
+
 	constructor(private http: HttpClient) {}
 
-	public getPagingList(fundId: string, page: number = 1, size: number = 10): Observable<PagingListModel<FundHistoryModel>> {
-		return this.http
-			.get(ApiRoutes.WorkSpaceApi.FundHistories.replace('{fundId}', fundId) + `?page=${page}&size=${size}`)
-			.pipe(map((res: any) => res.result));
+	public getPagingList(fundId: string, page: number = 1, size: number = 10): Observable<any> {
+		return this.http.get(ApiRoutes.WorkSpaceApi.FundHistories.replace('{fundId}', fundId) + `?page=${page}&size=${size}`).pipe(
+			map((res: any) => {
+				this.pagingHistories = res.result;
+			})
+		);
 	}
 
 	public add(fundId: string, fundHistory: AddFundHistoryModel): Observable<FundHistoryModel> {
-		return this.http
-			.post(ApiRoutes.WorkSpaceApi.FundHistories.replace('{fundId}', fundId), fundHistory)
-			.pipe(map((res: any) => res.result));
+		return this.http.post(ApiRoutes.WorkSpaceApi.FundHistories.replace('{fundId}', fundId), fundHistory).pipe(map((res: any) => res.result));
 	}
 }

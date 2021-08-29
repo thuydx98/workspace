@@ -169,6 +169,10 @@
             <label nz-checkbox [(ngModel)]="item.checked" (ngModelChange)="onSelectCriteria()"
                 [ngModelOptions]="{standalone: true}">
                 {{item.name}}
+                <i nz-icon nzType="edit" nzTheme="twotone" class="mx-1" title="Edit"
+                    (click)="onAddEditCriteria(item)"></i>
+                <i nz-icon nzType="delete" nzTheme="twotone" nzTwotoneColor="#ff4d4f" title="Delete" nz-popconfirm
+                    nzPopconfirmTitle="Are you sure want to delete?" (nzOnConfirm)="onDeleteCriteria(item.id)"></i>
             </label>
         </nz-col>
     </nz-row>

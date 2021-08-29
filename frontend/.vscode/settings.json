@@ -4,6 +4,7 @@
 		"consts",
 		"criterias",
 		"oidc",
+		"popconfirm",
 		"twotone"
 	]
 }

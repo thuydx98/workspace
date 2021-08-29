@@ -3,6 +3,7 @@ using JWS.Common.ApiResponse;
 using JWS.Common.ApiResponse.ErrorResult;
 using JWS.Contracts.EntityFramework;
 using JWS.Data.Entities;
+using JWS.Service.FundInvestments.Extensions;
 using JWS.Service.FundInvestments.ViewModels;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -92,32 +93,9 @@ namespace JWS.Service.FundInvestments.Commands.AddEditFundInvestment
                 {
                     investment.SellPrice = request.SellPrice ?? 0;
                     investment.CompletedAt = request.CompletedAt;
-
-                    investment.TotalCapital =
-                        investment.CapitalPrice * investment.Amount +
-                        investment.BuyFeePercent / 100 * investment.CapitalPrice * investment.Amount;
-
-                    var totalSellFeeAndCapital =
-                        investment.TotalCapital +
-                        investment.SellFeePercent / 100 * investment.SellPrice * investment.Amount;
-
-                    investment.FinalProfit = investment.SellPrice * investment.Amount - totalSellFeeAndCapital;
-                    investment.FinalProfitPercent = investment.FinalProfit / totalSellFeeAndCapital * 100;
                 }
 
-                if (request.Status == FundInvestmentStatus.INVESTING)
-                {
-                    investment.TotalCapital =
-                        investment.CapitalPrice * investment.Amount +
-                        investment.BuyFeePercent / 100 * investment.CapitalPrice * investment.Amount;
-
-                    var totalSellFeeAndCapital =
-                        investment.TotalCapital +
-                        investment.SellFeePercent / 100 * investment.MarketPrice * investment.Amount;
-
-                    investment.FinalProfit = investment.MarketPrice * investment.Amount - totalSellFeeAndCapital;
-                    investment.FinalProfitPercent = investment.FinalProfit / totalSellFeeAndCapital * 100;
-                }
+                investment.CalculateProfit();
 
                 if (request.InvestmentId.HasValue)
                 {

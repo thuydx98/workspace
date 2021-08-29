@@ -1,7 +1,8 @@
 <nz-col nzSpan="24">
-    <nz-table #fundHistoryTable nzOuterBordered [nzLoading]="loading" [nzFrontPagination]="false"
-        [nzData]="pagingHistories?.items" [nzTotal]="pagingHistories?.total" [nzPageSize]="pagingHistories?.size"
-        [nzPageIndex]="pagingHistories?.page" (nzQueryParams)="onChangePage($event)">
+    <nz-table #fundHistoryTable nzOuterBordered [nzLoading]="!fundHistoryService.pagingHistories" [nzFrontPagination]="false"
+        [nzData]="fundHistoryService.pagingHistories?.items" [nzTotal]="fundHistoryService.pagingHistories?.total"
+        [nzPageSize]="fundHistoryService.pagingHistories?.size" [nzPageIndex]="fundHistoryService.pagingHistories?.page"
+        (nzQueryParams)="onChangePage($event)">
         <thead>
             <tr>
                 <th></th>

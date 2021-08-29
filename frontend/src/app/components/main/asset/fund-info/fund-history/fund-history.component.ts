@@ -12,11 +12,9 @@ import { MomentHelper } from 'src/app/common/helpers/moment.helper';
 	styleUrls: ['./fund-history.component.scss'],
 })
 export class FundHistoryComponent implements OnInit {
-	loading: boolean;
 	fundId: string;
-	pagingHistories: PagingListModel<FundHistoryModel>;
 
-	constructor(private route: ActivatedRoute, private funHistoryService: FundHistoryService) {}
+	constructor(private route: ActivatedRoute, public fundHistoryService: FundHistoryService) {}
 
 	ngOnInit(): void {
 		this.route.params.subscribe((params) => {
@@ -24,15 +22,9 @@ export class FundHistoryComponent implements OnInit {
 			this.getHistories();
 		});
 	}
-	onChangePage = (data: any) => data.pageIndex && data.pageIndex !== this.pagingHistories?.page && this.getHistories(data.pageIndex);
+	onChangePage = (data: any) => data.pageIndex && data.pageIndex !== this.fundHistoryService.pagingHistories?.page && this.getHistories(data.pageIndex);
 
-	private getHistories(page: number = 1) {
-		this.loading = true;
-		this.funHistoryService.getPagingList(this.fundId, page).subscribe((res: PagingListModel<FundHistoryModel>) => {
-			this.pagingHistories = res;
-			this.loading = false;
-		});
-	}
+	private getHistories = (page: number = 1) => this.fundHistoryService.getPagingList(this.fundId, page).subscribe();
 
 	formatDateTime = (dateInput: any): string => MomentHelper.formatDateTime(dateInput);
 

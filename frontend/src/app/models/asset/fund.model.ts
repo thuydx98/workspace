@@ -39,6 +39,7 @@ export class FundInvestModel {
 	public updateType: string;
 	public capitalPrice: number;
 	public marketPrice?: number;
+	public highestPrice?: number;
 	public sellPrice?: number;
 	public amount: number;
 

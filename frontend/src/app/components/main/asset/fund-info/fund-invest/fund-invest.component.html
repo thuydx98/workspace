@@ -3,7 +3,7 @@
         <nz-checkbox-group [(ngModel)]="statusOptions" (ngModelChange)="getInvestments()"></nz-checkbox-group>
     </nz-col>
     <div nz-col nzSpan="3">
-        <span class="ml-4">Tiêu chí tối thiểu</span>
+        <span class="ml-4">SL tiêu chí tối thiểu</span>
     </div>
     <div nz-col nzSpan="6">
         <nz-slider [nzMin]="totalCriteriaRange[0]" [nzMax]="totalCriteriaRange[1]" [(ngModel)]="minCriteria"
@@ -59,7 +59,7 @@
                     <td>{{ formatMoney(data.capitalPrice) }}</td>
                     <td *ngIf="!isCompletedOnly" [ngClass]="{'text-center': data.status === InvestStatus.COMPLETED}">
                         <span *ngIf="data.status !== InvestStatus.COMPLETED">
-                            {{ formatMoney(data.marketPrice) }}
+                            <b>{{ formatMoney(data.marketPrice) }}</b>
                         </span>
                         <span *ngIf="data.status === InvestStatus.COMPLETED">-</span>
                     </td>
@@ -82,15 +82,18 @@
                         +{{ data.takeProfitPercent }}% <br />
                         <b>{{ formatMoney(+(data.capitalPrice * (1 + data.takeProfitPercent / 100)).toFixed(0)) }}</b>
                     </td>
-                    <td class="text-center" nz-typography nzType="secondary">
+                    <td class="text-center" nz-typography nz-tooltip
+                        nzTooltipTitle="Highest: {{ formatMoney(data.highestPrice) }}"
+                        [nzType]="data.finalProfitPercent > data.trailingStopLossPercent && getTrailingStopPrice(data) >= data.marketPrice ? 'danger' : 'secondary'">
                         -{{ data.trailingStopLossPercent }}% <br />
-                        <b>
-                            {{ formatMoney(+(data.marketPrice * (1 - data.trailingStopLossPercent / 100)).toFixed(0)) }}
-                        </b>
+                        <b> {{ formatMoney(+(getTrailingStopPrice(data)).toFixed(0)) }} </b>
                     </td>
 
                     <td *ngIf="isSelectedCompleted" class="text-center">
-                        {{ formatMoney(data.sellPrice)}}
+                        <span *ngIf="data.status === InvestStatus.COMPLETED">
+                            {{ formatMoney(data.sellPrice)}}
+                        </span>
+                        <span *ngIf="data.status !== InvestStatus.COMPLETED">-</span>
                     </td>
 
                     <td *ngIf="isSelectedCompleted" class="text-center">
@@ -111,7 +114,9 @@
                     </td>
                     <td>
                         <a title="Edit" (click)="onAddEditInvestment(data)">Edit</a>
-                        <a *ngIf="data.status === InvestStatus.FOLLOWING" title="Delete" (click)="onDeleteInvestment(data)" class="ml-2">Delete</a>
+                        <a *ngIf="data.status === InvestStatus.FOLLOWING" title="Delete" nz-popconfirm
+                            nzPopconfirmTitle="Are you sure want to delete?" (nzOnConfirm)="onDeleteInvestment(data.id)"
+                            class="ml-2">Delete</a>
                     </td>
                 </tr>
             </tbody>

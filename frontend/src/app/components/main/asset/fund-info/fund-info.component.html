@@ -17,8 +17,8 @@
 	</nz-page-header-tags>
 
 	<nz-page-header-extra>
-		<button nz-button nzDanger>Rút</button>
-		<button nz-button nzType="primary">Nạp</button>
+		<button nz-button nzDanger (click)="onAddHistory(ASSET_HISTORY_TYPE.FUND_WITHDRAW)">Rút</button>
+		<button nz-button nzType="primary" (click)="onAddHistory(ASSET_HISTORY_TYPE.FUND_RECHARGE)">Nạp</button>
 	</nz-page-header-extra>
 
 	<nz-page-header-content>
@@ -59,11 +59,11 @@
 		</nz-row>
 
 		<nz-tabset nzCentered class="mt-4">
-			<nz-tab nzTitle="Tổng quan">
+			<!-- <nz-tab nzTitle="Tổng quan">
 				<ng-template nz-tab>
 					Biểu đồ tăng trưởng, nạp rút
 				</ng-template>
-			</nz-tab>
+			</nz-tab> -->
 			<nz-tab nzTitle="Chi tiết đầu tư">
 				<app-fund-invest></app-fund-invest>
 			</nz-tab>

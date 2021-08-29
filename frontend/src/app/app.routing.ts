@@ -9,7 +9,8 @@ export const AppRoutes: Routes = [
     children: [
       {
         path: WsRoutes.Home,
-        loadChildren: () => import('./components/main/home/home.module').then(mod => mod.HomeModule)
+        // loadChildren: () => import('./components/main/home/home.module').then(mod => mod.HomeModule)
+        loadChildren: () => import('./components/main/asset/asset.module').then(mod => mod.AssetModule)
       },
       {
         path: WsRoutes.Assets,

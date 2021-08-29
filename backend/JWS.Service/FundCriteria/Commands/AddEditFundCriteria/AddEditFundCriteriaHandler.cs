@@ -28,7 +28,7 @@ namespace JWS.Service.FundCriteria.Commands.AddEditFundCriteria
             if (request.CriteriaId.HasValue)
             {
                 criteria = await _unitOfWork.GetRepository<FundCriteriaEntity>().SingleOrDefaultAsync(
-                    predicate: n => !n.IsDeleted && n.Id == request.CriteriaId && n.FundId == request.FundId && n.Fund.UserId == request.UserId,
+                    predicate: n => n.Id == request.CriteriaId && n.FundId == request.FundId && n.Fund.UserId == request.UserId,
                     cancellationToken: cancellationToken);
 
                 if (criteria == null)

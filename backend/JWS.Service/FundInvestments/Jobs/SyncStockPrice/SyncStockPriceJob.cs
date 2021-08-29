@@ -1,6 +1,7 @@
 ﻿using JWS.Common.Extensions;
 using JWS.Contracts.EntityFramework;
 using JWS.Data.Entities;
+using JWS.Service.FundInvestments.Extensions;
 using JWS.Service.FundInvestments.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -88,6 +89,8 @@ namespace JWS.Service.FundInvestments.Jobs.SyncStockPrice
                         {
                             investment.MarketPrice = stock.MatchedPrice;
                             investment.HighestPrice = investment.HighestPrice < stock.MatchedPrice ? stock.MatchedPrice : investment.HighestPrice;
+
+                            investment.CalculateProfit();
                         }
                     }
 

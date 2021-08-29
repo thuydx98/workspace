@@ -21,8 +21,8 @@
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
-  <p *ngIf="withdrawableBalance >=0" class="text-right">Số dư có thể nạp: {{StringHelper.formatMoney(withdrawableBalance)}}
+  <p *ngIf="withdrawableBalance >=0" class="text-right">Số dư tài khoản: {{StringHelper.formatMoney(withdrawableBalance.toFixed(0))}}
     đ</p>
-  <p *ngIf="fund" class="text-right">Đã đầu tư trong quỹ: {{StringHelper.formatMoney(fund.invest)}} đ</p>
-  <p *ngIf="fund" class="text-right">Còn lại trong quỹ: {{StringHelper.formatMoney(fund.balance)}} đ</p>
+  <p *ngIf="fund" class="text-right">Đã đầu tư trong quỹ: {{StringHelper.formatMoney(fund.invest.toFixed(0))}} đ</p>
+  <p *ngIf="fund" class="text-right">Số dư trong quỹ: {{StringHelper.formatMoney(fund.balance.toFixed(0))}} đ</p>
 </form>
