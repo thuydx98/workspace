@@ -52,5 +52,16 @@ namespace JWS.Contracts.ApiRoutes
 				public const string Delete = ControllerUri + "/{criteriaId}";
 			}
 		}
+
+		public static class Posts
+		{
+			private const string ControllerUri = Root + "/posts";
+
+			public const string GetList = ControllerUri;
+			public const string Get = ControllerUri + "/{postId}";
+			public const string Add = ControllerUri;
+			public const string Edit = ControllerUri + "/{postId}";
+			public const string Delete = ControllerUri + "/{postId}";
+		}
 	}
 }

@@ -14,6 +14,10 @@ using JWS.Service.Funds.Commands.DeleteFund;
 using JWS.Service.Funds.Commands.UpdateFund;
 using JWS.Service.Funds.Queries.GetFund;
 using JWS.Service.Funds.Queries.GetListFund;
+using JWS.Service.Posts.Commands.AddEditPost;
+using JWS.Service.Posts.Commands.DeletePost;
+using JWS.Service.Posts.Queries.GetPostById;
+using JWS.Service.Posts.Queries.GetPostsByUserId;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace JWS.Infrastructure.Configures
@@ -51,6 +55,13 @@ namespace JWS.Infrastructure.Configures
             #region Fund Criteries
             services.AddService<AddEditFundCriteriaRequest, AddEditFundCriteriaHandler>();
             services.AddService<DeleteFundCriteriaRequest, DeleteFundCriteriaHandler>();
+            #endregion
+
+            #region Posts
+            services.AddService<AddEditPostRequest, AddEditPostHandler>();
+            services.AddService<DeletePostRequest, DeletePostHandler>();
+            services.AddService<GetPostsByUserIdRequest, GetPostsByUserIdHandler>();
+            services.AddService<GetPostByIdRequest, GetPostByIdHandler>();
             #endregion
 
             return services;

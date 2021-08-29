@@ -5,6 +5,7 @@ const wsApiUrl = environment.workspaceApiUrl + '/api/';
 export const ApiRoutes = {
     WorkSpaceApi: {
         Assets: wsApiUrl + 'assets',
+        Posts: wsApiUrl + 'posts',
         Funds: wsApiUrl + 'funds',
         FundHistories: wsApiUrl + 'funds/{fundId}/histories',
         FundInvestments: (fundId: string) => wsApiUrl + `funds/${fundId}/investments`,

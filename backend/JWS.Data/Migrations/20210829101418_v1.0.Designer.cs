@@ -3,15 +3,17 @@ using System;
 using JWS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace JWS.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210829101418_v1.0")]
+    partial class v10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -288,77 +290,6 @@ namespace JWS.Data.Migrations
                     b.ToTable("FundInvestmentsFundCriterias");
                 });
 
-            modelBuilder.Entity("JWS.Data.Entities.PostEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("AvaterUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid?>("ParentId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
-
-                    b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("JWS.Data.Entities.PostTagEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Tag")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostId", "Tag");
-
-                    b.ToTable("PostTags");
-                });
-
             modelBuilder.Entity("JWS.Data.Entities.UserEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -437,27 +368,6 @@ namespace JWS.Data.Migrations
                     b.Navigation("Investment");
                 });
 
-            modelBuilder.Entity("JWS.Data.Entities.PostEntity", b =>
-                {
-                    b.HasOne("JWS.Data.Entities.PostEntity", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Parent");
-                });
-
-            modelBuilder.Entity("JWS.Data.Entities.PostTagEntity", b =>
-                {
-                    b.HasOne("JWS.Data.Entities.PostEntity", "Post")
-                        .WithMany("Tags")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-                });
-
             modelBuilder.Entity("JWS.Data.Entities.FundCriteriaEntity", b =>
                 {
                     b.Navigation("InvestmentCriterias");
@@ -475,13 +385,6 @@ namespace JWS.Data.Migrations
             modelBuilder.Entity("JWS.Data.Entities.FundInvestmentEntity", b =>
                 {
                     b.Navigation("InvestmentCriterias");
-                });
-
-            modelBuilder.Entity("JWS.Data.Entities.PostEntity", b =>
-                {
-                    b.Navigation("Children");
-
-                    b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618
         }

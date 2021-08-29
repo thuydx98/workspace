@@ -16,6 +16,8 @@ namespace JWS.Data
         public virtual DbSet<FundHistoryEntity> FundHistories { get; set; }
         public virtual DbSet<FundInvestmentEntity> FundInvestments { get; set; }
         public virtual DbSet<FundInvestmentFundCriteriaEntity> FundInvestmentsFundCriterias { get; set; }
+        public virtual DbSet<PostEntity> Posts { get; set; }
+        public virtual DbSet<PostTagEntity> PostTags { get; set; }
         public virtual DbSet<UserEntity> Users { get; set; }
         #endregion
 
@@ -89,6 +91,28 @@ namespace JWS.Data
                 entity.HasOne(e => e.Investment)
                       .WithMany(e => e.InvestmentCriterias)
                       .HasForeignKey(e => e.InvestmentId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<PostEntity>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.HasOne(e => e.Parent)
+                      .WithMany(e => e.Children)
+                      .HasForeignKey(e => e.ParentId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<PostTagEntity>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.HasIndex(e => new { e.PostId, e.Tag });
+
+                entity.HasOne(e => e.Post)
+                      .WithMany(e => e.Tags)
+                      .HasForeignKey(e => e.PostId)
                       .OnDelete(DeleteBehavior.Cascade);
             });
 

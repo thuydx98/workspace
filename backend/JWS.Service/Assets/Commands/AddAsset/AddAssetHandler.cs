@@ -55,7 +55,7 @@ namespace JWS.Service.Assets.Commands.AddAsset
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.ToString());
+                _logger.LogError(ex, $"Error at: {DateTime.UtcNow.ToString()} (UTC)");
                 return ApiResult.Failed(HttpCode.InternalServerError);
             }
         }

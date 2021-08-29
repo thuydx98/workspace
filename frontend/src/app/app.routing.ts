@@ -16,6 +16,10 @@ export const AppRoutes: Routes = [
         path: WsRoutes.Assets,
         loadChildren: () => import('./components/main/asset/asset.module').then(mod => mod.AssetModule)
       },
+      {
+        path: WsRoutes.Wiki,
+        loadChildren: () => import('./components/main/wiki/wiki.module').then(mod => mod.WikiModule)
+      },
     ],
   },
   {
