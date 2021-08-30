@@ -20,7 +20,7 @@ namespace JWS.Api
             services.AddAuth();
             services.AddHttpClient().AddServices();
 
-            services.AddResponseCaching();
+            services.AddMemoryCache();
             services.AddHttpContextAccessor();
             services.AddControllers().AddJsonOptions(options =>
             {

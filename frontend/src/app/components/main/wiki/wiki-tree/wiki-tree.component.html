@@ -10,60 +10,49 @@
     <i nz-icon nzType="plus" nzTheme="outline"></i>
 </button>
 
-<nz-empty *ngIf="dataSource?.getData().length === 0"></nz-empty>
+<nz-skeleton *ngIf="!posts"></nz-skeleton>
+<nz-empty *ngIf="posts?.length === 0"></nz-empty>
 
-<nz-tree-view [nzTreeControl]="treeControl" [nzDataSource]="dataSource" [nzDirectoryTree]="true">
-    <nz-tree-node *nzTreeNodeDef="let node" nzTreeNodePadding (click)="onSelectNode(node)">
-        <nz-tree-node-toggle nzTreeNodeNoopToggle></nz-tree-node-toggle>
-        <nz-tree-node-option [nzSelected]="selectListSelection.isSelected(node)"
-            (nzClick)="selectListSelection.toggle(node)">
-            <i nz-icon nzType="file" nzTheme="outline"></i>
-            {{ node.name }}
+<nz-tree [nzData]="convertPostToNode()" (nzClick)="onSelectNode($event)" [nzSelectedKeys]="[selectedId]"
+    [nzTreeTemplate]="nzTreeTemplate" nzShowIcon [nzExpandedIcon]="multiExpandedIconTpl"></nz-tree>
+
+<ng-template #nzTreeTemplate let-node let-origin="origin">
+    <span class="custom-node">
+        <span *ngIf="!node.isLeaf">
+            <i nz-icon [nzType]="node.isExpanded ? 'folder-open' : 'folder'" nzTheme="twotone" class="mr-2"></i>
+            <span class="folder-name">{{ node.title }}</span>
             <button nz-button nzType="text" nzSize="small" class="float-right" nz-dropdown nzTrigger="click"
                 [nzDropdownMenu]="menu">
                 <i nz-icon nzType="more" nzTheme="outline"></i>
             </button>
-            <nz-dropdown-menu #menu="nzDropdownMenu">
-                <ul nz-menu>
-                    <li nz-menu-item>
-                        <a (click)="onAddPost(node.id)">Add sub-page</a>
-                    </li>
-                    <li nz-menu-item>
-                        <a>Edit</a>
-                    </li>
-                    <li nz-menu-item>
-                        <a>Delete</a>
-                    </li>
-                </ul>
-            </nz-dropdown-menu>
-        </nz-tree-node-option>
-    </nz-tree-node>
-
-    <nz-tree-node *nzTreeNodeDef="let node; when: hasChild" nzTreeNodePadding (click)="onSelectNode(node)">
-        <nz-tree-node-toggle>
-            <i nz-icon nzType="caret-down" nzTreeNodeToggleRotateIcon></i>
-        </nz-tree-node-toggle>
-        <nz-tree-node-option [nzSelected]="selectListSelection.isSelected(node)"
-            (nzClick)="selectListSelection.toggle(node)">
-            <i nz-icon [nzType]="treeControl.isExpanded(node) ? 'folder-open' : 'folder'" nzTheme="outline"></i>
-            {{ node.name }}
+        </span>
+        <span *ngIf="node.isLeaf">
+            <i nz-icon nzType="file" nzTheme="twotone" class="mr-2"></i>
+            <span class="file-name">{{ node.title }}</span>
             <button nz-button nzType="text" nzSize="small" class="float-right" nz-dropdown nzTrigger="click"
                 [nzDropdownMenu]="menu">
                 <i nz-icon nzType="more" nzTheme="outline"></i>
             </button>
-            <nz-dropdown-menu #menu="nzDropdownMenu">
-                <ul nz-menu>
-                    <li nz-menu-item>
-                        <a (click)="onAddPost(node.id)"><i nz-icon nzType="plus" nzTheme="outline"></i>Add sub-page</a>
-                    </li>
-                    <li nz-menu-item>
-                        <a><i nz-icon nzType="edit" nzTheme="outline"></i>Edit</a>
-                    </li>
-                    <li nz-menu-item>
-                        <a><i nz-icon nzType="delete" nzTheme="outline"></i>Delete</a>
-                    </li>
-                </ul>
-            </nz-dropdown-menu>
-        </nz-tree-node-option>
-    </nz-tree-node>
-</nz-tree-view>
+        </span>
+
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+                <li nz-menu-item>
+                    <a (click)="onAddPost(node)"><i nz-icon nzType="plus" nzTheme="outline"></i>Add sub-page</a>
+                </li>
+                <li nz-menu-item>
+                    <a (click)="onEdit(node.key)"><i nz-icon nzType="edit" nzTheme="outline"></i>Edit</a>
+                </li>
+                <li nz-menu-item>
+                    <a><i nz-icon nzType="delete" nzTheme="outline"></i>Delete</a>
+                </li>
+            </ul>
+        </nz-dropdown-menu>
+    </span>
+</ng-template>
+
+<ng-template #multiExpandedIconTpl let-node let-origin="origin">
+    <i *ngIf="!origin.isLeaf" nz-icon [nzType]="node.isExpanded ? 'caret-down' : 'caret-right'"
+        class="ant-tree-switcher-line-icon" (click)="onOpen(node.key, node.isExpanded)"></i>
+    <i *ngIf="origin.isLeaf" nz-icon nzType="file" class="ant-tree-switcher-line-icon"></i>
+</ng-template>

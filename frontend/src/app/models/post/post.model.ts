@@ -8,4 +8,5 @@ export class PostModel {
 	public type: string;
 	public children: PostModel[];
 	public updatedAt: Date;
+	public expanded?: boolean;
 }

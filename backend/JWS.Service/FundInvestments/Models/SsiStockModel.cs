@@ -1,6 +1,6 @@
 ﻿namespace JWS.Service.FundInvestments.Models
 {
-    public class SsiStockReqModel
+    public class SsiStockResModel
     {
         public string Status { get; set; }
 

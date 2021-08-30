@@ -2,14 +2,10 @@
     <div class="control-section">
         <ckeditor #editor data="{{post.content}}" [editor]="Editor"></ckeditor>
     </div>
-    <div class="container-fluid mt-3 pr-5">
-        <div class="row float-right">
-            <button (click)="onSave()" class="btn btn-primary btn-sm mr-2 mb-2">
-                Save
-            </button>
-            <button (click)="onBack()" class="btn btn-outline-light text-danger btn-sm mb-2">
-                Return
-            </button>
+    <div class="mt-3 pr-5">
+        <div class="float-right">
+            <button nz-button (click)="onBack()" class="mr-2">Cancel</button>
+            <button nz-button nzType="primary" (click)="onSave()">Save</button>
         </div>
     </div>
 </ng-container>

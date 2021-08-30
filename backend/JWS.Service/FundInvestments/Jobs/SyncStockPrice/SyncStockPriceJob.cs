@@ -3,6 +3,7 @@ using JWS.Contracts.EntityFramework;
 using JWS.Data.Entities;
 using JWS.Service.FundInvestments.Extensions;
 using JWS.Service.FundInvestments.Models;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -17,16 +18,20 @@ namespace JWS.Service.FundInvestments.Jobs.SyncStockPrice
 {
     public class SyncStockPriceJob : BackgroundService
     {
+        private const string CACHE_KEY = "SyncStockPriceJob:Stocks";
+
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger _logger;
         private readonly CrontabSchedule _schedule;
         private readonly HttpClient _httpClient;
+        private readonly IMemoryCache _memoryCache;
 
         private DateTime nextRun;
 
-        public SyncStockPriceJob(IServiceProvider serviceProvider, HttpClient httpClient, ILogger<SyncStockPriceJob> logger)
+        public SyncStockPriceJob(IServiceProvider serviceProvider, HttpClient httpClient, IMemoryCache memoryCache, ILogger<SyncStockPriceJob> logger)
         {
             _httpClient = httpClient;
+            _memoryCache = memoryCache;
             _logger = logger;
             _unitOfWork = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IUnitOfWork>();
             _schedule = CrontabSchedule.Parse(Environment.GetEnvironmentVariable("CRON_SYNC_STOCK_PRICE"));
@@ -61,7 +66,13 @@ namespace JWS.Service.FundInvestments.Jobs.SyncStockPrice
         {
             try
             {
-                var stocksResponse = await _httpClient.GetAsync<SsiStockReqModel>("https://iboard.ssi.com.vn/dchart/api/1.1/defaultAllStocks");
+                if (!_memoryCache.TryGetValue(CACHE_KEY, out SsiStockModel[] stocks))
+                {
+                    var stocksResponse = await _httpClient.GetAsync<SsiStockResModel>("https://iboard.ssi.com.vn/dchart/api/1.1/defaultAllStocks");
+                    stocks = stocksResponse.Data;
+
+                    _memoryCache.Set(CACHE_KEY, stocks, DateTime.Now.AddHours(6));
+                }
 
                 var investments = await _unitOfWork.GetRepository<FundInvestmentEntity>().GetListAsync(
                     predicate: n =>
@@ -72,7 +83,7 @@ namespace JWS.Service.FundInvestments.Jobs.SyncStockPrice
 
                 if (investments.Count > 0)
                 {
-                    var stockIds = stocksResponse.Data.Join(investments, stock => stock.Code, invest => invest.Name, (stock, invest) => stock.StockNo).Distinct();
+                    var stockIds = stocks.Join(investments, stock => stock.Code, invest => invest.Name, (stock, invest) => stock.StockNo).Distinct();
 
                     var pricesResponse = await _httpClient.PostAsJsonAsync<SsiGetStockRealtimeResModel>("https://gateway-iboard.ssi.com.vn/graphql", new SsiGetStockRealtimeReqModel
                     {

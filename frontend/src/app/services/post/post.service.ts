@@ -14,7 +14,7 @@ export class PostService {
 	constructor(private http: HttpClient) {}
 
 	public getList(): Observable<PostModel[]> {
-		return this.http.get(ApiRoutes.WorkSpaceApi.Posts).pipe(map((res: any) => this.updateChildrenPost(null, res.result)));
+		return this.http.get(ApiRoutes.WorkSpaceApi.Posts).pipe(map((res: any) => res.result));
 	}
 
 	public get(postId: string): Observable<any> {
@@ -33,14 +33,5 @@ export class PostService {
 
 	public delete(postId: string): Observable<void> {
 		return this.http.delete(ApiRoutes.WorkSpaceApi.Posts + '/' + postId).pipe(map((res: any) => res.result));
-	}
-
-	private updateChildrenPost(parentId: string = null, rawData: PostModel[]): PostModel[] {
-		const posts = rawData.filter((item) => item.parentId === parentId);
-		posts.forEach((item) => {
-			item.children = this.updateChildrenPost(item.id, rawData);
-		});
-
-		return posts;
 	}
 }

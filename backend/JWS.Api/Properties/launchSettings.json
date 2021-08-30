@@ -4,7 +4,7 @@
             "commandName": "Project",
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "CRON_SYNC_STOCK_PRICE": "*/5 2-5,6-8 * * 1-5",
+                "CRON_SYNC_STOCK_PRICE": "*/5 2-4,6-7 * * 1-5",
                 "DATABASE_CONNECTION": "Host=james-vm.eastasia.cloudapp.azure.com;port=5432;Database=workspace_dev;Username=postgres;Password=J@m3sD@0",
                 "JWT_ISSUER": "https://id.azurewebsites.net"
             },
