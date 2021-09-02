@@ -1,0 +1,11 @@
+::ng-deep .wiki-content {
+	table {
+		border: 1px solid #dfdede;
+		td {
+			border-bottom: 1px solid #dfdede;
+			border-right: 1px solid #dfdede;
+			min-width: 150px;
+			padding: 5px;
+		}
+	}
+}

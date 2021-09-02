@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
-import ClassicEditor from '@jamespotz/ckeditor5-build-with-base64-adapter';
+import DocumentEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { PostModel } from 'src/app/models/post/post.model';
 import { PostService } from 'src/app/services/post/post.service';
 import { RouterService } from 'src/app/services/router.service';
@@ -14,7 +14,7 @@ import { RouterService } from 'src/app/services/router.service';
 })
 export class WikiEditorComponent implements OnInit {
 	post: PostModel;
-	Editor = ClassicEditor;
+	Editor = DocumentEditor;
 
 	@ViewChild('editor', { static: false })
 	public editorComponent: CKEditorComponent;
@@ -35,6 +35,10 @@ export class WikiEditorComponent implements OnInit {
 				this.routerService.notFound();
 			}
 		});
+	}
+
+	onReady(editor) {
+		editor.ui.getEditableElement().parentElement.insertBefore(editor.ui.view.toolbar.element, editor.ui.getEditableElement());
 	}
 
 	onSave(): void {
