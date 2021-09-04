@@ -1,0 +1,39 @@
+<nz-list nzBordered [nzHeader]="header" [nzFooter]="'Total: ' + tasks?.length" [nzLoading]="loading">
+    <nz-list-item *ngFor="let item of tasks">
+        <label nz-checkbox [(ngModel)]="item.isCompleted" (ngModelChange)="onSetCompleted(item)">
+            <span class="todo-item-title" nz-tooltip [nzTooltipTitle]="titleToolTipTemplate">{{ item.title}}</span>
+            <ng-template #titleToolTipTemplate>
+                <b>{{ item.title }}</b>
+                <div>---</div>
+                <div *ngFor="let line of item.content?.split('\n')">{{ line }}</div>
+            </ng-template>
+        </label>
+        <span class="todo-item-actions">
+            <a title="Edit" class="hidden-action" (click)="onAddEditTask(item)">
+                <i nz-icon nzType="edit" nzTheme="twotone"></i></a>
+            <a title="Delete" class="hidden-action" nz-popconfirm nzPopconfirmTitle="Are you sure delete this task?"
+                (nzOnConfirm)="onDelete(item.id)">
+                <i nz-icon nzType="delete" nzTheme="twotone" nzTwotoneColor="#ff4d4f"></i>
+            </a>
+            <a *ngIf="!item.isPriority" title="Set to high priority" class="hidden-action"
+                (click)="onSetPriority(item)">
+                <i *ngIf="!item.isPriority" nz-icon nzType="star" nzTheme="twotone" nzTwotoneColor="#faad14"></i>
+            </a>
+            <a *ngIf="item.isPriority" title="Set to low priority" (click)="onSetPriority(item)">
+                <i nz-icon nzType="star" nzTheme="fill" nzTwotoneColor="#faad14" style="color: #faad14;"></i>
+            </a>
+        </span>
+
+    </nz-list-item>
+</nz-list>
+
+<ng-template #header>
+    <h3>
+        TO DO
+        <button nz-button nzType="primary" class="float-right ml-2" (click)="onAddEditTask()">
+            <i nz-icon nzType="plus"></i>
+        </button>
+        <nz-date-picker [(ngModel)]="selectedDate" nzAllowClear="false" (ngModelChange)="onSelectDate()"
+            class="float-right"></nz-date-picker>
+    </h3>
+</ng-template>

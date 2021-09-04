@@ -1,0 +1,40 @@
+::ng-deep nz-spin {
+	height: 65vh;
+	overflow-y: auto;
+}
+
+::ng-deep nz-list-header {
+	height: 55px;
+}
+
+.ant-list-item {
+	.todo-item-title {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
+	}
+
+	.todo-item-actions {
+		display: inline-block;
+		position: absolute;
+		right: 20px;
+		background-color: white;
+
+		.hidden-action {
+			display: none;
+		}
+
+		i {
+			margin-left: 5px;
+			font-size: 16px;
+		}
+	}
+
+	&:hover {
+		.todo-item-actions .hidden-action {
+			display: inline;
+		}
+	}
+}

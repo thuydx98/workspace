@@ -18,6 +18,9 @@ using JWS.Service.Posts.Commands.AddEditPost;
 using JWS.Service.Posts.Commands.DeletePost;
 using JWS.Service.Posts.Queries.GetPostById;
 using JWS.Service.Posts.Queries.GetPostsByUserId;
+using JWS.Service.Tasks.Commands.AddEditTask;
+using JWS.Service.Tasks.Commands.DeleteTask;
+using JWS.Service.Tasks.Queries.GetListTask;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace JWS.Infrastructure.Configures
@@ -62,6 +65,12 @@ namespace JWS.Infrastructure.Configures
             services.AddService<DeletePostRequest, DeletePostHandler>();
             services.AddService<GetPostsByUserIdRequest, GetPostsByUserIdHandler>();
             services.AddService<GetPostByIdRequest, GetPostByIdHandler>();
+            #endregion
+
+            #region Tasks
+            services.AddService<AddEditTaskRequest, AddEditTaskHandler>();
+            services.AddService<DeleteTaskRequest, DeleteTaskHandler>();
+            services.AddService<GetListTaskRequest, GetListTaskHandler>();
             #endregion
 
             return services;

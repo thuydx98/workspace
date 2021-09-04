@@ -1,0 +1,23 @@
+<form nz-form [formGroup]="form">
+    <nz-form-item>
+        <nz-form-label [nzSpan]="5" nzRequired>Tiêu đề</nz-form-label>
+        <nz-form-control [nzSpan]="19" nzErrorTip="Vui lòng nhập tiêu đề">
+            <input nz-input formControlName="title" class="w-100" />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="5" nzRequired>Thời gian</nz-form-label>
+        <nz-form-control [nzSpan]="19">
+            <nz-date-picker formControlName="at">
+            </nz-date-picker>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="5">Nội dung</nz-form-label>
+        <nz-form-control [nzSpan]="19">
+            <nz-input-group>
+                <textarea nz-input [nzAutosize]="{ minRows: 3 }" formControlName="content"></textarea>
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+</form>
