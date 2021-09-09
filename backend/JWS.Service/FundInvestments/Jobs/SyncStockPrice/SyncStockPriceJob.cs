@@ -78,7 +78,7 @@ namespace JWS.Service.FundInvestments.Jobs.SyncStockPrice
                     predicate: n =>
                         (n.Fund.Type == FundType.STOCK) &&
                         (n.Status == FundInvestmentStatus.FOLLOWING || n.Status == FundInvestmentStatus.INVESTING),
-                    asNoTracking: false,
+                    asNoTracking: true,
                     cancellationToken: cancellationToken);
 
                 if (investments.Count > 0)

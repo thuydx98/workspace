@@ -1,4 +1,4 @@
-<nz-list nzBordered [nzHeader]="header" [nzFooter]="'Total: ' + tasks?.length" [nzLoading]="loading">
+<nz-list nzBordered [nzHeader]="header" [nzFooter]="'Total: ' + tasks?.length" [nzLoading]="loading" class="todo-table">
     <nz-list-item *ngFor="let item of tasks">
         <label nz-checkbox [(ngModel)]="item.isCompleted" (ngModelChange)="onSetCompleted(item)">
             <span class="todo-item-title" nz-tooltip [nzTooltipTitle]="titleToolTipTemplate">{{ item.title}}</span>
