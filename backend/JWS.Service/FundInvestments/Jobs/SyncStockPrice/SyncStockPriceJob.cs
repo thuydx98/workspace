@@ -20,7 +20,7 @@ namespace JWS.Service.FundInvestments.Jobs.SyncStockPrice
     {
         private const string CACHE_KEY = "SyncStockPriceJob:Stocks";
 
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IServiceProvider _serviceProvider;
         private readonly ILogger _logger;
         private readonly CrontabSchedule _schedule;
         private readonly HttpClient _httpClient;
@@ -33,7 +33,7 @@ namespace JWS.Service.FundInvestments.Jobs.SyncStockPrice
             _httpClient = httpClient;
             _memoryCache = memoryCache;
             _logger = logger;
-            _unitOfWork = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IUnitOfWork>();
+            _serviceProvider = serviceProvider;
             _schedule = CrontabSchedule.Parse(Environment.GetEnvironmentVariable("CRON_SYNC_STOCK_PRICE"));
 
             nextRun = _schedule.GetNextOccurrence(DateTime.UtcNow);
@@ -66,6 +66,8 @@ namespace JWS.Service.FundInvestments.Jobs.SyncStockPrice
         {
             try
             {
+                using var unitOfWork = _serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IUnitOfWork>();
+
                 if (!_memoryCache.TryGetValue(CACHE_KEY, out SsiStockModel[] stocks))
                 {
                     var stocksResponse = await _httpClient.GetAsync<SsiStockResModel>("https://iboard.ssi.com.vn/dchart/api/1.1/defaultAllStocks");
@@ -74,11 +76,11 @@ namespace JWS.Service.FundInvestments.Jobs.SyncStockPrice
                     _memoryCache.Set(CACHE_KEY, stocks, DateTime.Now.AddHours(6));
                 }
 
-                var investments = await _unitOfWork.GetRepository<FundInvestmentEntity>().GetListAsync(
+                var investments = await unitOfWork.GetRepository<FundInvestmentEntity>().GetListAsync(
                     predicate: n =>
                         (n.Fund.Type == FundType.STOCK) &&
                         (n.Status == FundInvestmentStatus.FOLLOWING || n.Status == FundInvestmentStatus.INVESTING),
-                    asNoTracking: true,
+                    asNoTracking: false,
                     cancellationToken: cancellationToken);
 
                 if (investments.Count > 0)
@@ -105,9 +107,9 @@ namespace JWS.Service.FundInvestments.Jobs.SyncStockPrice
                         }
                     }
 
-                    _unitOfWork.GetRepository<FundInvestmentEntity>().Update(investments);
+                    unitOfWork.GetRepository<FundInvestmentEntity>().Update(investments);
 
-                    await _unitOfWork.CommitAsync();
+                    await unitOfWork.CommitAsync();
                 }
             }
             catch (Exception ex)
