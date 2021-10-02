@@ -1,7 +1,18 @@
-.note-text {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
+.fund-invest-component {
+	.note-text {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+
+	.ant-col {
+		width: 100%;
+	}
+
+	th,
+	td {
+		padding: 10px 10px;
+	}
 }

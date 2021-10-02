@@ -10,6 +10,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { AddFundInvestModalComponent } from './add-fund-invest-modal/add-fund-invest-modal.component';
 import { InvestStatusList, InvestStatus } from 'src/app/common/consts/assets/asset.const';
 import { FundService } from 'src/app/services/asset/fund.service';
+import { DeviceTypes } from 'src/app/common/consts/screen.const';
 
 @Component({
 	selector: 'app-fund-invest',
@@ -23,17 +24,10 @@ export class FundInvestComponent implements OnInit {
 
 	totalCriteriaRange = [0, this.fundService.fund?.criterias.length];
 	minCriteria: number = 0;
-	statusOptions = InvestStatusList;
+	status = InvestStatus.INVESTING;
 	InvestStatus = InvestStatus;
-
-	get isCompletedOnly(): boolean {
-		const selectedOptions = this.statusOptions.filter((i) => i.checked);
-		return selectedOptions.length == 1 && selectedOptions[0].value === InvestStatus.COMPLETED;
-	}
-
-	get isSelectedCompleted(): boolean {
-		return this.statusOptions.findIndex((i) => i.checked && i.value === InvestStatus.COMPLETED) > -1;
-	}
+	InvestStatusList = InvestStatusList;
+	isShowColumn = window.innerWidth > DeviceTypes.Mobile;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -53,7 +47,7 @@ export class FundInvestComponent implements OnInit {
 
 	getInvestments(page: number = 1) {
 		this.loading = true;
-		const statuses = this.statusOptions.filter((item) => item.checked).map((item) => item.value);
+		const statuses = [this.status];
 		this.fundInvestService.getPagingList(this.fundId, page, 10, this.minCriteria, statuses).subscribe((res: PagingListModel<FundInvestModel>) => {
 			this.investments = res;
 			this.loading = false;

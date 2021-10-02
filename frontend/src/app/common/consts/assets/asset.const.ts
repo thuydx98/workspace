@@ -17,7 +17,7 @@ export const InvestStatus = {
 };
 
 export const InvestStatusList = [
-	{ label: 'THEO DÕI', value: InvestStatus.FOLLOWING, checked: true },
-	{ label: 'ĐANG ĐẦU TƯ', value: InvestStatus.INVESTING, checked: true },
+	// { label: 'THEO DÕI', value: InvestStatus.FOLLOWING, checked: true },
+	{ label: 'ĐANG ĐẦU TƯ', value: InvestStatus.INVESTING },
 	{ label: 'ĐÃ CHỐT', value: InvestStatus.COMPLETED },
 ];

@@ -1,45 +1,91 @@
 .ant-layout-header {
-  background-color: #fff;
-  z-index: 1;
+	background-color: #fff;
+	z-index: 1;
 }
 
 .layout {
-  min-height: 100vh;
+	min-height: 100vh;
 }
 
 .logo img {
-  width: 120px;
-  height: 31px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 16px 24px 16px 0;
-  float: left;
-  cursor: pointer;
+	width: 120px;
+	height: 31px;
+	background: rgba(255, 255, 255, 0.2);
+	margin: 16px 24px 16px 0;
+	float: left;
+	cursor: pointer;
 }
 
 nz-header {
-  position: fixed;
-  width: 100%;
+	position: fixed;
+	width: 100%;
 }
 
 [nz-menu] {
-  line-height: 64px;
+	line-height: 64px;
 }
 
 nz-content {
-  padding: 0 50px;
-  margin-top: 64px;
+	padding: 0 50px;
+	margin-top: 64px;
 }
 
 .inner-content {
-  padding: 24px;
-  min-height: 380px;
+	padding: 24px;
+	min-height: 380px;
 }
 
 nz-footer {
-  text-align: center;
+	text-align: center;
 }
 
 .logout {
-  float: right;
-  margin-right: 40px !important;
+	float: right;
+	margin-right: 40px !important;
+
+	i {
+		color: #ff4d4f;
+	}
+}
+
+.menu-button {
+	float: right;
+	display: none;
+
+	i {
+		display: block;
+		font-size: 30px;
+		margin-top: 15px;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.ant-layout-content {
+		padding: 0;
+		.inner-content {
+			padding: 20px;
+		}
+	}
+
+	.logo img {
+		width: auto;
+		margin-left: 20px;
+	}
+	.ant-layout-header {
+		padding: 0;
+	}
+
+	.menu-button {
+		display: block;
+		margin-right: 20px;
+	}
+
+	.menu-container {
+		width: 100vw;
+		height: 100vh;
+	}
+
+	.logout {
+		margin-right: 0 !important;
+	}
 }

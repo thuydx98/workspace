@@ -3,7 +3,10 @@
 		<div class="logo" [routerLink]="['/home']">
 			<img src="./assets/img/logo.svg" />
 		</div>
-		<ul nz-menu nzMode="horizontal">
+		<a nz-button nzType="link" (click)="isCollapsed = !isCollapsed" class="menu-button">
+			<i nz-icon nzType="menu" nzTheme="outline"></i>
+		</a>
+		<ul *ngIf="!isInlineMenu || !isCollapsed" nz-menu [nzMode]="isInlineMenu ? 'inline' : 'horizontal'" class="menu-container">
 			<li nz-menu-item nzMatchRouter="/home" [routerLink]="['/home']">
 				<i nz-icon nzType="home"></i>
 				Trang chủ
@@ -37,19 +40,6 @@
 							<li nz-menu-item [routerLink]="['/network']">
 								Mạng lưới kết nối
 							</li>
-							<!-- <li
-								nz-submenu
-								nzTitle="Sub Menu"
-							>
-								<ul>
-									<li
-										nz-menu-item
-									>
-										Option
-										6
-									</li>
-								</ul>
-							</li> -->
 						</ul>
 					</li>
 				</ul>
@@ -66,6 +56,6 @@
 			<router-outlet></router-outlet>
 		</div>
 	</nz-content>
-	<nz-footer><a target="_blank" href="https://facebook.com/thuydx.9598">James Dao</a> ©2021. All right reserve.
+	<nz-footer>Copyright <a target="_blank" href="https://facebook.com/thuydx.9598">James</a> ©2021. All right reserve.
 	</nz-footer>
 </nz-layout>

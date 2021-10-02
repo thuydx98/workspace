@@ -12,6 +12,8 @@ import { ASSET_HISTORY_TYPE } from 'src/app/common/consts/assets/asset.const';
 import { AssetHistoryModalComponent } from './asset-history-modal/asset-history-modal.component';
 import { FundHistoryService } from 'src/app/services/asset/fund-history.service';
 import { MomentHelper } from 'src/app/common/helpers/moment.helper';
+import { DateFormat } from 'src/app/common/consts/date-format.const';
+import { DeviceTypes } from 'src/app/common/consts/screen.const';
 
 @Component({
 	selector: 'app-asset',
@@ -20,7 +22,7 @@ import { MomentHelper } from 'src/app/common/helpers/moment.helper';
 })
 export class AssetComponent implements OnInit {
 	ASSET_HISTORY_TYPE = ASSET_HISTORY_TYPE;
-
+	isShowColumn = window.innerWidth > DeviceTypes.Mobile;
 	assetHistories: PagingListModel<AssetModel>;
 	funds: FundModel[];
 	overview: AssetOverviewModel;
@@ -151,7 +153,7 @@ export class AssetComponent implements OnInit {
 
 	onChangePage = (data: any) => data.pageIndex && data.pageIndex !== this.assetHistories?.page && this.getPagingAssets(data.pageIndex);
 
-	formatDateTime = (dateInput: any): string => MomentHelper.formatDateTime(dateInput);
+	formatDateTime = (dateInput: any): string => MomentHelper.formatDateTime(dateInput, DateFormat.DateFormat);
 
 	formatMoney = (moneyInput: number): string => StringHelper.formatMoney(moneyInput);
 

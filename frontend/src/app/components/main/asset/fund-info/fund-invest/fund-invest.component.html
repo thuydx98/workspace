@@ -1,125 +1,131 @@
-<nz-row class="mt-4 mb-3">
-    <nz-col nzSpan="8">
-        <nz-checkbox-group [(ngModel)]="statusOptions" (ngModelChange)="getInvestments()"></nz-checkbox-group>
-    </nz-col>
-    <div nz-col nzSpan="3">
-        <span class="ml-4">SL tiêu chí tối thiểu</span>
-    </div>
-    <div nz-col nzSpan="6">
-        <nz-slider [nzMin]="totalCriteriaRange[0]" [nzMax]="totalCriteriaRange[1]" [(ngModel)]="minCriteria"
-            (nzOnAfterChange)="getInvestments()"></nz-slider>
-    </div>
-    <div nz-col nzSpan="5"></div>
-    <div nz-col nzSpan="2">
-        <button nz-button nzType="primary" class="float-right" (click)="onAddEditInvestment()">Thêm</button>
-    </div>
-</nz-row>
+<div class="fund-invest-component">
+    <nz-row class="mt-4">
+        <nz-col nz-col nzSm="24" nzLg="7" class="mb-3">
+            <nz-radio-group [(ngModel)]="status" (ngModelChange)="getInvestments()">
+                <label nz-radio *ngFor="let item of InvestStatusList" [nzValue]="item.value">{{ item.label }}</label>
+            </nz-radio-group>
+        </nz-col>
+        <div nz-col nz-col nzSm="24" nzLg="4">
+            <span>SL tiêu chí tối thiểu: </span>
+        </div>
+        <div nz-col nzSm="24" nzLg="7" class="mb-3">
+            <nz-slider [nzMin]="totalCriteriaRange[0]" [nzMax]="totalCriteriaRange[1]" [(ngModel)]="minCriteria"
+                (nzOnAfterChange)="getInvestments()"></nz-slider>
+        </div>
+        <div nz-col nzSm="24" nzLg="6" class="mb-3">
+            <button nz-button nzType="primary" class="float-right" (click)="onAddEditInvestment()">Thêm</button>
+        </div>
+    </nz-row>
 
-<nz-col nzSpan="24">
     <nz-col nzSpan="24">
-        <nz-table #investmentTable nzOuterBordered [nzLoading]="loading" [nzFrontPagination]="false"
-            [nzData]="investments?.items" [nzTotal]="investments?.total" [nzPageSize]="investments?.size"
-            [nzPageIndex]="investments?.page" (nzQueryParams)="onChangePage($event)">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Mã</th>
-                    <th>Thời gian</th>
-                    <th>Tiêu chí</th>
-                    <th>Khối lượng</th>
-                    <th nz-typography nzType="danger">Giá mua</th>
-                    <th *ngIf="!isCompletedOnly" nz-typography nzType="danger">Giá t.trường</th>
-                    <th *ngIf="!isCompletedOnly" class="text-center">Lãi/lỗ tạm tính</th>
-                    <th class="text-center">Cắt lỗ</th>
-                    <th class="text-center">Chốt lãi</th>
-                    <th class="text-center">Chốt lãi từ đỉnh</th>
-                    <th *ngIf="isSelectedCompleted" nz-typography nzType="danger">Giá bán</th>
-                    <th *ngIf="isSelectedCompleted" class="text-center">Lời lỗ thực tế</th>
-                    <th>Ghi chú</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let data of investmentTable.data">
-                    <td>
-                        <span *ngIf="data.status == InvestStatus.FOLLOWING" nz-typography><b color>Theo dõi</b></span>
-                        <span *ngIf="data.status == InvestStatus.INVESTING" nz-typography nzType="success"><b
-                                color>Mua</b></span>
-                        <span *ngIf="data.status == InvestStatus.COMPLETED" nz-typography nzType="danger"><b
-                                color>Bán</b></span>
-                    </td>
-                    <td>{{ data.name }}</td>
-                    <td nz-tooltip
-                        [nzTooltipTitle]="formatDateTime(data.completedAt || data.investedAt || data.followedAt)"
-                        class="text-center">
-                        {{ formatDateTime(data.completedAt || data.investedAt || data.followedAt, 'MMM DD') }}
-                    </td>
-                    <td>{{ data.criterias.length }}/{{ totalCriteriaRange[1] }}</td>
-                    <td>{{ formatMoney(data.amount) }}</td>
-                    <td>{{ formatMoney(data.capitalPrice) }}</td>
-                    <td *ngIf="!isCompletedOnly" [ngClass]="{'text-center': data.status === InvestStatus.COMPLETED}">
-                        <span *ngIf="data.status !== InvestStatus.COMPLETED">
-                            <b>{{ formatMoney(data.marketPrice) }}</b>
-                        </span>
-                        <span *ngIf="data.status === InvestStatus.COMPLETED">-</span>
-                    </td>
-                    <td class="text-center" *ngIf="!isCompletedOnly">
-                        <span nz-typography *ngIf="data.status !== InvestStatus.COMPLETED"
-                            [nzType]="data.finalProfitPercent > 0 ? 'success' : data.finalProfitPercent == 0 ? 'warning' : 'danger'">
-                            <b>{{ data.finalProfitPercent.toFixed(2) }}% </b><br />
-                            {{ formatMoney(data.finalProfit.toFixed(0)) }}
-                        </span>
-                        <span *ngIf="data.status === InvestStatus.COMPLETED">-</span>
-                    </td>
+        <nz-col nzSpan="24">
+            <nz-table #investmentTable nzOuterBordered [nzLoading]="loading" [nzFrontPagination]="false"
+                [nzData]="investments?.items" [nzTotal]="investments?.total" [nzPageSize]="investments?.size"
+                [nzPageIndex]="investments?.page" (nzQueryParams)="onChangePage($event)" [nzScroll]="{ x: '500px' }">
+                <thead>
+                    <tr>
+                        <th nzLeft *ngIf="isShowColumn"></th>
+                        <th nzLeft>Mã</th>
+                        <th *ngIf="isShowColumn">Thời gian</th>
+                        <th *ngIf="isShowColumn">Tiêu chí</th>
+                        <th>Khối lượng</th>
+                        <th nz-typography nzType="danger">Giá mua</th>
+                        <th *ngIf="status !== InvestStatus.COMPLETED" nz-typography nzType="danger">Giá t.trường</th>
+                        <th *ngIf="status !== InvestStatus.COMPLETED" class="text-center">Lãi/lỗ tạm tính</th>
+                        <th *ngIf="isShowColumn" class="text-center">Cắt lỗ</th>
+                        <th *ngIf="isShowColumn" class="text-center">Chốt lãi</th>
+                        <th *ngIf="isShowColumn" class="text-center">Chốt lãi từ đỉnh</th>
+                        <th *ngIf="status === InvestStatus.COMPLETED" nz-typography nzType="danger">Giá bán</th>
+                        <th *ngIf="status === InvestStatus.COMPLETED" class="text-center">Lời lỗ thực tế</th>
+                        <th *ngIf="isShowColumn">Ghi chú</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of investmentTable.data">
+                        <td nzLeft *ngIf="isShowColumn">
+                            <span *ngIf="data.status == InvestStatus.FOLLOWING" nz-typography><b color>Theo
+                                    dõi</b></span>
+                            <span *ngIf="data.status == InvestStatus.INVESTING" nz-typography nzType="success"><b
+                                    color>Mua</b></span>
+                            <span *ngIf="data.status == InvestStatus.COMPLETED" nz-typography nzType="danger"><b
+                                    color>Bán</b></span>
+                        </td>
+                        <td nzLeft>{{ data.name }}</td>
+                        <td *ngIf="isShowColumn" nz-tooltip
+                            [nzTooltipTitle]="formatDateTime(data.completedAt || data.investedAt || data.followedAt)"
+                            class="text-center">
+                            {{ formatDateTime(data.completedAt || data.investedAt || data.followedAt, 'MMM DD') }}
+                        </td>
+                        <td *ngIf="isShowColumn">{{ data.criterias.length }}/{{ totalCriteriaRange[1] }}</td>
+                        <td>{{ formatMoney(data.amount) }}</td>
+                        <td>{{ formatMoney(data.capitalPrice) }}</td>
+                        <td *ngIf="status !== InvestStatus.COMPLETED"
+                            [ngClass]="{'text-center': data.status === InvestStatus.COMPLETED}">
+                            <span *ngIf="data.status !== InvestStatus.COMPLETED">
+                                <b>{{ formatMoney(data.marketPrice) }}</b>
+                            </span>
+                            <span *ngIf="data.status === InvestStatus.COMPLETED">-</span>
+                        </td>
+                        <td class="text-center" *ngIf="status !== InvestStatus.COMPLETED">
+                            <span nz-typography *ngIf="data.status !== InvestStatus.COMPLETED"
+                                [nzType]="data.finalProfitPercent > 0 ? 'success' : data.finalProfitPercent == 0 ? 'warning' : 'danger'">
+                                <b>{{ data.finalProfitPercent.toFixed(2) }}% </b><br />
+                                {{ formatMoney(data.finalProfit.toFixed(0)) }}
+                            </span>
+                            <span *ngIf="data.status === InvestStatus.COMPLETED">-</span>
+                        </td>
 
-                    <td class="text-center" nz-typography
-                        [nzType]="data.finalProfitPercent <= -data.stopLossPercent ? 'danger' : 'secondary'">
-                        -{{ data.stopLossPercent }}% <br />
-                        <b>{{ formatMoney(+(data.capitalPrice * (1 - data.stopLossPercent / 100)).toFixed(0)) }}</b>
-                    </td>
-                    <td class="text-center" nz-typography
-                        [nzType]="data.finalProfitPercent >= data.takeProfitPercent ? 'success' : 'secondary'">
-                        +{{ data.takeProfitPercent }}% <br />
-                        <b>{{ formatMoney(+(data.capitalPrice * (1 + data.takeProfitPercent / 100)).toFixed(0)) }}</b>
-                    </td>
-                    <td class="text-center" nz-typography nz-tooltip
-                        nzTooltipTitle="Highest: {{ formatMoney(data.highestPrice) }}"
-                        [nzType]="data.finalProfitPercent > data.trailingStopLossPercent && getTrailingStopPrice(data) >= data.marketPrice ? 'danger' : 'secondary'">
-                        -{{ data.trailingStopLossPercent }}% <br />
-                        <b> {{ formatMoney(+(getTrailingStopPrice(data)).toFixed(0)) }} </b>
-                    </td>
+                        <td *ngIf="isShowColumn" class="text-center" nz-typography
+                            [nzType]="data.finalProfitPercent <= -data.stopLossPercent ? 'danger' : 'secondary'">
+                            -{{ data.stopLossPercent }}% <br />
+                            <b>{{ formatMoney(+(data.capitalPrice * (1 - data.stopLossPercent / 100)).toFixed(0)) }}</b>
+                        </td>
+                        <td *ngIf="isShowColumn" class="text-center" nz-typography
+                            [nzType]="data.finalProfitPercent >= data.takeProfitPercent ? 'success' : 'secondary'">
+                            +{{ data.takeProfitPercent }}% <br />
+                            <b>{{ formatMoney(+(data.capitalPrice * (1 + data.takeProfitPercent / 100)).toFixed(0))
+                                }}</b>
+                        </td>
+                        <td *ngIf="isShowColumn" class="text-center" nz-typography nz-tooltip
+                            nzTooltipTitle="Highest: {{ formatMoney(data.highestPrice) }}"
+                            [nzType]="data.finalProfitPercent > data.trailingStopLossPercent && getTrailingStopPrice(data) >= data.marketPrice ? 'danger' : 'secondary'">
+                            -{{ data.trailingStopLossPercent }}% <br />
+                            <b> {{ formatMoney(+(getTrailingStopPrice(data)).toFixed(0)) }} </b>
+                        </td>
 
-                    <td *ngIf="isSelectedCompleted" class="text-center">
-                        <span *ngIf="data.status === InvestStatus.COMPLETED">
-                            {{ formatMoney(data.sellPrice)}}
-                        </span>
-                        <span *ngIf="data.status !== InvestStatus.COMPLETED">-</span>
-                    </td>
+                        <td *ngIf="status === InvestStatus.COMPLETED" class="text-center">
+                            <span *ngIf="data.status === InvestStatus.COMPLETED">
+                                {{ formatMoney(data.sellPrice)}}
+                            </span>
+                            <span *ngIf="data.status !== InvestStatus.COMPLETED">-</span>
+                        </td>
 
-                    <td *ngIf="isSelectedCompleted" class="text-center">
-                        <span *ngIf="data.status === InvestStatus.COMPLETED" nz-typography
-                            [nzType]="data.finalProfitPercent > 0 ? 'success' : data.finalProfitPercent == 0 ? 'warning' : 'danger'">
-                            <b>{{ data.finalProfitPercent.toFixed(2) }}% </b><br />
-                            {{ formatMoney(data.finalProfit.toFixed(0)) }}
-                        </span>
-                        <span *ngIf="data.status !== InvestStatus.COMPLETED">-</span>
-                    </td>
-                    <td nz-tooltip [nzTooltipTitle]="noteTooltipTemplate">
-                        <span class="note-text">
-                            <div *ngFor="let item of data.note.split('\n')">{{item}}</div>
-                        </span>
-                        <ng-template #noteTooltipTemplate>
-                            <div *ngFor="let item of data.note.split('\n')">{{item}}</div>
-                        </ng-template>
-                    </td>
-                    <td>
-                        <a title="Edit" (click)="onAddEditInvestment(data)">Edit</a>
-                        <a *ngIf="data.status === InvestStatus.FOLLOWING" title="Delete" nz-popconfirm
-                            nzPopconfirmTitle="Are you sure want to delete?" (nzOnConfirm)="onDeleteInvestment(data.id)"
-                            class="ml-2">Delete</a>
-                    </td>
-                </tr>
-            </tbody>
-        </nz-table>
+                        <td *ngIf="status === InvestStatus.COMPLETED" class="text-center">
+                            <span *ngIf="data.status === InvestStatus.COMPLETED" nz-typography
+                                [nzType]="data.finalProfitPercent > 0 ? 'success' : data.finalProfitPercent == 0 ? 'warning' : 'danger'">
+                                <b>{{ data.finalProfitPercent.toFixed(2) }}% </b><br />
+                                {{ formatMoney(data.finalProfit.toFixed(0)) }}
+                            </span>
+                            <span *ngIf="data.status !== InvestStatus.COMPLETED">-</span>
+                        </td>
+                        <td *ngIf="isShowColumn" nz-tooltip [nzTooltipTitle]="noteTooltipTemplate">
+                            <span class="note-text">
+                                <div *ngFor="let item of data.note.split('\n')">{{item}}</div>
+                            </span>
+                            <ng-template #noteTooltipTemplate>
+                                <div *ngFor="let item of data.note.split('\n')">{{item}}</div>
+                            </ng-template>
+                        </td>
+                        <td>
+                            <a title="Edit" (click)="onAddEditInvestment(data)">Edit</a>
+                            <a *ngIf="data.status === InvestStatus.FOLLOWING" title="Delete" nz-popconfirm
+                                nzPopconfirmTitle="Are you sure want to delete?"
+                                (nzOnConfirm)="onDeleteInvestment(data.id)" class="ml-2">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </nz-col>
     </nz-col>
-</nz-col>
+</div>

@@ -35,8 +35,8 @@
 			</button>
 		</nz-page-header-extra>
 		<nz-page-header-content *ngIf="funds?.length > 0">
-			<div nz-row [nzGutter]="24">
-				<div *ngFor="let fund of funds" nz-col [nzSpan]="6">
+			<div nz-row [nzGutter]="[24, 5]">
+				<div *ngFor="let fund of funds" nz-col nzSm="24" nzMd="12" nzLg="6" class="w-100">
 					<nz-card style="width: 100%;margin-top: 16px"
 						[nzActions]="[actionSetting, actionIncome, actionSpend, actionDelete]">
 						<nz-skeleton [nzActive]="true" [nzLoading]="false" [nzAvatar]="{ size: 'large' }">
@@ -87,25 +87,25 @@
 		<nz-col nzSpan="24">
 			<nz-table #assetHistoryTable nzOuterBordered [nzFrontPagination]="false" [nzData]="assetHistories?.items"
 				[nzTotal]="assetHistories?.total" [nzPageSize]="assetHistories?.size"
-				[nzPageIndex]="assetHistories?.page" (nzQueryParams)="onChangePage($event)">
+				[nzPageIndex]="assetHistories?.page" (nzQueryParams)="onChangePage($event)" class="mt-3">
 				<thead>
 					<tr>
 						<th></th>
 						<th>Số tiền</th>
 						<th>Thời gian</th>
-						<th>Ghi chú</th>
+						<th *ngIf="isShowColumn">Ghi chú</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr *ngFor="let data of assetHistoryTable.data">
-						<td>
+						<td nzLeft>
 							<i nz-icon nzType="plus-circle" nzTheme="twotone" nzTwotoneColor="#52c41a"
 								*ngIf="data.type =='INCOME'"></i>
 							<i nz-icon nzType="close-circle" nzTheme="twotone" *ngIf="data.type == 'SPEND'"></i>
 						</td>
-						<td>{{ formatMoney(data.amount) }}</td>
+						<td nzLeft>{{ formatMoney(data.amount) }}</td>
 						<td>{{ formatDateTime(data.at) }}</td>
-						<td>{{ data.note }}</td>
+						<td *ngIf="isShowColumn">{{ data.note }}</td>
 					</tr>
 				</tbody>
 			</nz-table>

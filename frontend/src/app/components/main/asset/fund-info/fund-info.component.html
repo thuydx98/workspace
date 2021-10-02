@@ -23,11 +23,12 @@
 
 	<nz-page-header-content>
 		<nz-row nzType="flex">
-			<nz-statistic nzTitle="Tổng vốn" [nzValue]="formatMoney(fundService.fund.capital.toFixed(0))" nzSuffix="đ">
+			<nz-statistic nzTitle="Tổng vốn" [nzValue]="formatMoney(fundService.fund.capital.toFixed(0))" nzSuffix="đ"
+				style="margin-right: 32px">
 			</nz-statistic>
 
 			<nz-statistic [nzTitle]="reality" [nzValue]="formatMoney(fundService.fund.reality.toFixed(0))" nzSuffix="đ"
-				style="margin: 0 32px">
+				style="margin-right: 32px">
 			</nz-statistic>
 			<ng-template #reality>
 				Tổng tài sản
@@ -39,11 +40,11 @@
 			</ng-template>
 
 			<nz-statistic nzTitle="Vốn đang đầu tư" [nzValue]="formatMoney(fundService.fund.invest.toFixed(0))"
-				nzSuffix="đ" style="margin: 0 32px">
+				nzSuffix="đ" style="margin-right: 32px">
 			</nz-statistic>
 
 			<nz-statistic [nzTitle]="realityInvest" [nzValue]="formatMoney(fundService.fund.realityInvest.toFixed(0))"
-				nzSuffix="đ" style="margin: 0 32px">
+				nzSuffix="đ" style="margin-right: 32px">
 			</nz-statistic>
 			<ng-template #realityInvest>
 				Lãi/lỗ tạm tính
@@ -55,7 +56,7 @@
 			</ng-template>
 
 			<nz-statistic nzTitle="Tiền nhàn rỗi" [nzValue]="formatMoney(fundService.fund.balance.toFixed(0))"
-				nzSuffix="đ" style="margin: 0 32px"></nz-statistic>
+				nzSuffix="đ"></nz-statistic>
 		</nz-row>
 
 		<nz-tabset nzCentered class="mt-4">

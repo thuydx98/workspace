@@ -8,7 +8,7 @@
                 <th></th>
                 <th>Số tiền</th>
                 <th>Thời gian</th>
-                <th>Ghi chú</th>
+                <th *ngIf="isShowColumn">Ghi chú</th>
             </tr>
         </thead>
         <tbody>
@@ -19,7 +19,7 @@
                 </td>
                 <td>{{ formatMoney(data.amount) }}</td>
                 <td>{{ formatDateTime(data.at) }}</td>
-                <td>{{ data.note }}</td>
+                <td *ngIf="isShowColumn">{{ data.note }}</td>
             </tr>
         </tbody>
     </nz-table>
