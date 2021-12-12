@@ -41,8 +41,8 @@ export class AddFundInvestModalComponent implements OnInit {
 			stopLossPercent: [this.investment?.stopLossPercent || 6],
 			trailingStopLossPercent: [this.investment?.trailingStopLossPercent || 3],
 
-			buyFeePercent: [this.investment?.buyFeePercent || 0.127],
-			sellFeePercent: [this.investment?.sellFeePercent || 0.227],
+			buyFeePercent: [this.investment?.buyFeePercent || 0.03],
+			sellFeePercent: [this.investment?.sellFeePercent || 0.13],
 			sellPrice: [this.investment?.sellPrice],
 			completedAt: [this.investment?.completedAt || new Date()],
 
